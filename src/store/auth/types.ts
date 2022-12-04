@@ -2,11 +2,33 @@ import { BaseState } from "./../index";
 
 export interface AuthState extends BaseState {
   user: User | null;
-  token: string | null;
+}
+
+export interface LoginResponse {
+  data: User;
 }
 
 export interface User {
-  id: number;
-  name: string;
+  id: string;
+  accountNumber: string;
+  lastName: string;
+  firstName: string;
+  tokens: Tokens;
+}
+
+export interface Tokens {
+  refreshToken: string;
+  accessToken: string;
+}
+
+export interface RegisterResponse {
+  data: RegisterUser;
+}
+
+export interface RegisterUser {
+  id: string;
+  accountNumber: string;
+  lastName: string;
+  firstName: string;
   email: string;
 }

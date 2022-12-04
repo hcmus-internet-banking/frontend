@@ -1,39 +1,52 @@
+import { rootStore } from "./../store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "./types";
+import client from "../../core/client";
+import { AuthState, LoginResponse, RegisterResponse } from "./types";
 
 const initialState: AuthState = {
   user: null,
-  token: null,
   error: null,
   loading: false,
 };
 
 export const logoutAsync = createAsyncThunk("auth/logout", async () => {
-  const response = await fetch("/api/logout");
-  return response.json();
+  const { data } = await client.post("/api/logout");
+  return data;
 });
+
+export const loginAsync = createAsyncThunk(
+  "auth/login",
+  async (payload: { email: string; password: string }) => {
+    const response = await client.post<LoginResponse>(
+      "/api/auth/login",
+      payload
+    );
+
+    return response.data;
+  }
+);
+
+export const registerAsync = createAsyncThunk(
+  "auth/register",
+  async (payload: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }) => {
+    const response = await client.post<RegisterResponse>(
+      "/api/auth/register",
+      payload
+    );
+
+    return response.data;
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    login: (state) => {
-      state.loading = true;
-    },
-    loginSuccess: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.loading = false;
-    },
-    loginFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(logoutAsync.pending, (state) => {
@@ -41,17 +54,39 @@ const authSlice = createSlice({
       })
       .addCase(logoutAsync.fulfilled, (state) => {
         state.user = null;
-        state.token = null;
         state.loading = false;
       })
       .addCase(logoutAsync.rejected, (state, action) => {
         state.error = action.error.message || null;
         state.loading = false;
       });
+
+    builder
+      .addCase(loginAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginAsync.fulfilled, (state, action) => {
+        state.user = action.payload.data;
+        state.loading = false;
+      })
+      .addCase(loginAsync.rejected, (state, action) => {
+        state.error = action.error.message || null;
+        state.loading = false;
+      });
+
+    builder
+      .addCase(registerAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(registerAsync.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(registerAsync.rejected, (state, action) => {
+        state.error = action.error.message || null;
+        state.loading = false;
+      });
   },
 });
-
-export const { login, loginSuccess, loginFailure, logout } = authSlice.actions;
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 

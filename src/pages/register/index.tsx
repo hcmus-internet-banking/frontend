@@ -5,44 +5,54 @@ import Input from "../../components/common/Input/Input";
 import Spacer from "../../components/common/Spacer/Spacer";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect, useMemo } from "react";
-import { loginSchema } from "../../lib/login/schema";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAsync, selectAuth } from "../../store/auth";
+import { loginAsync, registerAsync, selectAuth } from "../../store/auth";
+import { registerSchema } from "../../lib/register/schema";
 
 function Index() {
-  const loginValidate = useMemo(() => loginSchema, []);
+  const registerValidate = useMemo(() => registerSchema, []);
   const router = useRouter();
   const dispatch = useDispatch();
-  const selector = useSelector(selectAuth);
+  const authState = useSelector(selectAuth);
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
     },
-    validationSchema: toFormikValidationSchema(loginValidate),
+    validationSchema: toFormikValidationSchema(registerValidate),
     onSubmit: async (values) => {
       console.log(values);
 
-      dispatch(loginAsync({ email: values.email, password: values.password }));
+      dispatch(
+        registerAsync({
+          email: values.email,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        })
+      );
     },
   });
 
   // listen to selector
   useEffect(() => {
-    const isLogin = selector.user !== null;
+    const isLogin = authState.user !== null;
 
     if (isLogin) {
       router.push("/");
     }
-  }, [selector.user, router]);
+  }, [authState.user, router]);
 
   return (
     <div>
+      {authState.loading && <div>Loading...</div>}
       <Spacer className="h-12" />
 
-      <Heading>Login</Heading>
+      <Heading>Register</Heading>
       <Spacer className="h-2" />
 
       <div className="grid grid-cols-2 divide-x">
@@ -68,21 +78,29 @@ function Index() {
               error={formik.errors.password}
             />
 
+            <Input
+              className="w-full"
+              name="firstName"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              placeholder="First name"
+              error={formik.errors.firstName}
+            />
+
+            <Input
+              className="w-full"
+              name="lastName"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              placeholder="Last name"
+              error={formik.errors.lastName}
+            />
+
             <Button type="submit">
-              <span>Login</span>
+              <span>Register</span>
             </Button>
           </section>
         </form>
-
-        <section className="space-y-2 pl-4">
-          <Button
-            onClick={() => {
-              router.push("/register");
-            }}
-          >
-            <span>Register</span>
-          </Button>
-        </section>
       </div>
     </div>
   );

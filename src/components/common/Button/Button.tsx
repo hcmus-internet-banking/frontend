@@ -8,9 +8,17 @@ type Props = {
   disabled?: boolean;
   children?: React.ReactNode;
   leftIcon?: React.ReactNode;
+  type?: "button" | "submit";
 };
 
-function Button({ leftIcon, className, children, disabled, onClick }: Props) {
+function Button({
+  leftIcon,
+  className,
+  type,
+  children,
+  disabled,
+  onClick,
+}: Props) {
   return (
     <button
       className={classNames(
@@ -19,6 +27,7 @@ function Button({ leftIcon, className, children, disabled, onClick }: Props) {
         className,
         "shadow-md hover:shadow-lg hover:shadow-blue-600"
       )}
+      type={type}
       onClick={onClick}
       disabled={disabled}
     >
