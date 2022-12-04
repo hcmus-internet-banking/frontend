@@ -4,7 +4,7 @@ import Button from "../../components/common/Button/Button";
 import Heading from "../../components/common/Heading/Heading";
 import Input from "../../components/common/Input/Input";
 import Spacer from "../../components/common/Spacer/Spacer";
-import useInput from "../../lib/hooks/useInput";
+import useInput from "../../lib/common/hooks/useInput";
 
 function Index(props: any) {
   const { onChange, value } = useInput("");

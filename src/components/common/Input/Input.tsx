@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { IoCloseCircle, IoEye, IoEyeOff } from "react-icons/io5";
-import useToggle from "../../../lib/hooks/useToggle";
+import useToggle from "../../../lib/common/hooks/useToggle";
 
 type Props = {
   value?: string;
