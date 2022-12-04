@@ -3,6 +3,14 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      // apple
+      "apple-system": ["-apple-system", "BlinkMacSystemFont"],
+    }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
+
+  ],
 };
