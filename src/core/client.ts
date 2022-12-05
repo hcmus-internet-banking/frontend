@@ -1,6 +1,9 @@
 import { RootState } from "./../store/store";
-import { logoutAsync } from "../store/auth/index";
-import { rootStore } from "../store/store";
+import {
+  logout,
+  refreshTokenAsync,
+  updateAccessToken,
+} from "../store/auth/index";
 import axios, { AxiosInstance } from "axios";
 import { env } from "./env/client.mjs";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
@@ -25,12 +28,35 @@ export const initInterceptors = (store: ToolkitStore<RootState>) => {
 
   client.interceptors.response.use(
     (config) => config,
-    (error) => {
+    async (error) => {
       const status = error.response?.status;
 
       switch (status) {
         case 401:
-        case 403:
+          try {
+            const refreshToken =
+              store.getState().auth.user?.tokens.refreshToken;
+
+            if (!refreshToken) {
+              throw new Error("Refresh token not found");
+            }
+
+            const {
+              data: { accessToken },
+            } = await refreshTokenAsync(refreshToken);
+
+            if (!accessToken) {
+              throw new Error("Fetching new access token failed");
+            }
+
+            store.dispatch(
+              updateAccessToken({
+                accessToken: accessToken,
+              })
+            );
+          } catch (error) {
+            store.dispatch(logout());
+          }
           break;
         default:
           return Promise.reject(error);

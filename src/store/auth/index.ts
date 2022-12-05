@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../core/client";
-import { AuthState, LoginResponse, RegisterResponse } from "./types";
+import {
+  AuthState,
+  LoginResponse,
+  RefreshTokenResponse,
+  RegisterResponse,
+} from "./types";
 
 const initialState: AuthState = {
   user: null,
@@ -42,10 +47,30 @@ export const registerAsync = createAsyncThunk(
   }
 );
 
+export const refreshTokenAsync = async (refreshToken: string) => {
+  const response = await client.post<RefreshTokenResponse>(
+    "/api/auth/refresh-token",
+    {
+      refreshToken,
+    }
+  );
+
+  return response.data;
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      state.user = null;
+    },
+    updateAccessToken(state, action: { payload: { accessToken: string } }) {
+      if (state.user) {
+        state.user.tokens.accessToken = action.payload.accessToken;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(logoutAsync.pending, (state) => {
@@ -87,6 +112,8 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { logout, updateAccessToken } = authSlice.actions;
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 export const selectIsAuthenticated = (state: { auth: AuthState }) =>

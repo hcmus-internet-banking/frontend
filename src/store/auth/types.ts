@@ -32,3 +32,9 @@ export interface RegisterUser {
   firstName: string;
   email: string;
 }
+
+export interface RefreshTokenResponse {
+  data: {
+    accessToken: string;
+  };
+}
