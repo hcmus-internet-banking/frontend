@@ -7,13 +7,15 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect, useMemo } from "react";
 import { loginSchema } from "../../lib/login/schema";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { loginAsync, selectAuth } from "../../store/auth";
+import toast from "react-hot-toast";
+import { useAppDispatch } from "../../store/store";
 
 function Index() {
   const loginValidate = useMemo(() => loginSchema, []);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const selector = useSelector(selectAuth);
 
   const formik = useFormik({
@@ -21,22 +23,31 @@ function Index() {
       email: "",
       password: "",
     },
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema: toFormikValidationSchema(loginValidate),
     onSubmit: async (values) => {
       console.log(values);
 
-      dispatch(loginAsync({ email: values.email, password: values.password }));
+      const result = dispatch(
+        loginAsync({ email: values.email, password: values.password })
+      ).unwrap();
+
+      toast.promise(result, {
+        loading: "Loading...",
+        success: ({ data }) => {
+          if (data.id !== null) {
+            toast.success(JSON.stringify(data));
+            router.push("/");
+          }
+          return "Success";
+        },
+        error: (error) => {
+          return error.message;
+        },
+      });
     },
   });
-
-  // listen to selector
-  useEffect(() => {
-    const isLogin = selector.user !== null;
-
-    if (isLogin) {
-      router.push("/");
-    }
-  }, [selector.user, router]);
 
   return (
     <div>
@@ -60,6 +71,7 @@ function Index() {
             <Input
               className="w-full"
               name="password"
+              autoComplete="current-password"
               value={formik.values.password}
               onChange={formik.handleChange}
               placeholder="Password"

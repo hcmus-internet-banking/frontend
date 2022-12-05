@@ -70,6 +70,7 @@ function Index() {
             <Input
               className="w-full"
               name="password"
+              autoComplete="none"
               value={formik.values.password}
               onChange={formik.handleChange}
               placeholder="Password"

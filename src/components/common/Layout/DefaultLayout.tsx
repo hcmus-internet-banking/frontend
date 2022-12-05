@@ -11,6 +11,13 @@ import {
 import { useRouter } from "next/router";
 import AppLink from "../AppLink/AppLink";
 import { SiSwagger } from "react-icons/si";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import {
+  logoutAsync,
+  selectIsAuthenticated,
+  selectUser,
+} from "../../../store/auth";
+import Spacer from "../Spacer/Spacer";
 
 type Props = { children: React.ReactElement };
 
@@ -18,6 +25,9 @@ const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL as string;
 
 function Layout({ children }: Props) {
   const router = useRouter();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
 
   const navigateTo = (path: string) => () => {
     router.push(path);
@@ -44,7 +54,27 @@ function Layout({ children }: Props) {
       </nav>
 
       <div className="w-48 bg-white py-4">
-        <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
+        {!isAuthenticated ? (
+          <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
+        ) : (
+          <>
+            <AppLink
+              href="/profile"
+              text={`${user?.firstName} ${user?.lastName}`}
+              iconLeft={IoPerson}
+            />
+            <AppLink
+              onClick={() => {
+                dispatch(logoutAsync());
+              }}
+              text="Logout"
+              iconLeft={IoLogIn}
+            />
+          </>
+        )}
+
+        <Spacer className="border-b" />
+
         <AppLink
           href={FACEBOOK_URL}
           text="Facebook"
@@ -59,7 +89,9 @@ function Layout({ children }: Props) {
         <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
       </div>
 
-      <main className="h-[calc(100vh)] overflow-y-auto flex-1 p-2">{children}</main>
+      <main className="h-[calc(100vh)] flex-1 overflow-y-auto p-2">
+        {children}
+      </main>
     </div>
   );
 }

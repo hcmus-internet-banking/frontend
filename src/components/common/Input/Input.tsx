@@ -13,6 +13,7 @@ type Props = {
   hiddenable?: boolean;
   name?: string;
   error?: string;
+  autoComplete?: string;
 };
 
 function Input({
@@ -21,6 +22,7 @@ function Input({
   type,
   onChange,
   className,
+  autoComplete,
   clearable = true,
   hiddenable = false,
   name,
@@ -42,6 +44,7 @@ function Input({
           value={value}
           onChange={onChange}
           type={hiddenValue ? "text" : type}
+          autoComplete={autoComplete}
           className={classnames(
             "peer rounded-xl bg-gray-200 px-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
             className,

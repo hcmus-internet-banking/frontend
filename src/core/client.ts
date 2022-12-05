@@ -5,12 +5,6 @@ import axios, { AxiosInstance } from "axios";
 import { env } from "./env/client.mjs";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 
-let store: ToolkitStore<RootState>;
-
-export const injectStore = (_store: ToolkitStore<RootState>) => {
-  store = _store;
-};
-
 const client: AxiosInstance = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   headers: {
@@ -18,27 +12,33 @@ const client: AxiosInstance = axios.create({
   },
 });
 
-client.interceptors.response.use(
-  (config) => {
-    const token = store.getState().auth.token;
+export const initInterceptors = (store: ToolkitStore<RootState>) => {
+  client.interceptors.request.use((config) => {
+    const token = store.getState().auth.user?.tokens.accessToken;
 
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
-  },
-  (error) => {
-    switch (error.response.status) {
-      case 401:
-      case 403:
-        rootStore.dispatch(logoutAsync());
-        break;
-      default:
-        return Promise.reject(error);
-    }
 
-    return Promise.reject(error);
-  }
-);
+    return config;
+  });
+
+  client.interceptors.response.use(
+    (config) => config,
+    (error) => {
+      const status = error.response?.status;
+
+      switch (status) {
+        case 401:
+        case 403:
+          break;
+        default:
+          return Promise.reject(error);
+      }
+
+      return Promise.reject(error);
+    }
+  );
+};
 
 export default client;

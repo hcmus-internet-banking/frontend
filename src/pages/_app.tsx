@@ -1,31 +1,41 @@
 import "../styles/globals.css";
-import type { AppType } from "next/app";
+import type { AppProps } from "next/app";
 import { DefaultLayout } from "../components/common/Layout";
 import React from "react";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { rootStore } from "../store/store";
-import { injectStore } from "../core/client";
+import { Toaster } from "react-hot-toast";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
-injectStore(rootStore);
+const persistor = persistStore(rootStore);
 
-const MyApp: AppType<{
-  layout: React.FC;
-  title: string;
-}> = ({
+interface AppPropsWithLayout extends AppProps {
+  Component: AppProps["Component"] & {
+    layout?: React.ComponentType;
+    title?: string;
+  };
+}
+
+const MyApp = ({
   Component,
-  pageProps: { layout = DefaultLayout, title = "Default Page", ...pageProps },
-}) => {
-  const Layout = layout;
+  pageProps: { ...pageProps },
+}: AppPropsWithLayout) => {
+  const Layout = Component.layout || DefaultLayout;
+  const title = Component.title || "Default Page";
 
   return (
     <Provider store={rootStore}>
-      <Head>
-        <title>{title}</title>
-      </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <PersistGate loading={null} persistor={persistor}>
+        <Head>
+          <title>{title}</title>
+        </Head>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+        <Toaster />
+      </PersistGate>
     </Provider>
   );
 };

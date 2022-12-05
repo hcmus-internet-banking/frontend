@@ -1,4 +1,3 @@
-import { rootStore } from "./../store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../core/client";
 import { AuthState, LoginResponse, RegisterResponse } from "./types";
@@ -10,7 +9,7 @@ const initialState: AuthState = {
 };
 
 export const logoutAsync = createAsyncThunk("auth/logout", async () => {
-  const { data } = await client.post("/api/logout");
+  const { data } = await client.post("/api/auth/logout");
   return data;
 });
 
@@ -58,6 +57,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutAsync.rejected, (state, action) => {
         state.error = action.error.message || null;
+        state.user = null;
         state.loading = false;
       });
 
@@ -89,5 +89,8 @@ const authSlice = createSlice({
 });
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
+export const selectIsAuthenticated = (state: { auth: AuthState }) =>
+  !!state.auth.user;
+export const selectUser = (state: { auth: AuthState }) => state.auth.user;
 
 export default authSlice.reducer;
