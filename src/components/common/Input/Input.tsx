@@ -6,6 +6,7 @@ import useToggle from "../../../lib/common/hooks/useToggle";
 
 type Props = {
   value?: string;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: "text" | "password";
   placeholder?: string;
@@ -41,7 +42,7 @@ function Input({
 
   return (
     <div>
-      <label className="relative block">
+      <label className="relative inline-block">
         <input
           name={name}
           value={value}

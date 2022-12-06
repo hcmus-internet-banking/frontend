@@ -1,13 +1,23 @@
 import { BaseResponse } from "./../../../core/handleResponse";
-import { MutationOptions, useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import client from "../../../core/client";
 import { handleResponse } from "../../../core/handleResponse";
 import { queryClient } from "../../../core/queryClient";
 
-export const useMutateRecipient = (overrideOptions?: MutationOptions) => {
+type Params = {
+  accountNumber: string;
+  mnemonicName: string;
+};
+
+export const useMutateRecipient = (
+  overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
+) => {
   const mutationArgs = useMutation({
-    mutationFn: async (payload) => {
-      const res = await client.post<BaseResponse>("/api/recipient", payload);
+    mutationFn: async ({ accountNumber, mnemonicName }) => {
+      const res = await client.post<BaseResponse>("/api/recipients", {
+        accountNumber,
+        mnemonicName,
+      });
 
       return await handleResponse(res);
     },

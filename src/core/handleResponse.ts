@@ -2,6 +2,7 @@ import { RootState } from "./../store/store";
 import { AxiosResponse } from "axios";
 import { store } from "../store";
 import { logout, refreshTokenAsync, updateAccessToken } from "../store/auth";
+import { queryClient } from "./queryClient";
 
 const isOk = (status: number) => status >= 200 && status < 300;
 
@@ -44,6 +45,8 @@ export const handleResponse = async <T extends BaseResponse>(
               accessToken: accessToken,
             })
           );
+
+          queryClient.clear();
         } catch (error) {
           store.dispatch(logout());
         }

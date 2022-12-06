@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { ScaleLoader } from "react-spinners";
 import { presets } from "./Button.preset";
 
-// common button props
 type Props = {
   className?: string;
   onClick?: () => void;
@@ -13,6 +12,7 @@ type Props = {
   isLoading?: boolean;
   type?: "button" | "submit";
   preset?: keyof typeof presets;
+  size?: "sm" | "md" | "lg";
 };
 
 function Button({
@@ -24,18 +24,23 @@ function Button({
   isLoading,
   onClick,
   preset = "filled",
+  size = "md",
 }: Props) {
   return (
     <button
       className={classNames(
-        "flex h-10 items-center justify-center rounded-xl  px-4 py-2 font-semibold  hover:bg-opacity-80",
-        "px-10 transition-[transform,box-shadow] hover:-translate-y-0.5",
-        className,
+        "flex items-center justify-center rounded-xl py-2 hover:bg-opacity-80",
+        "transition-[transform,box-shadow] hover:-translate-y-0.5",
         {
           "cursor-not-allowed opacity-50": disabled,
+          "px-4": !className?.includes("px-"),
+          "h-8 text-sm": size === "sm",
+          "h-10": size === "md",
+          "h-12": size === "lg",
         },
         preset && presets[preset]?.classNames,
-        preset && presets[preset]?.shadow
+        preset && presets[preset]?.shadow,
+        className
       )}
       type={type}
       onClick={onClick}

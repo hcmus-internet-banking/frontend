@@ -4,11 +4,20 @@ import React from "react";
 type Props = {
   children: React.ReactNode;
   className?: string;
+  size?: "sm" | "md" | "lg";
 };
 
-function Heading({ children, className }: Props) {
+function Heading({ children, className, size = "md" }: Props) {
   return (
-    <h1 className={classNames("text-3xl font-bold", className)}>{children}</h1>
+    <h1
+      className={classNames("font-semibold", className, {
+        "text-1xl": size === "sm",
+        "text-2xl": size === "md",
+        "text-3xl": size === "lg",
+      })}
+    >
+      {children}
+    </h1>
   );
 }
 
