@@ -8,7 +8,9 @@ import { rootStore } from "../store/store";
 import { Toaster } from "react-hot-toast";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+export const queryClient = new QueryClient();
 const persistor = persistStore(rootStore);
 
 interface AppPropsWithLayout extends AppProps {
@@ -26,17 +28,19 @@ const MyApp = ({
   const title = Component.title || "Default Page";
 
   return (
-    <Provider store={rootStore}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Head>
-          <title>{title}</title>
-        </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <Toaster />
-      </PersistGate>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={rootStore}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Head>
+            <title>{title}</title>
+          </Head>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <Toaster />
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 

@@ -1,27 +1,22 @@
 import Home from "../components/home/Home";
 import client from "../core/client";
-import toast from "react-hot-toast";
-import Button from "../components/common/Button/Button";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../components/common/Spinner/Spinner";
+import { handleResponse } from "../core/handleResponse";
 
 const HomePage = () => {
-  // const {}
+  const { data, isLoading, error } = useQuery(["my"], async () => {
+    const res = await client.get("/api/customer/my");
+
+    return handleResponse(res);
+  });
+
   return (
     <>
-      <Button
-        onClick={() => {
-          toast.promise(client.get("/api/customer/my"), {
-            loading: "Loading",
-            success: (res) => {
-              return JSON.stringify(res.data);
-            },
-            error: (err) => {
-              return JSON.stringify(err);
-            },
-          });
-        }}
-      >
-        click
-      </Button>
+      {isLoading && <Spinner />}
+      {error && <div>error: {JSON.stringify(error)}</div>}
+      {data && <div>data: {JSON.stringify(data)}</div>}
+
       <Home />
     </>
   );

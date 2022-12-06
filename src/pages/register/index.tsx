@@ -6,13 +6,12 @@ import Spacer from "../../components/common/Spacer/Spacer";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { loginAsync, registerAsync, selectAuth } from "../../store/auth";
+import { useSelector } from "react-redux";
+import { registerAsync, selectAuth } from "../../store/auth";
 import { registerSchema } from "../../lib/register/schema";
 import { BarLoader } from "react-spinners";
 import { useAppDispatch } from "../../store/store";
 import toast from "react-hot-toast";
-import { RegisterResponse } from "../../store/auth/types";
 import { BaseResponse } from "../../core/handleResponse";
 
 function Index() {
@@ -129,5 +128,7 @@ function Index() {
     </div>
   );
 }
+
+Index.title = "Register";
 
 export default Index;
