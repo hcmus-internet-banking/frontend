@@ -1,4 +1,3 @@
-import { queryClient } from "./../../pages/_app";
 import {
   BaseResponse,
   handleRefreshTokenResponse,
@@ -12,6 +11,7 @@ import {
   RefreshTokenResponse,
   RegisterResponse,
 } from "./types";
+import { queryClient } from "../../core/queryClient";
 
 const initialState: AuthState = {
   user: null,

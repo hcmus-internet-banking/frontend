@@ -92,7 +92,7 @@ function Index() {
               error={formik.errors.password}
             />
 
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" isLoading={isLoading}>
               <span>Login</span>
             </Button>
           </section>
