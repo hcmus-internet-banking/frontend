@@ -4,14 +4,15 @@ import { handleResponse } from "../../../core/handleResponse";
 
 export const useGetMyData = () => {
   const queryArgs = useQuery(
-    ["customer", "me"],
+    ["customer", "my"],
     async () => {
       const res = await client.get("/api/customer/my");
 
-      return handleResponse(res);
+      return await handleResponse(res);
     },
     {
       refetchOnWindowFocus: false,
+      retry: false,
     }
   );
 
