@@ -8,7 +8,7 @@ type Props = {
 
 function Heading({ children, className }: Props) {
   return (
-    <h1 className={classNames("text-xl font-medium", className)}>{children}</h1>
+    <h1 className={classNames("text-3xl font-bold", className)}>{children}</h1>
   );
 }
 
