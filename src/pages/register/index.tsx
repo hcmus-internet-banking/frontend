@@ -12,7 +12,7 @@ import { registerSchema } from "../../lib/register/schema";
 import { BarLoader } from "react-spinners";
 import { useAppDispatch } from "../../store/store";
 import toast from "react-hot-toast";
-import { BaseResponse } from "../../core/handleResponse";
+import { noToastErrorOption } from "../../lib/common/utils/react-hot-toast";
 
 function Index() {
   const registerValidate = useMemo(() => registerSchema, []);
@@ -24,6 +24,7 @@ function Index() {
     initialValues: {
       email: "",
       password: "",
+      repassword: "",
       firstName: "",
       lastName: "",
     },
@@ -31,8 +32,6 @@ function Index() {
     validateOnChange: false,
     validationSchema: toFormikValidationSchema(registerValidate),
     onSubmit: async (values) => {
-      console.log(values);
-
       toast.promise(
         dispatch(
           registerAsync({
@@ -52,10 +51,9 @@ function Index() {
 
             return "Register success";
           },
-          error: (err: BaseResponse["error"]) => {
-            return err?.message || "Register failed";
-          },
-        }
+          error: null,
+        },
+        noToastErrorOption
       );
     },
   });
@@ -99,6 +97,18 @@ function Index() {
               type="password"
               hiddenable
               error={formik.errors.password}
+            />
+
+            <Input
+              className="w-full"
+              name="repassword"
+              autoComplete="none"
+              value={formik.values.repassword}
+              onChange={formik.handleChange}
+              placeholder="Re-password"
+              type="password"
+              hiddenable
+              error={formik.errors.repassword}
             />
 
             <Input

@@ -1,4 +1,9 @@
-import { handleResponse } from "./../../core/handleResponse";
+import { queryClient } from "./../../pages/_app";
+import {
+  BaseResponse,
+  handleRefreshTokenResponse,
+  handleResponse,
+} from "./../../core/handleResponse";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../core/client";
 import {
@@ -15,7 +20,10 @@ const initialState: AuthState = {
 };
 
 export const logoutAsync = createAsyncThunk("auth/logout", async () => {
-  const { data } = await client.post("/api/auth/logout");
+  const { data } = await client.post<BaseResponse>("/api/auth/logout");
+
+  queryClient.clear();
+
   return data;
 });
 
@@ -56,7 +64,7 @@ export const refreshTokenAsync = async (refreshToken: string) => {
     }
   );
 
-  return handleResponse(response);
+  return handleRefreshTokenResponse(response);
 };
 
 const authSlice = createSlice({
@@ -70,6 +78,9 @@ const authSlice = createSlice({
       if (state.user) {
         state.user.tokens.accessToken = action.payload.accessToken;
       }
+    },
+    clearError(state) {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -114,11 +125,14 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, updateAccessToken } = authSlice.actions;
+export const { logout, updateAccessToken, clearError } = authSlice.actions;
 
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
 export const selectIsAuthenticated = (state: { auth: AuthState }) =>
   !!state.auth.user;
 export const selectUser = (state: { auth: AuthState }) => state.auth.user;
+export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;
+export const selectAuthLoading = (state: { auth: AuthState }) =>
+  state.auth.loading;
 
 export default authSlice.reducer;

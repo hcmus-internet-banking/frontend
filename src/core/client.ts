@@ -1,8 +1,3 @@
-import {
-  logout,
-  refreshTokenAsync,
-  updateAccessToken,
-} from "../store/auth/index";
 import axios, { AxiosInstance } from "axios";
 import { env } from "./env/client.mjs";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";

@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import StoreHandlingProvider from "../store/storeErrorHandler";
 
 export const queryClient = new QueryClient();
 const persistor = persistStore(rootStore);
@@ -31,13 +32,17 @@ const MyApp = ({
     <QueryClientProvider client={queryClient}>
       <Provider store={rootStore}>
         <PersistGate loading={null} persistor={persistor}>
-          <Head>
-            <title>{title}</title>
-          </Head>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          <Toaster />
+          <StoreHandlingProvider>
+            <>
+              <Head>
+                <title>{title}</title>
+              </Head>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <Toaster />
+            </>
+          </StoreHandlingProvider>
         </PersistGate>
       </Provider>
     </QueryClientProvider>

@@ -1,3 +1,4 @@
+import { RootState } from "./../store/store";
 import { AxiosResponse } from "axios";
 import { store } from "../store";
 import { logout, refreshTokenAsync, updateAccessToken } from "../store/auth";
@@ -13,16 +14,18 @@ export const handleResponse = async <T extends BaseResponse>(
   response: AxiosResponse<T>
 ) => {
   const status = response.status;
+  const authState = store.getState().auth as RootState["auth"];
+
   if (!isOk(status)) {
     switch (status) {
       case 401:
         try {
           //  if not login, then skip to the next case
-          if (!store.getState().auth.user) {
+          if (!authState.user) {
             break;
           }
 
-          const refreshToken = store.getState().auth.user?.tokens.refreshToken;
+          const refreshToken = authState.user?.tokens.refreshToken;
 
           if (!refreshToken) {
             throw new Error("Refresh token not found");
@@ -49,6 +52,22 @@ export const handleResponse = async <T extends BaseResponse>(
         break;
     }
 
+    const {
+      data: { error },
+    } = response;
+
+    throw error;
+  }
+
+  return response.data;
+};
+
+export const handleRefreshTokenResponse = async <T extends BaseResponse>(
+  response: AxiosResponse<T>
+) => {
+  const status = response.status;
+
+  if (!isOk(status)) {
     const {
       data: { error },
     } = response;

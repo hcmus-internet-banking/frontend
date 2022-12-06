@@ -7,8 +7,14 @@ import Button from "../../components/common/Button/Button";
 import Heading from "../../components/common/Heading/Heading";
 import Input from "../../components/common/Input/Input";
 import Spacer from "../../components/common/Spacer/Spacer";
+import useToggle from "../../lib/common/hooks/useToggle";
+import { noToastErrorOption } from "../../lib/common/utils/react-hot-toast";
 import { loginSchema } from "../../lib/login/schema";
-import { loginAsync, selectIsAuthenticated } from "../../store/auth";
+import {
+  loginAsync,
+  selectAuthLoading,
+  selectIsAuthenticated,
+} from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 
 function Index() {
@@ -16,34 +22,39 @@ function Index() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isLoading = useAppSelector(selectAuthLoading);
+  const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+
   const formik = useFormik({
     initialValues: {
       email: (router.query.email as string) || "",
       password: "",
     },
     validateOnBlur: false,
-    validateOnChange: false,
+    validateOnChange: isSubmitted,
     validationSchema: toFormikValidationSchema(loginValidate),
     onSubmit: async (values) => {
-      console.log(values);
+      setIsSubmitted(true);
 
       const result = dispatch(
         loginAsync({ email: values.email, password: values.password })
       ).unwrap();
 
-      toast.promise(result, {
-        loading: "Loading...",
-        success: ({ data }) => {
-          if (data.id !== null) {
-            toast.success(JSON.stringify(data));
-            router.push("/");
-          }
-          return "Success";
+      toast.promise(
+        result,
+        {
+          loading: "Loading...",
+          success: ({ data }) => {
+            if (data.id !== null) {
+              toast.success(JSON.stringify(data));
+              router.push("/");
+            }
+            return "Success";
+          },
+          error: null,
         },
-        error: (error) => {
-          return error.message;
-        },
-      });
+        noToastErrorOption
+      );
     },
   });
 
@@ -81,7 +92,7 @@ function Index() {
               error={formik.errors.password}
             />
 
-            <Button type="submit">
+            <Button type="submit" disabled={isLoading}>
               <span>Login</span>
             </Button>
           </section>
