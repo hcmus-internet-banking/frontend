@@ -15,7 +15,7 @@ type Props = {
   name?: string;
   error?: string;
   autoComplete?: string;
-};
+} & React.ComponentPropsWithoutRef<"input">;
 
 function Input({
   value,
@@ -28,6 +28,7 @@ function Input({
   hiddenable = false,
   name,
   error,
+  ...props
 }: Props) {
   const handleClearClick = () => {
     if (onChange && name) {
@@ -56,13 +57,14 @@ function Input({
             }
           )}
           placeholder=" "
+          {...props}
         />
-        <span className="absolute left-3 top-1 text-xs text-gray-500 transition-[top,font-size] placeholder-shown:text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs">
+        <span className="absolute left-3 top-1 select-none text-xs text-gray-500 transition-[top,font-size] placeholder-shown:text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs">
           {placeholder}
         </span>
 
         <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
-          {clearable && (
+          {clearable && onChange && (
             <span
               onClick={handleClearClick}
               className={classnames("cursor-pointer", {

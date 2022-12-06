@@ -28,7 +28,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "flex h-10 items-center justify-center rounded-xl bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-opacity-80",
+        "flex h-10 items-center justify-center rounded-xl  px-4 py-2 font-semibold  hover:bg-opacity-80",
         "px-10 transition-[transform,box-shadow] hover:-translate-y-0.5",
         className,
         {
