@@ -1,11 +1,12 @@
 import { test, expect } from "@playwright/test";
+import { ACCOUNT } from "./mock/account";
 
 test.describe("should login then logout", async () => {
   test("should login", async ({ page }) => {
     await page.goto("http://localhost:3000/login");
 
-    await page.type('input[name="email"]', "Larry.Ledner60@gmail.com");
-    await page.type('input[name="password"]', "12345678");
+    await page.type('input[name="email"]', ACCOUNT.email);
+    await page.type('input[name="password"]', ACCOUNT.password);
 
     await page.click("button:has-text('Login')");
 

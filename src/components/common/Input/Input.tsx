@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import classnames from "classnames";
-import { IoCloseCircle, IoEye, IoEyeOff } from "react-icons/io5";
+import { IoCloseCircle } from "react-icons/io5";
+import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
 import useToggle from "../../../lib/common/hooks/useToggle";
 
 type Props = {
@@ -29,10 +30,11 @@ function Input({
   error,
 }: Props) {
   const handleClearClick = () => {
-    onChange &&
+    if (onChange && name) {
       onChange({
-        target: { value: "" },
+        target: { value: "", name: name },
       } as React.ChangeEvent<HTMLInputElement>);
+    }
   };
   const { toggle: toggleHidden, value: hiddenValue } = useToggle(false);
 
@@ -59,7 +61,7 @@ function Input({
           {placeholder}
         </span>
 
-        <span className="absolute right-4 top-5 flex cursor-pointer gap-1">
+        <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
           {clearable && (
             <span
               onClick={handleClearClick}
@@ -68,7 +70,7 @@ function Input({
               })}
               aria-label="Clear"
             >
-              <IoCloseCircle width={24} height={24} className="text-gray-500" />
+              <IoCloseCircle className="h-5 w-5 text-gray-500" />
             </span>
           )}
           {hiddenable && (
@@ -81,9 +83,9 @@ function Input({
             >
               {/* <IoEye width={24} height={24} className="text-gray-500" /> */}
               {hiddenValue ? (
-                <IoEye width={24} height={24} className="text-gray-500" />
+                <RxEyeOpen className="h-5 w-5 text-gray-500" />
               ) : (
-                <IoEyeOff width={24} height={24} className="text-gray-500" />
+                <RxEyeClosed className="h-5 w-5 text-gray-500" />
               )}
             </span>
           )}

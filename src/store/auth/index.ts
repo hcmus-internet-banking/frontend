@@ -1,3 +1,4 @@
+import { handleResponse } from "./../../core/handleResponse";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../core/client";
 import {
@@ -26,7 +27,7 @@ export const loginAsync = createAsyncThunk(
       payload
     );
 
-    return response.data;
+    return handleResponse(response);
   }
 );
 
@@ -43,7 +44,7 @@ export const registerAsync = createAsyncThunk(
       payload
     );
 
-    return response.data;
+    return handleResponse(response);
   }
 );
 
@@ -55,7 +56,7 @@ export const refreshTokenAsync = async (refreshToken: string) => {
     }
   );
 
-  return response.data;
+  return handleResponse(response);
 };
 
 const authSlice = createSlice({

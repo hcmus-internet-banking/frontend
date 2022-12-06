@@ -1,21 +1,27 @@
 import Home from "../components/home/Home";
-import {} from "@reduxjs/toolkit";
 import client from "../core/client";
+import toast from "react-hot-toast";
+import Button from "../components/common/Button/Button";
 
 const HomePage = () => {
   // const {}
   return (
     <>
-      <button
+      <Button
         onClick={() => {
-          // mock api
-          client.get("/api/customer/me").then((res) => {
-            console.log(res);
+          toast.promise(client.get("/api/customer/my"), {
+            loading: "Loading",
+            success: (res) => {
+              return JSON.stringify(res.data);
+            },
+            error: (err) => {
+              return JSON.stringify(err);
+            },
           });
         }}
       >
         click
-      </button>
+      </Button>
       <Home />
     </>
   );

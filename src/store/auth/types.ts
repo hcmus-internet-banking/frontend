@@ -1,10 +1,11 @@
+import { BaseResponse } from "./../../core/handleResponse";
 import { BaseState } from "./../index";
 
 export interface AuthState extends BaseState {
   user: User | null;
 }
 
-export interface LoginResponse {
+export interface LoginResponse extends BaseResponse {
   data: User;
 }
 
@@ -21,7 +22,7 @@ export interface Tokens {
   accessToken: string;
 }
 
-export interface RegisterResponse {
+export interface RegisterResponse extends BaseResponse {
   data: RegisterUser;
 }
 
@@ -33,7 +34,7 @@ export interface RegisterUser {
   email: string;
 }
 
-export interface RefreshTokenResponse {
+export interface RefreshTokenResponse extends BaseResponse {
   data: {
     accessToken: string;
   };

@@ -9,11 +9,16 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAsync, registerAsync, selectAuth } from "../../store/auth";
 import { registerSchema } from "../../lib/register/schema";
+import { BarLoader } from "react-spinners";
+import { useAppDispatch } from "../../store/store";
+import toast from "react-hot-toast";
+import { RegisterResponse } from "../../store/auth/types";
+import { BaseResponse } from "../../core/handleResponse";
 
 function Index() {
   const registerValidate = useMemo(() => registerSchema, []);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const authState = useSelector(selectAuth);
 
   const formik = useFormik({
@@ -23,17 +28,35 @@ function Index() {
       firstName: "",
       lastName: "",
     },
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema: toFormikValidationSchema(registerValidate),
     onSubmit: async (values) => {
       console.log(values);
 
-      dispatch(
-        registerAsync({
-          email: values.email,
-          password: values.password,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        })
+      toast.promise(
+        dispatch(
+          registerAsync({
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName,
+            lastName: values.lastName,
+          })
+        ).unwrap(),
+        {
+          loading: "Registering...",
+          success: () => {
+            router.push({
+              pathname: "/login",
+              query: { email: values.email },
+            });
+
+            return "Register success";
+          },
+          error: (err: BaseResponse["error"]) => {
+            return err?.message || "Register failed";
+          },
+        }
       );
     },
   });
@@ -49,9 +72,9 @@ function Index() {
 
   return (
     <div>
-      {authState.loading && <div>Loading...</div>}
-      <Spacer className="h-12" />
+      {authState.loading && <BarLoader width={200} />}
 
+      <Spacer className="h-12" />
       <Heading>Register</Heading>
       <Spacer className="h-2" />
 
@@ -97,7 +120,7 @@ function Index() {
               error={formik.errors.lastName}
             />
 
-            <Button type="submit">
+            <Button type="submit" disabled={authState.loading}>
               <span>Register</span>
             </Button>
           </section>

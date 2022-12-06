@@ -1,4 +1,3 @@
-import { RootState } from "./../store/store";
 import {
   logout,
   refreshTokenAsync,
@@ -13,9 +12,10 @@ const client: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  validateStatus: (status) => status < 500,
 });
 
-export const initInterceptors = (store: ToolkitStore<RootState>) => {
+export const initInterceptors = (store: ToolkitStore) => {
   client.interceptors.request.use((config) => {
     const token = store.getState().auth.user?.tokens.accessToken;
 

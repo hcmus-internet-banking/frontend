@@ -4,23 +4,21 @@ import Heading from "../../components/common/Heading/Heading";
 import Input from "../../components/common/Input/Input";
 import Spacer from "../../components/common/Spacer/Spacer";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { loginSchema } from "../../lib/login/schema";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { loginAsync, selectAuth } from "../../store/auth";
+import { loginAsync, selectIsAuthenticated } from "../../store/auth";
 import toast from "react-hot-toast";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 function Index() {
   const loginValidate = useMemo(() => loginSchema, []);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const selector = useSelector(selectAuth);
-
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: (router.query.email as string) || "",
       password: "",
     },
     validateOnBlur: false,
@@ -49,6 +47,9 @@ function Index() {
     },
   });
 
+  if (isAuthenticated) {
+    router.push("/");
+  }
   return (
     <div>
       <Spacer className="h-12" />
