@@ -25,7 +25,6 @@ export const useQueryGetMyProfile = () => {
     },
     {
       refetchOnWindowFocus: false,
-      retry: false,
     }
   );
 

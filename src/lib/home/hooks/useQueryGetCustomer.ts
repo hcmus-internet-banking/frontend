@@ -15,7 +15,6 @@ export const useQueryGetCustomer = (
     },
     {
       refetchOnWindowFocus: false,
-      retry: false,
       ...overrideOptions,
     }
   );
