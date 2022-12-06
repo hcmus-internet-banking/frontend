@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { ScaleLoader } from "react-spinners";
+import { presets } from "./Button.preset";
 
 // common button props
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   leftIcon?: React.ReactNode;
   isLoading?: boolean;
   type?: "button" | "submit";
+  preset?: keyof typeof presets;
 };
 
 function Button({
@@ -21,6 +23,7 @@ function Button({
   disabled,
   isLoading,
   onClick,
+  preset,
 }: Props) {
   return (
     <button
@@ -28,10 +31,11 @@ function Button({
         "flex h-10 items-center justify-center rounded-xl bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-opacity-80",
         "px-10 transition-[transform,box-shadow] hover:-translate-y-0.5",
         className,
-        "shadow-md hover:shadow-lg hover:shadow-blue-600",
         {
           "cursor-not-allowed opacity-50": disabled,
-        }
+        },
+        preset && presets[preset]?.classNames,
+        preset && presets[preset]?.shadow
       )}
       type={type}
       onClick={onClick}

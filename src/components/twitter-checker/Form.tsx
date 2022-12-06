@@ -6,7 +6,7 @@ export function Form({}) {
   return (
     <section className="space-y-2">
       <Input placeholder="Twitter name" />
-      <Button>
+      <Button preset="outlined">
         <span>Fetch tweets</span>
       </Button>
     </section>
