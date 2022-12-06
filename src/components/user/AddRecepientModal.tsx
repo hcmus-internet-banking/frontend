@@ -1,4 +1,11 @@
 import classNames from "classnames";
+import { useFormik } from "formik";
+import { toast } from "react-hot-toast";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import Button from "../common/Button/Button";
+import Heading from "../common/Heading/Heading";
+import Input from "../common/Input/Input";
+import Spacer from "../common/Spacer/Spacer";
 
 type Props = {
   hide: boolean;
@@ -6,11 +13,40 @@ type Props = {
 };
 
 const AddRecepientModal = ({ hide, toggle }: Props) => {
-
   const hidden = hide ? "hidden" : undefined;
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     mnemonicNAme: "",
+  //     accountNumber: 0,
+  //   },
+  //   validateOnBlur: false,
+  //   validateOnChange: isSubmitted,
+  //   validationSchema: toFormikValidationSchema(addRecipientValidate),
+  //   onSubmit: async (values) => {
+  //     setIsSubmitted(true);
+
+  //     const result = dispatch().unwrap();
+
+  //     toast.promise(
+  //       result,
+  //       {
+  //         loading: "Loading...",
+  //         success: ({ data }) => {
+  //           if (data.id !== null) {
+  //             toast.success(JSON.stringify(data));
+  //             router.push("/");
+  //           }
+  //           return "Success";
+  //         },
+  //         error: null,
+  //       },
+  //       noToastErrorOption
+  //     );
+  //   },
+  // });
   return (
     <>
-
       <div
         className={classNames(
           "fixed top-0 left-0 z-10 w-full overflow-y-auto",
@@ -30,87 +66,44 @@ const AddRecepientModal = ({ hide, toggle }: Props) => {
             aria-modal="true"
             aria-labelledby="modal-headline"
           >
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 sm:pt-0">
-            <div className="py-4 text-3xl font-bold">Add recipient</div>
-
-              <label>Account number</label>
-              <input type="text" className="mt-2 mb-3 w-full bg-gray-100 p-2" />
-              <label>Mnemonic name</label>
-              <input type="text" className="mt-2 mb-3 w-full bg-gray-100 p-2" />
-            </div>
-            <div className="bg-gray-200 px-4 py-3 text-right">
-              <button
-                type="button"
-                className="mr-2 rounded bg-gray-500 py-2 px-4 text-white hover:bg-gray-700"
-                onClick={toggle}
-              >
-                <i className="fas fa-times"></i> Cancel
-              </button>
-              <button
-                type="button"
-                className="mr-2 rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
-              >
-                <i className="fas fa-plus"></i> Create
-              </button>
+            <div className="w-full bg-white p-6">
+              <div className="flex w-full justify-around">
+                <Heading className="grow font-bold">Add recipient</Heading>
+                <div
+                  className="p-2 text-xl font-bold hover:cursor-pointer hover:opacity-25"
+                  onClick={toggle}
+                >
+                  X
+                </div>
+              </div>
+              <Spacer className="h-1" />
+              <div className="grid grid-cols-1 divide-x">
+                {/* onSubmit={formik.handleSubmit} */}
+                <form>
+                  <section className="space-y-5">
+                    <Input
+                      type="text"
+                      className="w-full"
+                      placeholder="Mnemonic name"
+                    />
+                    <Input
+                      type="text"
+                      className="w-full"
+                      placeholder="Account number"
+                    />
+                    <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
+                      <Button type="button" onClick={toggle}>
+                        Cancel
+                      </Button>
+                      <Button type="submit">Add</Button>
+                    </div>
+                  </section>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <div
-        className={classNames(
-          "flex h-full flex-col items-center justify-center bg-gray-100 shadow-xl",
-          hidden
-        )}
-      >
-        <div className="py-4 text-3xl font-bold">Add recipient</div>
-        <form>
-          <section className="space-y-2 pr-4">
-            <Input
-              className="w-full"
-              name="id"
-              //   value={formik.values.email}
-              //   onChange={formik.handleChange}
-              placeholder="Account number"
-              //   error={formik.errors.email}
-            />
-
-            <Input
-              className="w-full"
-              name="mnemonicName"
-              //   value={formik.values.password}
-              //   onChange={formik.handleChange}
-              placeholder="Mnemonic Name"
-              type="text"
-              //   error={formik.errors.password}
-            />
-          </section>
-          <div className="px-4 py-3 text-right">
-            <button
-              type="button"
-              className="mr-2 rounded bg-gray-500 py-2 px-4 text-white hover:bg-gray-700"
-              onClick={toggle}
-            >
-              <i className="fas fa-times"></i> Cancel
-            </button>
-            <button
-              type="button"
-              className="mr-2 rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-700"
-            >
-              <i className="fas fa-plus"></i> Create
-            </button>
-          </div>
-        </form> */}
-
-        {/* <section className="space-y-2 pl-4">
-            <Button
-              onClick={() => {
-                router.push("/register");
-              }}
-            >
-              <span>Add</span>
-            </Button>
-          </section> */}
-     {/* </div> */}
     </>
   );
 };

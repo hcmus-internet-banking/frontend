@@ -1,3 +1,4 @@
+import Button from "../../../components/common/Button/Button";
 import AddRecepientModal from "../../../components/user/AddRecepientModal";
 import Recipient from "../../../components/user/Recipient";
 import useToggle from "../../../lib/common/hooks/useToggle";
@@ -10,7 +11,7 @@ import useToggle from "../../../lib/common/hooks/useToggle";
 const Index = () => {
   const recipient = {
     id: 195203733,
-    mnemonicName: "Phát đẹp trai",
+    mnemonicName: "Mie6996",
   };
 
   const { value, toggle } = useToggle(false);
@@ -19,13 +20,46 @@ const Index = () => {
     <>
       <AddRecepientModal hide={value} toggle={toggle} />
       <div className="text-3xl font-bold">Recipient List</div>
-      <button
-        className="my-4 h-10 rounded-xl bg-blue-500 px-4 py-2 font-semibold text-white shadow-md transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80 hover:shadow-lg hover:shadow-blue-600"
-        onClick={toggle}
-      >
+      <Button className="my-4" onClick={toggle}>
         + Add new recipient
-      </button>
-      <div className="flex flex-col gap-3">
+      </Button>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
+        <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
@@ -36,5 +70,7 @@ const Index = () => {
     </>
   );
 };
+
+Index.title = "Recipients";
 
 export default Index;
