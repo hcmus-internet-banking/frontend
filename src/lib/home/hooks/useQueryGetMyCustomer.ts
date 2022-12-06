@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import client from "../../../core/client";
 import { handleResponse } from "../../../core/handleResponse";
 
-export const useGetMyData = () => {
+export const useQueryGetMyCustomer = () => {
   const queryArgs = useQuery(
     ["customer", "my"],
     async () => {

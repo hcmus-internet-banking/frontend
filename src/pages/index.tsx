@@ -1,9 +1,9 @@
 import Home from "../components/home/Home";
 import Spinner from "../components/common/Spinner/Spinner";
-import { useGetMyData } from "../lib/home/hooks/useGetMyData";
+import { useQueryGetMyCustomer } from "../lib/home/hooks/useQueryGetMyCustomer";
 
 const HomePage = () => {
-  const { data, isLoading, error } = useGetMyData();
+  const { data, isLoading, error } = useQueryGetMyCustomer();
 
   return (
     <>

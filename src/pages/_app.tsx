@@ -8,10 +8,10 @@ import { rootStore } from "../store/store";
 import { Toaster } from "react-hot-toast";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import StoreHandlingProvider from "../store/storeErrorHandler";
+import { queryClient } from "../core/queryClient";
 
-export const queryClient = new QueryClient();
 const persistor = persistStore(rootStore);
 
 interface AppPropsWithLayout extends AppProps {

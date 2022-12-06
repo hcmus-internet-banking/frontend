@@ -39,7 +39,7 @@ function Button({
       )}
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
       <>
         {isLoading ? (
