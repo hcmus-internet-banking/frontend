@@ -23,7 +23,7 @@ function Button({
   disabled,
   isLoading,
   onClick,
-  preset,
+  preset = "filled",
 }: Props) {
   return (
     <button
