@@ -1,15 +1,9 @@
 import Home from "../components/home/Home";
-import client from "../core/client";
-import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/common/Spinner/Spinner";
-import { handleResponse } from "../core/handleResponse";
+import { useGetMyData } from "../lib/home/hooks/useGetMyData";
 
 const HomePage = () => {
-  const { data, isLoading, error } = useQuery(["my"], async () => {
-    const res = await client.get("/api/customer/my");
-
-    return handleResponse(res);
-  });
+  const { data, isLoading, error } = useGetMyData();
 
   return (
     <>

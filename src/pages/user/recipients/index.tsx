@@ -8,7 +8,7 @@ import useToggle from "../../../lib/common/hooks/useToggle";
 // Hệ thống hỗ trợ khách hàng quản lý danh sách người nhận này (loại bỏ, điều chỉnh thông tin, …)
 
 const Index = () => {
-  const recipient: Recipient = {
+  const recipient = {
     id: 195203733,
     mnemonicName: "Phát đẹp trai",
   };
