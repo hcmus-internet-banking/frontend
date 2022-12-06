@@ -14,10 +14,12 @@ function Recipient({ recipient }: Props) {
         <Image className="h-20 w-20" alt="avatar" src={avatar} />
       </div>
       <div className="flex flex-col p-2">
-        <span className="text-lg font-bold line-clamp-2">
+        <span className="text-lg font-bold text-gray-800 line-clamp-2">
           {recipient.mnemonicName}
         </span>
-        <span className="font-semibold line-clamp-2">{recipient.id}</span>
+        <span className="font-semibold text-gray-600 line-clamp-2">
+          {recipient.id}
+        </span>
       </div>
     </Card>
   );

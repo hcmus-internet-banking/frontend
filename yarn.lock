@@ -237,28 +237,6 @@
     "@tanstack/query-core" "4.19.1"
     use-sync-external-store "^1.2.0"
 
-"@trpc/client@10.0.0-proxy-beta.17":
-  version "10.0.0-proxy-beta.17"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.17.tgz#f18b1fced6001760ad219d63bf1400912f215236"
-  integrity sha512-GhC39yiYdeW44SR/XiN/dF94deTZM/m0NGSlttWILDLfnGwxKgMeOSfZSiTNRwkAoXnn7Gy+g6ysexa1tVlM1g==
-
-"@trpc/next@10.0.0-proxy-beta.17":
-  version "10.0.0-proxy-beta.17"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.17.tgz#3bd8531b3e84df7d22b0458c85de980e4d98c354"
-  integrity sha512-3ix7EQWDCYuqn334oIp0E9LpsxaZCvU1UqgQtXJY8VMRG7ZdurnHWkqkr6MZn4b4akdz0MbxvVv5ESjb4f6rvg==
-  dependencies:
-    react-ssr-prepass "^1.5.0"
-
-"@trpc/react@10.0.0-proxy-beta.17":
-  version "10.0.0-proxy-beta.17"
-  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.17.tgz#8a8c854cf7261e095742d20e45d70dba99cd71d7"
-  integrity sha512-xSLEsKL8+mBgWxW/z2oJs0qSYz/TZd/xqpKa8DcPpXTtp0Oa6iT8DychoF+FztjlBL+jULcqfzF1JRJ5z2iFJg==
-
-"@trpc/server@10.0.0-proxy-beta.17":
-  version "10.0.0-proxy-beta.17"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.17.tgz#7e56a95d213f52e328d90b3aa6b999d499b2ba21"
-  integrity sha512-q3Cl4RC5q0kRg8KGt0sWQ11hKrLaIxK2FYGy7fQ6E+k9Yo8r2VDxn++PskZk9LTzgKRi1JtfZVJO15oXoXJHyw==
-
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
@@ -2556,11 +2534,6 @@ react-spinners@^0.13.7:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.7.tgz#0f423c415bfa56765ce9fb36ff604e52a92b37a9"
   integrity sha512-mRamn56bfxWbGcacif5RT3UbeJaXi2AttjtPwSmomuv2IcxjpbfETCzdTvaQpNDk0E33ENJsStsQeKAZFuJcpA==
-
-react-ssr-prepass@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-ssr-prepass/-/react-ssr-prepass-1.5.0.tgz#bc4ca7fcb52365e6aea11cc254a3d1bdcbd030c5"
-  integrity sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==
 
 react-syntax-highlighter@^15.5.0:
   version "15.5.0"

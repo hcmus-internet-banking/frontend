@@ -1,4 +1,5 @@
 import Button from "../../../components/common/Button/Button";
+import Heading from "../../../components/common/Heading/Heading";
 import AddRecepientModal from "../../../components/user/AddRecepientModal";
 import Recipient from "../../../components/user/Recipient";
 import useToggle from "../../../lib/common/hooks/useToggle";
@@ -19,12 +20,11 @@ const Index = () => {
   return (
     <>
       <AddRecepientModal hide={value} toggle={toggle} />
-      <div className="text-3xl font-bold">Recipient List</div>
+      <Heading>Recipient List</Heading>
       <Button className="my-4" onClick={toggle}>
         + Add new recipient
       </Button>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
         <Recipient recipient={recipient} />
