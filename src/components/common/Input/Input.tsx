@@ -64,7 +64,7 @@ function Input({
         </span>
 
         <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
-          {clearable && (
+          {clearable && onChange && (
             <span
               onClick={handleClearClick}
               className={classnames("cursor-pointer", {
