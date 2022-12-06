@@ -5,7 +5,7 @@ export const presets: {
   };
 } = {
   filled: {
-    classNames: "bg-blue-500 hover:bg-opacity-80",
+    classNames: "bg-blue-500 hover:bg-opacity-80 text-white",
     shadow: "shadow-md hover:shadow-lg hover:shadow-blue-600",
   },
   outlined: {
