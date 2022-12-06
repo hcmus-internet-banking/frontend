@@ -8,4 +8,7 @@ export const createRecipientSchema = z.object({
     .string()
     .min(1, { message: "Mnemonic name is shorter than 1 character" })
     .max(50, { message: "Mnemonic name is longer than 50 characters" }),
+  isInternalBank: z
+    .preprocess((value) => value === "true", z.boolean())
+    .default(true),
 });
