@@ -17,7 +17,7 @@ export const useQueryGetCustomerByBankNumber = (
   const queryArgs = useQuery(
     ["customer", bankNumber],
     async () => {
-      if (bankNumber.length != 10) return;
+      if (bankNumber.length !== 10) return;
 
       const res = await client.get<BaseResponse<CustomerData>>(
         `/api/customer/${bankNumber}`

@@ -3,6 +3,7 @@ import { useMutateRecipient } from "@/src/lib/home/hooks/useMutateRecipient";
 import { useQueryGetCustomerByBankNumber } from "@/src/lib/home/hooks/useQueryGetCustomerByBankNumber";
 import { createRecipientSchema } from "@/src/lib/home/schema";
 import { useFormik } from "formik";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../common/Button/Button";
@@ -17,6 +18,7 @@ type Props = {
 const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useMutateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const [isDisable, setIsDisable] = useState(true);
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
@@ -59,13 +61,13 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           "mnemonicName",
           `${res.firstName} ${res.lastName}`
         );
+        setIsDisable(!isDisable);
       },
     }
   );
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
-      {formik.errors && JSON.stringify(formik.errors)}
       <form onSubmit={formik.handleSubmit} className="space-y-2">
         <Input
           name="accountNumber"
@@ -80,7 +82,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
           error={formik.errors.mnemonicName}
-          disabled
+          disabled={isDisable}
         />
         <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
           <Button type="button" onClick={toggle}>

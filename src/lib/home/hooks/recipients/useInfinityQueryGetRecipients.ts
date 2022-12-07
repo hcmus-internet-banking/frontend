@@ -1,4 +1,4 @@
-import { BaseResponse } from "../../../core/handleResponse";
+import { BaseResponse } from "../../../../core/handleResponse";
 import client from "@/src/core/client";
 import { handleResponse } from "@/src/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
