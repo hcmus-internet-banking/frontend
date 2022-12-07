@@ -9,8 +9,6 @@ import RecipientManager from "../components/home/RecipientManager";
 const HomePage = () => {
   const { data, isLoading } = useQueryGetMyProfile();
 
-  const { balance, firstName, lastName } = data?.data || {};
-
   return (
     <div className="max-w-md space-y-2">
       {isLoading && <Spinner />}
@@ -22,7 +20,7 @@ const HomePage = () => {
           )}
         >
           <div className="text-center text-4xl font-extralight tracking-[0.5rem] ">
-            {data?.data.accountNumber}
+            {data?.accountNumber}
           </div>
 
           <div className="flex-1" />
@@ -33,10 +31,10 @@ const HomePage = () => {
                 {Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
-                }).format(JSON.parse(JSON.stringify(balance || 0)))}
+                }).format(JSON.parse(JSON.stringify(data.balance || 0)))}
               </div>
 
-              <div className="">{`${firstName} ${lastName}`}</div>
+              <div className="">{`${data.firstName} ${data.lastName}`}</div>
             </div>
 
             <div className="">
