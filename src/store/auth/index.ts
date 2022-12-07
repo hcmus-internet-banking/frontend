@@ -30,7 +30,7 @@ export const logoutAsync = createAsyncThunk("auth/logout", async () => {
 export const loginAsync = createAsyncThunk(
   "auth/login",
   async (payload: { email: string; password: string }) => {
-    const response = await client.post<LoginResponse>(
+    const response = await client.post<BaseResponse<LoginResponse>>(
       "/api/auth/login",
       payload
     );
@@ -47,7 +47,7 @@ export const registerAsync = createAsyncThunk(
     firstName: string;
     lastName: string;
   }) => {
-    const response = await client.post<RegisterResponse>(
+    const response = await client.post<BaseResponse<RegisterResponse>>(
       "/api/auth/register",
       payload
     );
@@ -57,7 +57,7 @@ export const registerAsync = createAsyncThunk(
 );
 
 export const refreshTokenAsync = async (refreshToken: string) => {
-  const response = await client.post<RefreshTokenResponse>(
+  const response = await client.post<BaseResponse<RefreshTokenResponse>>(
     "/api/auth/refresh-token",
     {
       refreshToken,
@@ -103,7 +103,7 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        state.user = action.payload.data;
+        state.user = action.payload;
         state.loading = false;
       })
       .addCase(loginAsync.rejected, (state, action) => {
