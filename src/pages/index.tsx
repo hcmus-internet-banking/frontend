@@ -9,6 +9,8 @@ import RecipientManager from "../components/home/RecipientManager";
 const HomePage = () => {
   const { data, isLoading } = useQueryGetMyProfile();
 
+  const { balance, firstName, lastName } = data?.data || {};
+
   return (
     <div className="max-w-md space-y-2">
       {isLoading && <Spinner />}
@@ -31,12 +33,10 @@ const HomePage = () => {
                 {Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
-                }).format(JSON.parse(JSON.stringify(data?.data?.balance || 0)))}
+                }).format(JSON.parse(JSON.stringify(balance || 0)))}
               </div>
 
-              <div className="">
-                {`${data?.data.firstName} ${data?.data.lastName}`}
-              </div>
+              <div className="">{`${firstName} ${lastName}`}</div>
             </div>
 
             <div className="">

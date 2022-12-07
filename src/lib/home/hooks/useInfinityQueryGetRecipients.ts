@@ -54,13 +54,13 @@ export const useInfinityQueryGetRecipients = ({
     },
     {
       getNextPageParam: (lastPage) => {
-        if (lastPage.data.metadata.hasNextPage) {
-          return lastPage.data.metadata.page + 1;
+        if (lastPage.metadata.hasNextPage) {
+          return lastPage.metadata.page + 1;
         }
       },
       getPreviousPageParam: (firstPage) => {
-        if (firstPage.data.metadata.hasPrevPage) {
-          return firstPage.data.metadata.page - 1;
+        if (firstPage.metadata.hasPrevPage) {
+          return firstPage.metadata.page - 1;
         }
       },
     }

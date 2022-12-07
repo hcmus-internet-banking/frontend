@@ -6,13 +6,13 @@ import { queryClient } from "./queryClient";
 
 const isOk = (status: number) => status >= 200 && status < 300;
 
-export interface BaseResponse {
+export interface BaseResponse<T = any> {
   error: { message: string; issues: any } | null;
-  data: any;
+  data: T;
 }
 
-export const handleResponse = async <T extends BaseResponse>(
-  response: AxiosResponse<T>
+export const handleResponse = async <T>(
+  response: AxiosResponse<BaseResponse<T>>
 ) => {
   const status = response.status;
   const authState = store.getState().auth as RootState["auth"];
@@ -62,11 +62,11 @@ export const handleResponse = async <T extends BaseResponse>(
     throw error;
   }
 
-  return response.data;
+  return response.data.data;
 };
 
-export const handleRefreshTokenResponse = async <T extends BaseResponse>(
-  response: AxiosResponse<T>
+export const handleRefreshTokenResponse = async <T>(
+  response: AxiosResponse<BaseResponse<T>>
 ) => {
   const status = response.status;
 

@@ -17,7 +17,9 @@ interface Data {
 
 export const useQueryGetMyProfile = () => {
   const queryArgs = useQuery(["customer", "my"], async () => {
-    const res = await client.get<MyProfileInfo>("/api/customer/my");
+    const res = await client.get<BaseResponse<MyProfileInfo>>(
+      "/api/customer/my"
+    );
 
     return await handleResponse(res);
   });

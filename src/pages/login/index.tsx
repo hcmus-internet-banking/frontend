@@ -44,7 +44,7 @@ function Index() {
         result,
         {
           loading: "Loading...",
-          success: ({ data }) => {
+          success: (data) => {
             if (data.id !== null) {
               toast.success(JSON.stringify(data));
               router.push("/");

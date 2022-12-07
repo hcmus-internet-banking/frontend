@@ -23,7 +23,7 @@ const RecipientManager = () => {
           data?.pages.map((page, index) => (
             <div key={index}>
               {/* {JSON.stringify(page.data)} */}
-              {page.data.data.map((recipient) => {
+              {page.data.map((recipient) => {
                 return (
                   <Card
                     className="rounded-none bg-gray-200 transition hover:bg-gray-300"

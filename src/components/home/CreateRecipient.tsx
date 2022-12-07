@@ -1,4 +1,6 @@
+import useToggle from "@/src/lib/common/hooks/useToggle";
 import { useMutateRecipient } from "@/src/lib/home/hooks/useMutateRecipient";
+import { useQueryGetCustomerByBankNumber } from "@/src/lib/home/hooks/useQueryGetCustomerByBankNumber";
 import { createRecipientSchema } from "@/src/lib/home/schema";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
@@ -10,13 +12,17 @@ import Input from "../common/Input/Input";
 
 const CreateRecipient = () => {
   const { mutateAsync } = useMutateRecipient();
+  const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
       mnemonicName: "",
     },
+    validateOnBlur: isSubmitted,
+    validateOnChange: isSubmitted,
     validationSchema: toFormikValidationSchema(createRecipientSchema),
     onSubmit: async (values) => {
+      setIsSubmitted(true);
       console.log(values);
 
       toast.promise(
@@ -40,10 +46,10 @@ const CreateRecipient = () => {
       );
     },
   });
+  const {} = useQueryGetCustomerByBankNumber(formik.values.accountNumber);
 
   return (
     <Card className="">
-      {formik.errors && JSON.stringify(formik.errors)}
       <Heading size="sm">Create Recipient</Heading>
       <form onSubmit={formik.handleSubmit} className="space-y-2">
         <Input
@@ -51,12 +57,14 @@ const CreateRecipient = () => {
           placeholder="Account Number"
           onChange={formik.handleChange}
           value={formik.values.accountNumber}
+          error={formik.errors.accountNumber}
         />
         <Input
           name="mnemonicName"
           placeholder="Mnemonic Name"
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
+          error={formik.errors.mnemonicName}
         />
 
         <Button type="submit">Create</Button>

@@ -41,7 +41,7 @@ function Input({
   const { toggle: toggleHidden, value: hiddenValue } = useToggle(false);
 
   return (
-    <div>
+    <div className="">
       <label className="relative inline-block">
         <input
           name={name}
@@ -95,14 +95,14 @@ function Input({
         </span>
       </label>
 
-      <span
-        className={classnames("text-xs text-red-500 transition", {
+      <div
+        className={classnames("mt-1 text-xs text-red-500 transition", {
           "text-[0px]": !error,
           "ml-3": error,
         })}
       >
         {error}
-      </span>
+      </div>
     </div>
   );
 }
