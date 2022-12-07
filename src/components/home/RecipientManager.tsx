@@ -1,6 +1,6 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useDeleteRecipient } from "@/src/lib/home/hooks/useDeleteRecipient";
-import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/useInfinityQueryGetRecipients";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useDeleteRecipient } from "@/lib/home/hooks/useDeleteRecipient";
+import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
 import toast from "react-hot-toast";
 import { RxPerson, RxPencil2, RxCross1 } from "react-icons/rx";
 import Button from "../common/Button/Button";
@@ -12,7 +12,7 @@ import CreateRecipient from "./CreateRecipient";
 const RecipientManager = () => {
   const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfinityQueryGetRecipients({
+    useInfinityQueryRecipientList({
       limit: 4,
       offset: 0,
     });

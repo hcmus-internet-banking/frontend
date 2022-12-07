@@ -1,8 +1,8 @@
-import { BaseResponse } from "./../../../core/handleResponse";
-import client from "@/src/core/client";
-import { handleResponse } from "@/src/core/handleResponse";
+import { BaseResponse } from "../../../core/handleResponse";
+import client from "@/core/client";
+import { handleResponse } from "@/core/handleResponse";
 import { useQuery } from "@tanstack/react-query";
-import { Recipient } from "@/src/store/recipients/types";
+import { Recipient } from "@/store/recipients/types";
 
 interface RecipientsResponse extends BaseResponse {
   data: Data;
@@ -21,7 +21,7 @@ interface Metadata {
   hasPrevPage: boolean;
 }
 
-export const useQueryGetRecipients = ({
+export const useQueryRecipientList = ({
   limit,
   offset,
 }: {
@@ -42,5 +42,5 @@ export const useQueryGetRecipients = ({
     }
   );
 
-  return { ...queryArgs };
+  return queryArgs;
 };

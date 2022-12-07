@@ -1,6 +1,6 @@
 import { BaseResponse } from "../../../core/handleResponse";
-import client from "@/src/core/client";
-import { handleResponse } from "@/src/core/handleResponse";
+import client from "@/core/client";
+import { handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface RecipientsResponse extends BaseResponse {
@@ -26,23 +26,13 @@ interface Datum {
   mnemonicName: string;
 }
 
-export const useInfinityQueryGetRecipients = ({
+export const useInfinityQueryRecipientList = ({
   limit,
   offset,
 }: {
   limit: number;
   offset: number;
 }) => {
-  // const queryArgs = useQuery(
-  //   ["recipients", { limit, offset }], // This is the key for the query
-  //   async () => {
-  //     const res = await client.get<RecipientsResponse>(
-  //       `/api/recipients?limit=${limit}&offset=${offset}`
-  //     );
-
-  //     return await handleResponse(res);
-  //   }
-  // );
   const queryArgs = useInfiniteQuery(
     ["recipients", { limit, offset }], // This is the key for the query
     async ({ pageParam = 0 }) => {
@@ -66,5 +56,5 @@ export const useInfinityQueryGetRecipients = ({
     }
   );
 
-  return { ...queryArgs };
+  return queryArgs;
 };

@@ -1,13 +1,13 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useMutateRecipient } from "@/src/lib/home/hooks/useMutateRecipient";
-import { useQueryGetCustomerByBankNumber } from "@/src/lib/home/hooks/useQueryGetCustomerByBankNumber";
-import { createRecipientSchema } from "@/src/lib/home/schema";
+import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
+import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
+import { createRecipientSchema } from "@/lib/home/schema";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../common/Button/Button";
 import Input from "../common/Input/Input";
 import Modal from "../common/Modal/Modal";
+import useToggle from "@/lib/common/hooks/useToggle";
 
 type Props = {
   hide: boolean | undefined;
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const CreateRecipient = ({ hide, toggle }: Props) => {
-  const { mutateAsync } = useMutateRecipient();
+  const { mutateAsync } = useUpdateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const formik = useFormik({
     initialValues: {
@@ -50,18 +50,12 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
       );
     },
   });
-  const { data } = useQueryGetCustomerByBankNumber(
-    formik.values.accountNumber,
-    {
-      onSuccess: (res: any) => {
-        toast(JSON.stringify(res));
-        formik.setFieldValue(
-          "mnemonicName",
-          `${res.firstName} ${res.lastName}`
-        );
-      },
-    }
-  );
+  const { data } = useQueryCustomerByBankNumber(formik.values.accountNumber, {
+    onSuccess: (res: any) => {
+      toast(JSON.stringify(res));
+      formik.setFieldValue("mnemonicName", `${res.firstName} ${res.lastName}`);
+    },
+  });
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
