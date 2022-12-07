@@ -42,7 +42,7 @@ const CreateRecipient = () => {
   });
 
   return (
-    <Card className="max-w-md">
+    <Card className="">
       {formik.errors && JSON.stringify(formik.errors)}
       <Heading size="sm">Create Recipient</Heading>
       <form onSubmit={formik.handleSubmit} className="space-y-2">

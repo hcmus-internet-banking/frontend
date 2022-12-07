@@ -16,17 +16,11 @@ interface Data {
 }
 
 export const useQueryGetMyProfile = () => {
-  const queryArgs = useQuery(
-    ["customer", "my"],
-    async () => {
-      const res = await client.get<MyProfileInfo>("/api/customer/my");
+  const queryArgs = useQuery(["customer", "my"], async () => {
+    const res = await client.get<MyProfileInfo>("/api/customer/my");
 
-      return await handleResponse(res);
-    },
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
+    return await handleResponse(res);
+  });
 
   return { ...queryArgs };
 };

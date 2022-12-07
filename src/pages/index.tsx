@@ -10,16 +10,16 @@ const HomePage = () => {
   const { data, isLoading } = useQueryGetMyProfile();
 
   return (
-    <div className="space-y-2">
+    <div className="max-w-md space-y-2">
       {isLoading && <Spinner />}
       {data && (
         <Card
           className={classNames(
-            "h-40 max-w-md bg-gradient-to-tr from-gray-500 to-gray-800 text-gray-300",
+            "h-40 bg-gradient-to-tr from-gray-500 to-gray-800 text-gray-300",
             "flex flex-col"
           )}
         >
-          <div className="text-center text-3xl tracking-[0.5rem] ">
+          <div className="text-center text-4xl font-extralight tracking-[0.5rem] ">
             {data?.data.accountNumber}
           </div>
 
