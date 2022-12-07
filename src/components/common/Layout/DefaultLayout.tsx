@@ -7,6 +7,7 @@ import {
   IoLogoFacebook,
   IoLogoTwitter,
   IoPerson,
+  IoReceipt,
 } from "react-icons/io5";
 import { useRouter } from "next/router";
 import AppLink from "../AppLink/AppLink";
@@ -62,6 +63,11 @@ function Layout({ children }: Props) {
               href="/profile"
               text={`${user?.firstName} ${user?.lastName}`}
               iconLeft={IoPerson}
+            />
+            <AppLink
+              href="/user/recipients"
+              text="Recipients"
+              iconLeft={IoReceipt}
             />
             <AppLink
               onClick={() => {

@@ -1,43 +1,36 @@
+import useToggle from "@/src/lib/common/hooks/useToggle";
 import { useQueryGetRecipients } from "@/src/lib/home/hooks/useQueryGetRecipients";
-import { RxPencil2, RxCross1 } from "react-icons/rx";
-import Card from "../common/Card/Card";
+import Button from "../common/Button/Button";
+import Heading from "../common/Heading/Heading";
 import Spinner from "../common/Spinner/Spinner";
 import CreateRecipient from "./CreateRecipient";
+import Recipient from "./Recipient";
 
 const RecipientManager = () => {
   const { data, isLoading } = useQueryGetRecipients({ limit: 5, offset: 0 });
+  const { value, toggle } = useToggle(true);
 
   return (
     <>
-      <CreateRecipient />
+      <CreateRecipient hide={value} toggle={toggle} />
+      <Heading size="sm">Recipient List</Heading>
+      <Button className="my-4" onClick={toggle}>
+        + Add new recipient
+      </Button>
 
-      <div className="max-w-md">
-        {isLoading ? (
+      {isLoading ? (
+        <div className="max-w-md">
           <Spinner />
-        ) : (
-          data?.data.data.map((recipient) => {
-            return (
-              <Card
-                className="rounded-none bg-gray-200 transition hover:bg-gray-300"
-                noShadow
-                key={recipient.id}
-              >
-                <div className="flex items-center gap-1">
-                  <span className="flex-grow">{`💡 ${recipient.mnemonicName}`}</span>
-
-                  <div className="flex gap-2">
-                    <RxPencil2 className="inline-block h-4 w-4" />
-                    <RxCross1
-                      className="inline-block h-4 w-4 text-red-400"
-                      strokeWidth={0.8}
-                    />
-                  </div>
-                </div>
-              </Card>
-            );
-          })
-        )}
-      </div>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {data?.data.data.map((recipient) => {
+              return <Recipient key={recipient.id} recipient={recipient} />;
+            })}
+          </div>
+        </>
+      )}
     </>
   );
 };
