@@ -1,4 +1,4 @@
-import { BaseResponse } from "./../../../core/handleResponse";
+import { BaseResponse } from "@/core/handleResponse";
 import client from "@/core/client";
 import { queryClient } from "@/core/queryClient";
 import { useMutation } from "@tanstack/react-query";

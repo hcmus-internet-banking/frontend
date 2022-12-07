@@ -1,17 +1,26 @@
+import { useDeleteRecipient } from "@/src/lib/home/hooks/recipients/useDeleteRecipient";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
+import { RxCross1, RxPencil2 } from "react-icons/rx";
 import avatar from "../../../public/assets/avatar.svg";
 import { Recipient } from "../../store/recipients/types";
 import Card from "../common/Card/Card";
-import { IoPencilSharp, IoTrash } from "react-icons/io5";
 
 type Props = {
   recipient: Recipient;
 };
 
 function Recipient({ recipient }: Props) {
-  const handleRemoveRecipient = () => {
-    const id = recipient.id;
-    console.log("Remove: ", id);
+  const { mutateAsync } = useDeleteRecipient();
+
+  const handleDeleteRecipient = async () => {
+    toast.promise(mutateAsync(recipient.id), {
+      loading: "Deleting recipient...",
+      success: (data) => {
+        return `Deleted recipient ${data.data.data.mnemonicName} / ${data.data.data.accountNumber}`;
+      },
+      error: "Failed to delete recipient",
+    });
   };
 
   const handleEditRecipient = () => {
@@ -32,14 +41,15 @@ function Recipient({ recipient }: Props) {
           {recipient.accountNumber}
         </span>
       </div>
-      <div className="flex content-end gap-x-2">
-        <IoTrash
-          className="m-2 hover:-translate-y-0.5 hover:cursor-pointer"
-          onClick={handleRemoveRecipient}
-        />
-        <IoPencilSharp
+      <div className="flex gap-2">
+        <RxPencil2
+          className="inline-block h-4 w-4"
           onClick={handleEditRecipient}
-          className="m-2 hover:-translate-y-0.5 hover:cursor-pointer"
+        />
+        <RxCross1
+          className="inline-block h-4 w-4 text-red-400"
+          strokeWidth={0.8}
+          onClick={handleDeleteRecipient}
         />
       </div>
     </Card>

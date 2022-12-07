@@ -1,13 +1,10 @@
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useDeleteRecipient } from "@/lib/home/hooks/useDeleteRecipient";
 import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
-import toast from "react-hot-toast";
-import { RxPerson, RxPencil2, RxCross1 } from "react-icons/rx";
 import Button from "../common/Button/Button";
-import Card from "../common/Card/Card";
 import Heading from "../common/Heading/Heading";
 import Spinner from "../common/Spinner/Spinner";
 import CreateRecipient from "./CreateRecipient";
+import Recipient from "./Recipient";
 
 const RecipientManager = () => {
   const { value, toggle } = useToggle(true);
@@ -16,8 +13,6 @@ const RecipientManager = () => {
       limit: 4,
       offset: 0,
     });
-
-  const { mutateAsync } = useDeleteRecipient();
 
   return (
     <>
@@ -33,44 +28,8 @@ const RecipientManager = () => {
         ) : (
           data?.pages.map((page, index) => (
             <div key={index}>
-              {/* {JSON.stringify(page.data)} */}
               {page.data.map((recipient) => {
-                return (
-                  <Card
-                    className="rounded-none bg-gray-200 transition hover:bg-gray-300"
-                    noShadow
-                    key={recipient.id}
-                  >
-                    <div className="flex items-center gap-1">
-                      <div className="flex flex-grow items-center gap-2">
-                        <RxPerson />{" "}
-                        <span className="font-semibold">{`${recipient.mnemonicName}`}</span>{" "}
-                        -
-                        <div className="text-gray-500">
-                          {recipient.accountNumber}
-                        </div>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <RxPencil2 className="inline-block h-4 w-4" />
-
-                        <RxCross1
-                          className="inline-block h-4 w-4 text-red-400"
-                          strokeWidth={0.8}
-                          onClick={async () => {
-                            toast.promise(mutateAsync(recipient.id), {
-                              loading: "Deleting recipient...",
-                              success: (data) => {
-                                return `Deleted recipient ${data.data.data.mnemonicName} / ${data.data.data.accountNumber}`;
-                              },
-                              error: "Failed to delete recipient",
-                            });
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </Card>
-                );
+                return <Recipient key={recipient.id} recipient={recipient} />;
               })}
             </div>
           ))

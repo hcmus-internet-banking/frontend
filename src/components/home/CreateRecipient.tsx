@@ -20,6 +20,7 @@ type Props = {
 const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useUpdateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const [isDisable, setIsDisable] = useState(true);
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
@@ -38,18 +39,18 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
         }),
         {
           loading: "Creating Recipient...",
-          success: (data) => {
+          success: () => {
             toggle();
             return "Recipient Created";
           },
-          error: (e) => {
+          error: () => {
             return "Failed to create Recipient";
           },
         }
       );
     },
   });
-  const { data, isLoading, isFetching } = useQueryCustomerByBankNumber(
+  const { isFetching } = useQueryCustomerByBankNumber(
     formik.values.accountNumber,
     {
       onSuccess: (res: any) => {
@@ -62,6 +63,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           "accountNumber",
           e?.error?.message || "Invalid customer"
         );
+        setIsDisable(!isDisable);
       },
     }
   );
