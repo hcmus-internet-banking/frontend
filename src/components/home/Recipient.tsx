@@ -1,10 +1,10 @@
-import { useDeleteRecipient } from "@/src/lib/home/hooks/recipients/useDeleteRecipient";
-import Image from "next/image";
+import useToggle from "@/src/lib/common/hooks/useToggle";
+import { useDeleteRecipient } from "@/src/lib/home/hooks/recipient/useDeleteRecipient";
 import { toast } from "react-hot-toast";
 import { RxCross1, RxPencil2 } from "react-icons/rx";
-import avatar from "../../../public/assets/avatar.svg";
 import { Recipient } from "../../store/recipients/types";
-import Card from "../common/Card/Card";
+import Heading from "../common/Heading/Heading";
+import UpdateRecipient from "./UpdateRecipient";
 
 type Props = {
   recipient: Recipient;
@@ -12,6 +12,7 @@ type Props = {
 
 function Recipient({ recipient }: Props) {
   const { mutateAsync } = useDeleteRecipient();
+  const { value, toggle } = useToggle(true);
 
   const handleDeleteRecipient = async () => {
     toast.promise(mutateAsync(recipient.id), {
@@ -24,35 +25,32 @@ function Recipient({ recipient }: Props) {
   };
 
   const handleEditRecipient = () => {
-    const id = recipient.id;
-    console.log("Edit: ", id);
+    toggle();
   };
 
   return (
-    <Card className="mt-0 flex max-w-2xl content-around items-center transition-[transform,box-shadow] hover:-translate-y-0.5 hover:cursor-pointer">
-      <div className="rounded-full">
-        <Image className="h-20 w-20" alt="avatar" src={avatar} />
+    <>
+      <UpdateRecipient hide={value} toggle={toggle} recipient={recipient} />
+      <div className="flex content-around items-center duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
+        <div className="flex grow justify-between p-2">
+          <Heading size="sm">{recipient.mnemonicName}</Heading>
+          <span className="pr-8 text-sm font-medium text-gray-500">
+            {recipient.accountNumber}
+          </span>
+        </div>
+        <div className="flex flex-col gap-2 p-2">
+          <RxPencil2
+            className="inline-block h-5 w-5 hover:cursor-pointer hover:opacity-25"
+            onClick={handleEditRecipient}
+          />
+          <RxCross1
+            className="inline-block h-5 w-5 text-red-400 hover:cursor-pointer hover:opacity-25"
+            strokeWidth={0.8}
+            onClick={handleDeleteRecipient}
+          />
+        </div>
       </div>
-      <div className="flex grow flex-col content-center pl-5">
-        <span className="text-lg font-bold text-gray-800">
-          {recipient.mnemonicName}
-        </span>
-        <span className="font-semibold text-gray-600">
-          {recipient.accountNumber}
-        </span>
-      </div>
-      <div className="flex gap-2">
-        <RxPencil2
-          className="inline-block h-4 w-4"
-          onClick={handleEditRecipient}
-        />
-        <RxCross1
-          className="inline-block h-4 w-4 text-red-400"
-          strokeWidth={0.8}
-          onClick={handleDeleteRecipient}
-        />
-      </div>
-    </Card>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/recipients/useInfinityQueryGetRecipients";
+import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/recipient/useInfinityQueryGetRecipients";
 import Button from "../common/Button/Button";
+import Card from "../common/Card/Card";
 import Heading from "../common/Heading/Heading";
 import Spinner from "../common/Spinner/Spinner";
 import CreateRecipient from "./CreateRecipient";
@@ -16,25 +17,26 @@ const RecipientManager = () => {
 
   return (
     <>
-      <CreateRecipient hide={value} toggle={toggle} />
-      <Heading size="sm">Recipient List</Heading>
-      <Button className="my-4" onClick={toggle}>
-        + Add new recipient
-      </Button>
-
-      <div className="h-72 overflow-y-auto">
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          data?.pages.map((page, index) => (
-            <div key={index}>
-              {page.data.map((recipient) => {
-                return <Recipient key={recipient.id} recipient={recipient} />;
-              })}
-            </div>
-          ))
-        )}
-      </div>
+      <Card className="grid grid-cols-1 bg-gray-100">
+        <CreateRecipient hide={value} toggle={toggle} />
+        <Heading size="md">Recipient List</Heading>
+        <Button className="w-fit" onClick={toggle}>
+          + Add new recipient
+        </Button>
+        <div className="py-4">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            data?.pages.map((page, index) => (
+              <div key={index}>
+                {page.data.map((recipient) => {
+                  return <Recipient key={recipient.id} recipient={recipient} />;
+                })}
+              </div>
+            ))
+          )}
+        </div>
+      </Card>
 
       {hasNextPage ? (
         <Button onClick={() => fetchNextPage()} isLoading={isFetchingNextPage}>

@@ -46,25 +46,20 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           error: (e) => {
             toast.error(JSON.stringify(e));
 
-            return "Failed to create Recipient";
+            return "Failed to create recipient";
           },
         }
       );
     },
   });
-  const { data } = useQueryGetCustomerByBankNumber(
-    formik.values.accountNumber,
-    {
-      onSuccess: (res: any) => {
-        toast(JSON.stringify(res));
-        formik.setFieldValue(
-          "mnemonicName",
-          `${res.firstName} ${res.lastName}`
-        );
-        setIsDisable(!isDisable);
-      },
-    }
-  );
+
+  useQueryGetCustomerByBankNumber(formik.values.accountNumber, {
+    onSuccess: (res: any) => {
+      toast(JSON.stringify(res));
+      formik.setFieldValue("mnemonicName", `${res.firstName} ${res.lastName}`);
+      setIsDisable(!isDisable);
+    },
+  });
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
