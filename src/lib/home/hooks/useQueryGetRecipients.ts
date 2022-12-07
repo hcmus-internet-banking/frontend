@@ -2,13 +2,14 @@ import { BaseResponse } from "./../../../core/handleResponse";
 import client from "@/src/core/client";
 import { handleResponse } from "@/src/core/handleResponse";
 import { useQuery } from "@tanstack/react-query";
+import { Recipient } from "@/src/store/recipients/types";
 
 interface RecipientsResponse extends BaseResponse {
   data: Data;
 }
 
 interface Data {
-  data: Datum[];
+  data: Recipient[];
   metadata: Metadata;
 }
 
@@ -18,12 +19,6 @@ interface Metadata {
   limit: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
-}
-
-interface Datum {
-  id: string;
-  accountNumber: string;
-  mnemonicName: string;
 }
 
 export const useQueryGetRecipients = ({

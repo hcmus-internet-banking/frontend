@@ -1,10 +1,9 @@
-import Spinner from "../components/common/Spinner/Spinner";
-import { useQueryGetMyProfile } from "../lib/home/hooks/useQueryGetMyCustomer";
-import Card from "../components/common/Card/Card";
 import classNames from "classnames";
 import Button from "../components/common/Button/Button";
+import Card from "../components/common/Card/Card";
+import Spinner from "../components/common/Spinner/Spinner";
 import { toastNotify } from "../lib/common/utils/react-hot-toast";
-import RecipientManager from "../components/home/RecipientManager";
+import { useQueryGetMyProfile } from "../lib/home/hooks/useQueryGetMyCustomer";
 
 const HomePage = () => {
   const { data, isLoading } = useQueryGetMyProfile();
@@ -53,8 +52,6 @@ const HomePage = () => {
           </div>
         </Card>
       )}
-
-      <RecipientManager />
     </div>
   );
 };

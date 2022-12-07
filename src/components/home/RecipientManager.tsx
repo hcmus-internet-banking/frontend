@@ -1,13 +1,16 @@
+import useToggle from "@/src/lib/common/hooks/useToggle";
 import { useDeleteRecipient } from "@/src/lib/home/hooks/useDeleteRecipient";
 import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/useInfinityQueryGetRecipients";
 import toast from "react-hot-toast";
 import { RxPerson, RxPencil2, RxCross1 } from "react-icons/rx";
 import Button from "../common/Button/Button";
 import Card from "../common/Card/Card";
+import Heading from "../common/Heading/Heading";
 import Spinner from "../common/Spinner/Spinner";
 import CreateRecipient from "./CreateRecipient";
 
 const RecipientManager = () => {
+  const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfinityQueryGetRecipients({
       limit: 4,
@@ -18,7 +21,11 @@ const RecipientManager = () => {
 
   return (
     <>
-      <CreateRecipient />
+      <CreateRecipient hide={value} toggle={toggle} />
+      <Heading size="sm">Recipient List</Heading>
+      <Button className="my-4" onClick={toggle}>
+        + Add new recipient
+      </Button>
 
       <div className="h-72 overflow-y-auto">
         {isLoading ? (

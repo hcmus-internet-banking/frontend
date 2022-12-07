@@ -5,6 +5,7 @@ export interface RecipientsState extends BaseState {
 }
 
 export interface Recipient {
-  id: number;
+  id: string;
+  accountNumber: string;
   mnemonicName: string;
 }

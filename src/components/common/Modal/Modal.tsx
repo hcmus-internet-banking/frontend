@@ -13,6 +13,7 @@ type Props = {
 
 function Modal({ children, title, hide, toggle }: Props) {
   const hidden = hide ? "hidden" : undefined;
+
   return (
     <div
       className={classNames(

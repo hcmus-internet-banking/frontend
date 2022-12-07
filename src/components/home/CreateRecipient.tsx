@@ -6,11 +6,15 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../common/Button/Button";
-import Card from "../common/Card/Card";
-import Heading from "../common/Heading/Heading";
 import Input from "../common/Input/Input";
+import Modal from "../common/Modal/Modal";
 
-const CreateRecipient = () => {
+type Props = {
+  hide: boolean | undefined;
+  toggle: any;
+};
+
+const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useMutateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const formik = useFormik({
@@ -34,7 +38,7 @@ const CreateRecipient = () => {
           loading: "Creating Recipient...",
           success: (data) => {
             toast.success(JSON.stringify(data));
-
+            toggle();
             return "Recipient Created";
           },
           error: (e) => {
@@ -60,8 +64,8 @@ const CreateRecipient = () => {
   );
 
   return (
-    <Card className="">
-      <Heading size="sm">Create Recipient</Heading>
+    <Modal title="Create Recipient" hide={hide} toggle={toggle}>
+      {formik.errors && JSON.stringify(formik.errors)}
       <form onSubmit={formik.handleSubmit} className="space-y-2">
         <Input
           name="accountNumber"
@@ -78,10 +82,14 @@ const CreateRecipient = () => {
           error={formik.errors.mnemonicName}
           disabled
         />
-
-        <Button type="submit">Create</Button>
+        <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
+          <Button type="button" onClick={toggle}>
+            Cancel
+          </Button>
+          <Button type="submit">Create</Button>
+        </div>
       </form>
-    </Card>
+    </Modal>
   );
 };
 
