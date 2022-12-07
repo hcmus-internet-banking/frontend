@@ -1,5 +1,5 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useDeleteRecipient } from "@/src/lib/home/hooks/recipient/useDeleteRecipient";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useDeleteRecipient } from "@/lib/home/hooks/recipient/useDeleteRecipient";
 import { toast } from "react-hot-toast";
 import { RxCross1, RxPencil2 } from "react-icons/rx";
 import { Recipient } from "../../store/recipients/types";

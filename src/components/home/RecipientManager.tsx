@@ -1,5 +1,5 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/recipient/useInfinityQueryGetRecipients";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
 import Button from "../common/Button/Button";
 import Card from "../common/Card/Card";
 import Heading from "../common/Heading/Heading";
@@ -10,7 +10,7 @@ import Recipient from "./Recipient";
 const RecipientManager = () => {
   const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfinityQueryGetRecipients({
+    useInfinityQueryRecipientList({
       limit: 4,
       offset: 0,
     });

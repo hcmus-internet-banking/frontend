@@ -1,7 +1,7 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useUpdateRecipient } from "@/src/lib/home/hooks/recipient/useUpdateRecipient";
-import { createRecipientSchema } from "@/src/lib/home/schema";
-import { Recipient } from "@/src/store/recipients/types";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useUpdateRecipient } from "@/lib/home/hooks/recipient/useUpdateRecipient";
+import { createRecipientSchema } from "@/lib/home/schema";
+import { Recipient } from "@/store/recipients/types";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";

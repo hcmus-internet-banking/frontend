@@ -3,11 +3,10 @@ import Button from "../components/common/Button/Button";
 import Card from "../components/common/Card/Card";
 import Spinner from "../components/common/Spinner/Spinner";
 import { toastNotify } from "../lib/common/utils/react-hot-toast";
-import { useQueryGetMyProfile } from "../lib/home/hooks/useQueryGetMyCustomer";
+import { useQueryMyProfile } from "../lib/home/hooks/useQueryMyCustomer";
 
 const HomePage = () => {
-  const { data, isLoading } = useQueryGetMyProfile();
-
+  const { data, isLoading } = useQueryMyProfile();
   return (
     <div className="max-w-md space-y-2">
       {isLoading && <Spinner />}

@@ -36,7 +36,7 @@ function Button({
           "px-4": !className?.includes("px-"),
           "h-8 text-sm": size === "sm",
           "h-10": size === "md",
-          "h-12": size === "lg",
+          "h-[3.25rem]": size === "lg",
         },
         preset && presets[preset]?.classNames,
         preset && presets[preset]?.shadow,

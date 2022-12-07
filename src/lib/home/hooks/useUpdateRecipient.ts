@@ -1,15 +1,15 @@
-import { BaseResponse } from "./../../../core/handleResponse";
+import { BaseResponse } from "../../../core/handleResponse";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import client from "../../../core/client";
 import { handleResponse } from "../../../core/handleResponse";
-import { queryClient } from "../../../core/queryClient";
+import { queryClient } from "@/core/queryClient";
 
 type Params = {
   accountNumber: string;
   mnemonicName: string;
 };
 
-export const useMutateRecipient = (
+export const useUpdateRecipient = (
   overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
 ) => {
   const mutationArgs = useMutation({
@@ -27,5 +27,5 @@ export const useMutateRecipient = (
     ...overrideOptions,
   });
 
-  return { ...mutationArgs };
+  return mutationArgs;
 };

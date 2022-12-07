@@ -46,7 +46,8 @@ export const handleResponse = async <T>(
             })
           );
 
-          queryClient.clear();
+          // reset
+          queryClient.refetchQueries();
         } catch (error) {
           store.dispatch(logout());
         }

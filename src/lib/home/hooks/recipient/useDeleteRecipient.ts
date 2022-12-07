@@ -1,8 +1,8 @@
-import { BaseResponse } from "../../../../core/handleResponse";
-import client from "@/src/core/client";
-import { queryClient } from "@/src/core/queryClient";
+import { BaseResponse } from "@/core/handleResponse";
+import client from "@/core/client";
+import { queryClient } from "@/core/queryClient";
 import { useMutation } from "@tanstack/react-query";
-import { Recipient } from "@/src/store/recipients/types";
+import { Recipient } from "@/store/recipients/types";
 
 export const useDeleteRecipient = () => {
   const mutationArgs = useMutation({

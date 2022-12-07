@@ -1,4 +1,4 @@
-import { BaseResponse } from "./../../../core/handleResponse";
+import { BaseResponse } from "../../../core/handleResponse";
 import { useQuery } from "@tanstack/react-query";
 import client from "../../../core/client";
 import { handleResponse } from "../../../core/handleResponse";
@@ -11,7 +11,7 @@ interface MyProfileInfo {
   balance: string;
 }
 
-export const useQueryGetMyProfile = () => {
+export const useQueryMyProfile = () => {
   const queryArgs = useQuery(["customer", "my"], async () => {
     const res = await client.get<BaseResponse<MyProfileInfo>>(
       "/api/customer/my"
@@ -20,5 +20,5 @@ export const useQueryGetMyProfile = () => {
     return await handleResponse(res);
   });
 
-  return { ...queryArgs };
+  return queryArgs;
 };

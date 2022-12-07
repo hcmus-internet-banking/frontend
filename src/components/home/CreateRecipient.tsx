@@ -1,14 +1,15 @@
-import useToggle from "@/src/lib/common/hooks/useToggle";
-import { useMutateRecipient } from "@/src/lib/home/hooks/useMutateRecipient";
-import { useQueryGetCustomerByBankNumber } from "@/src/lib/home/hooks/useQueryGetCustomerByBankNumber";
-import { createRecipientSchema } from "@/src/lib/home/schema";
+import Button from "@/components/common/Button/Button";
+import Input from "@/components/common/Input/Input";
+import Modal from "@/components/common/Modal/Modal";
+import Select from "@/components/common/Select/Select";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
+import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
+import { createRecipientSchema } from "@/lib/home/schema";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import Button from "../common/Button/Button";
-import Input from "../common/Input/Input";
-import Modal from "../common/Modal/Modal";
 
 type Props = {
   hide: boolean | undefined;
@@ -16,7 +17,7 @@ type Props = {
 };
 
 const CreateRecipient = ({ hide, toggle }: Props) => {
-  const { mutateAsync } = useMutateRecipient();
+  const { mutateAsync } = useUpdateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const [isDisable, setIsDisable] = useState(true);
   const formik = useFormik({
@@ -29,7 +30,6 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     validationSchema: toFormikValidationSchema(createRecipientSchema),
     onSubmit: async (values) => {
       setIsSubmitted(true);
-      console.log(values);
 
       toast.promise(
         mutateAsync({
@@ -38,46 +38,83 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
         }),
         {
           loading: "Creating Recipient...",
-          success: (data) => {
-            toast.success(JSON.stringify(data));
+          success: () => {
             toggle();
             return "Recipient Created";
           },
-          error: (e) => {
-            toast.error(JSON.stringify(e));
-
-            return "Failed to create recipient";
+          error: () => {
+            return "Failed to create Recipient";
           },
         }
       );
     },
   });
+  const { isFetching } = useQueryCustomerByBankNumber(
+    formik.values.accountNumber,
+    {
+      onSuccess: (res: any) => {
+        setName(`${res.firstName} ${res.lastName}`);
 
-  useQueryGetCustomerByBankNumber(formik.values.accountNumber, {
-    onSuccess: (res: any) => {
-      toast(JSON.stringify(res));
-      formik.setFieldValue("mnemonicName", `${res.firstName} ${res.lastName}`);
-      setIsDisable(!isDisable);
-    },
-  });
+        formik.setFieldError("accountNumber", "");
+      },
+      onError: (e: any) => {
+        formik.setFieldError(
+          "accountNumber",
+          e?.error?.message || "Invalid customer"
+        );
+        setIsDisable(!isDisable);
+      },
+    }
+  );
+  const [name, setName] = useState<string>("");
+  // const [, copyToClipboard] = useCopyToClipboard();
+
+  useEffect(() => {
+    if (isFetching) {
+      formik.setFieldError("accountNumber", "Loading...");
+      setName("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
-      <form onSubmit={formik.handleSubmit} className="space-y-2">
+      <form onSubmit={formik.handleSubmit} className="space-y-3">
+        <Select options={[{ label: "Internal", value: "internal" }]} />
+
         <Input
           name="accountNumber"
           placeholder="Account Number"
           onChange={formik.handleChange}
           value={formik.values.accountNumber}
           error={formik.errors.accountNumber}
+          isLoading={isFetching}
         />
+        <div className="flex items-center gap-1">
+          <Input
+            outerClassNames="flex-grow"
+            placeholder="Name"
+            value={name}
+            disabled
+          />
+
+          <Button
+            size="lg"
+            type="button"
+            onClick={() => {
+              // copyToClipboard(name);
+              toast.success(`Copied ${name} to clipboard`);
+            }}
+          >
+            Copy
+          </Button>
+        </div>
         <Input
           name="mnemonicName"
           placeholder="Mnemonic Name"
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
           error={formik.errors.mnemonicName}
-          disabled={isDisable}
         />
         <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
           <Button type="button" onClick={toggle}>
