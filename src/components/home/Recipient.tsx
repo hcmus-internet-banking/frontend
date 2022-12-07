@@ -1,4 +1,4 @@
-import { useDeleteRecipient } from "@/src/lib/home/hooks/recipients/useDeleteRecipient";
+import { useDeleteRecipient } from "@/lib/home/hooks/recipients/useDeleteRecipient";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { RxCross1, RxPencil2 } from "react-icons/rx";

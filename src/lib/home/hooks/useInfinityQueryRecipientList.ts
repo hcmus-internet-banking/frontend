@@ -1,12 +1,6 @@
-<<<<<<<< HEAD:src/lib/home/hooks/useInfinityQueryRecipientList.ts
 import { BaseResponse } from "../../../core/handleResponse";
 import client from "@/core/client";
 import { handleResponse } from "@/core/handleResponse";
-========
-import { BaseResponse } from "../../../../core/handleResponse";
-import client from "@/src/core/client";
-import { handleResponse } from "@/src/core/handleResponse";
->>>>>>>> 0f87d23f51bce3d7b75cd6e92891c95d6056d464:src/lib/home/hooks/recipients/useInfinityQueryGetRecipients.ts
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface RecipientsResponse extends BaseResponse {
