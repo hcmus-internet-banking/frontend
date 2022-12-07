@@ -6,7 +6,7 @@ import Spinner from "../common/Spinner/Spinner";
 import CreateRecipient from "./CreateRecipient";
 
 const RecipientManager = () => {
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetching } =
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfinityQueryGetRecipients({
       limit: 4,
       offset: 0,
@@ -57,7 +57,7 @@ const RecipientManager = () => {
       </div>
 
       {hasNextPage ? (
-        <Button onClick={() => fetchNextPage()} isLoading={isFetching}>
+        <Button onClick={() => fetchNextPage()} isLoading={isFetchingNextPage}>
           Load More
         </Button>
       ) : (
