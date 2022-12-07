@@ -23,7 +23,10 @@ function Modal({ children, title, hide, toggle }: Props) {
     >
       <div className="min-height-100vh flex items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
-          <div className="absolute inset-0 bg-gray-900 opacity-75" />
+          <div
+            className="absolute inset-0 bg-gray-900 opacity-75"
+            onClick={toggle}
+          />
         </div>
         <span className="hidden sm:inline-block sm:h-screen sm:align-middle">
           &#8203;

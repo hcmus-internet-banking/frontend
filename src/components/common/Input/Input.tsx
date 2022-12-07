@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { IoCloseCircle } from "react-icons/io5";
 import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
 import useToggle from "../../../lib/common/hooks/useToggle";
+import { BeatLoader } from "react-spinners";
 
 type Props = {
   value?: string;
@@ -17,6 +18,8 @@ type Props = {
   error?: string;
   autoComplete?: string;
   disabled?: boolean;
+  isLoading?: boolean;
+  outerClassNames?: string;
 } & React.ComponentPropsWithoutRef<"input">;
 
 function Input({
@@ -30,6 +33,8 @@ function Input({
   hiddenable = false,
   name,
   error,
+  isLoading,
+  outerClassNames,
   disabled,
   ...props
 }: Props) {
@@ -43,8 +48,8 @@ function Input({
   const { toggle: toggleHidden, value: hiddenValue } = useToggle(false);
 
   return (
-    <div className="">
-      <label className="relative inline-block">
+    <div className={outerClassNames}>
+      <label className="relative inline-block w-full">
         <input
           name={name}
           value={value}
@@ -52,7 +57,7 @@ function Input({
           type={hiddenValue ? "text" : type}
           autoComplete={autoComplete}
           className={classnames(
-            "peer rounded-xl bg-gray-200 px-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
+            "peer w-full rounded-xl bg-gray-200 px-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
             className,
             {
               "pt-4 pb-3": placeholder,
@@ -69,12 +74,10 @@ function Input({
         </span>
 
         <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
-          {clearable && onChange && (
+          {clearable && onChange && !!value?.length && (
             <span
               onClick={handleClearClick}
-              className={classnames("cursor-pointer", {
-                hidden: !value?.length,
-              })}
+              className={classnames("cursor-pointer")}
               aria-label="Clear"
             >
               <IoCloseCircle className="h-5 w-5 text-gray-500" />
@@ -96,17 +99,24 @@ function Input({
               )}
             </span>
           )}
+          {isLoading && (
+            <span>
+              <BeatLoader size="4px" />
+            </span>
+          )}
         </span>
       </label>
 
-      <div
-        className={classnames("mt-1 text-xs text-red-500 transition", {
-          "text-[0px]": !error,
-          "ml-3": error,
-        })}
-      >
-        {error}
-      </div>
+      {error && (
+        <div
+          className={classnames("mt-1 text-xs text-red-500 transition", {
+            "text-[0px]": !error,
+            "ml-3": error,
+          })}
+        >
+          {error}
+        </div>
+      )}
     </div>
   );
 }

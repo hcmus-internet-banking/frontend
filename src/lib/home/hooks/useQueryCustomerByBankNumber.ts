@@ -10,15 +10,20 @@ interface CustomerData {
   firstName: string;
 }
 
+export const BANK_NUMBER_LENGTH = 10;
+
 export const useQueryGetCustomerByBankNumber = (
   bankNumber: string,
-  overrideOptions?: UseQueryOptions<unknown, unknown, unknown, string[]>
+  overrideOptions?: UseQueryOptions<
+    unknown,
+    unknown,
+    BaseResponse<CustomerData>,
+    string[]
+  >
 ) => {
   const queryArgs = useQuery(
     ["customer", bankNumber],
     async () => {
-      if (bankNumber.length != 10) return;
-
       const res = await client.get<BaseResponse<CustomerData>>(
         `/api/customer/${bankNumber}`
       );
@@ -27,6 +32,8 @@ export const useQueryGetCustomerByBankNumber = (
     },
     {
       refetchOnWindowFocus: false,
+      enabled: bankNumber.length === BANK_NUMBER_LENGTH,
+      retry: false,
       ...overrideOptions,
     }
   );

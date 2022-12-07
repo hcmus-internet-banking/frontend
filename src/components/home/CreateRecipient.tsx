@@ -4,10 +4,13 @@ import { createRecipientSchema } from "@/lib/home/schema";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import Button from "../common/Button/Button";
-import Input from "../common/Input/Input";
-import Modal from "../common/Modal/Modal";
+import Button from "@/components/common/Button/Button";
+import Input from "@/components/common/Input/Input";
+import Modal from "@/components/common/Modal/Modal";
 import useToggle from "@/lib/common/hooks/useToggle";
+import Select from "@/components/common/Select/Select";
+import { useEffect, useState } from "react";
+import { useCopyToClipboard } from "react-use";
 
 type Props = {
   hide: boolean | undefined;
@@ -27,7 +30,6 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     validationSchema: toFormikValidationSchema(createRecipientSchema),
     onSubmit: async (values) => {
       setIsSubmitted(true);
-      console.log(values);
 
       toast.promise(
         mutateAsync({
@@ -37,44 +39,81 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
         {
           loading: "Creating Recipient...",
           success: (data) => {
-            toast.success(JSON.stringify(data));
             toggle();
             return "Recipient Created";
           },
           error: (e) => {
-            toast.error(JSON.stringify(e));
-
             return "Failed to create Recipient";
           },
         }
       );
     },
   });
-  const { data } = useQueryCustomerByBankNumber(formik.values.accountNumber, {
-    onSuccess: (res: any) => {
-      toast(JSON.stringify(res));
-      formik.setFieldValue("mnemonicName", `${res.firstName} ${res.lastName}`);
-    },
-  });
+  const { data, isLoading, isFetching } = useQueryCustomerByBankNumber(
+    formik.values.accountNumber,
+    {
+      onSuccess: (res: any) => {
+        setName(`${res.firstName} ${res.lastName}`);
+
+        formik.setFieldError("accountNumber", "");
+      },
+      onError: (e: any) => {
+        formik.setFieldError(
+          "accountNumber",
+          e?.error?.message || "Invalid customer"
+        );
+      },
+    }
+  );
+  const [name, setName] = useState<string>("");
+  const [, copyToClipboard] = useCopyToClipboard();
+
+  useEffect(() => {
+    if (isFetching) {
+      formik.setFieldError("accountNumber", "Loading...");
+      setName("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
-      {formik.errors && JSON.stringify(formik.errors)}
-      <form onSubmit={formik.handleSubmit} className="space-y-2">
+      <form onSubmit={formik.handleSubmit} className="space-y-3">
+        <Select options={[{ label: "Internal", value: "internal" }]} />
+
         <Input
           name="accountNumber"
           placeholder="Account Number"
           onChange={formik.handleChange}
           value={formik.values.accountNumber}
           error={formik.errors.accountNumber}
+          isLoading={isFetching}
         />
+        <div className="flex items-center gap-1">
+          <Input
+            outerClassNames="flex-grow"
+            placeholder="Name"
+            value={name}
+            disabled
+          />
+
+          <Button
+            size="lg"
+            type="button"
+            onClick={() => {
+              copyToClipboard(name);
+              toast.success(`Copied ${name} to clipboard`);
+            }}
+          >
+            Copy
+          </Button>
+        </div>
         <Input
           name="mnemonicName"
           placeholder="Mnemonic Name"
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
           error={formik.errors.mnemonicName}
-          disabled
         />
         <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
           <Button type="button" onClick={toggle}>
