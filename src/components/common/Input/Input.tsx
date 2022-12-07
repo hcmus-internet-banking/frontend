@@ -16,6 +16,7 @@ type Props = {
   name?: string;
   error?: string;
   autoComplete?: string;
+  disabled?: boolean;
 } & React.ComponentPropsWithoutRef<"input">;
 
 function Input({
@@ -29,6 +30,7 @@ function Input({
   hiddenable = false,
   name,
   error,
+  disabled,
   ...props
 }: Props) {
   const handleClearClick = () => {
@@ -55,8 +57,10 @@ function Input({
             {
               "pt-4 pb-3": placeholder,
               "pt-3 pb-3": !placeholder,
+              "cursor-not-allowed bg-gray-300": disabled,
             }
           )}
+          disabled={disabled}
           placeholder=" "
           {...props}
         />

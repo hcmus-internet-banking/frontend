@@ -41,6 +41,9 @@ export const useQueryGetRecipients = ({
       );
 
       return await handleResponse(res);
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
 

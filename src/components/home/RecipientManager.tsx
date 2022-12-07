@@ -1,4 +1,6 @@
+import { useDeleteRecipient } from "@/src/lib/home/hooks/useDeleteRecipient";
 import { useInfinityQueryGetRecipients } from "@/src/lib/home/hooks/useInfinityQueryGetRecipients";
+import toast from "react-hot-toast";
 import { RxPerson, RxPencil2, RxCross1 } from "react-icons/rx";
 import Button from "../common/Button/Button";
 import Card from "../common/Card/Card";
@@ -11,6 +13,8 @@ const RecipientManager = () => {
       limit: 4,
       offset: 0,
     });
+
+  const { mutateAsync } = useDeleteRecipient();
 
   return (
     <>
@@ -42,9 +46,19 @@ const RecipientManager = () => {
 
                       <div className="flex gap-2">
                         <RxPencil2 className="inline-block h-4 w-4" />
+
                         <RxCross1
                           className="inline-block h-4 w-4 text-red-400"
                           strokeWidth={0.8}
+                          onClick={async () => {
+                            toast.promise(mutateAsync(recipient.id), {
+                              loading: "Deleting recipient...",
+                              success: (data) => {
+                                return `Deleted recipient ${data.data.data.mnemonicName} / ${data.data.data.accountNumber}`;
+                              },
+                              error: "Failed to delete recipient",
+                            });
+                          }}
                         />
                       </div>
                     </div>

@@ -46,7 +46,18 @@ const CreateRecipient = () => {
       );
     },
   });
-  const {} = useQueryGetCustomerByBankNumber(formik.values.accountNumber);
+  const { data } = useQueryGetCustomerByBankNumber(
+    formik.values.accountNumber,
+    {
+      onSuccess: (res: any) => {
+        toast(JSON.stringify(res));
+        formik.setFieldValue(
+          "mnemonicName",
+          `${res.firstName} ${res.lastName}`
+        );
+      },
+    }
+  );
 
   return (
     <Card className="">
@@ -65,6 +76,7 @@ const CreateRecipient = () => {
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
           error={formik.errors.mnemonicName}
+          disabled
         />
 
         <Button type="submit">Create</Button>
