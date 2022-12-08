@@ -1,8 +1,8 @@
 import { BaseResponse } from "../../../core/handleResponse";
 import client from "@/core/client";
 import { handleResponse } from "@/core/handleResponse";
-import { useQuery } from "@tanstack/react-query";
 import { Recipient } from "@/store/recipients/types";
+import { useQuery } from "@tanstack/react-query";
 
 interface RecipientsResponse extends BaseResponse {
   data: Data;

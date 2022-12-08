@@ -2,17 +2,12 @@ import { BaseResponse } from "@/core/handleResponse";
 import client from "@/core/client";
 import { queryClient } from "@/core/queryClient";
 import { useMutation } from "@tanstack/react-query";
-
-interface Data {
-  id: string;
-  accountNumber: string;
-  mnemonicName: string;
-}
+import { Recipient } from "@/store/recipients/types";
 
 export const useDeleteRecipient = () => {
   const mutationArgs = useMutation({
     mutationFn: async (id: string) => {
-      const res = await client.delete<BaseResponse<Data>>(
+      const res = await client.delete<BaseResponse<Recipient>>(
         `/api/recipients/${id}`
       );
       return res;

@@ -1,16 +1,15 @@
-import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
-import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { createRecipientSchema } from "@/lib/home/schema";
-import { useFormik } from "formik";
-import toast from "react-hot-toast";
-import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "@/components/common/Button/Button";
 import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
-import useToggle from "@/lib/common/hooks/useToggle";
 import Select from "@/components/common/Select/Select";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
+import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
+import { createRecipientSchema } from "@/lib/home/schema";
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useCopyToClipboard } from "react-use";
+import toast from "react-hot-toast";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
   hide: boolean | undefined;
@@ -68,7 +67,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     }
   );
   const [name, setName] = useState<string>("");
-  const [, copyToClipboard] = useCopyToClipboard();
+  // const [, copyToClipboard] = useCopyToClipboard();
 
   useEffect(() => {
     if (isFetching) {
@@ -103,7 +102,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             size="lg"
             type="button"
             onClick={() => {
-              copyToClipboard(name);
+              // copyToClipboard(name);
               toast.success(`Copied ${name} to clipboard`);
             }}
           >
