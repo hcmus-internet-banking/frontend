@@ -75,9 +75,10 @@ function Layout({ children }: Props) {
           newTab
         />
         <AppLink
-          href="/swagger"
+          href="https://elements.getpostman.com/redirect?entityId=22930192-6a16bef1-20f5-4726-9737-6966231a5464&entityType=collection"
           text="API Documentation"
           iconLeft={SiSwagger}
+          target="_blank"
         />
         <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
         <AppLink

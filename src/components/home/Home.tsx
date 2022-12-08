@@ -1,4 +1,4 @@
-import { toastNotify } from "@/lib/common/utils/react-hot-toast";
+import { toastNotify as toastWarning } from "@/lib/common/utils/react-hot-toast";
 import { useQueryMyProfile } from "@/lib/home/hooks/useQueryMyCustomer";
 import classNames from "classnames";
 import Button from "../common/Button/Button";
@@ -10,11 +10,13 @@ import { Transfer } from "./Transfer";
 
 const Home = () => {
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <Balance />
-      <Transfer />
-      <Debts />
-      <Settings />
+    <div>
+      <div className="grid grid-cols-2 gap-2">
+        <Balance />
+        <Transfer />
+        <Debts />
+        <Settings />
+      </div>
     </div>
   );
 };
@@ -54,7 +56,7 @@ const Balance = () => {
                 className="px-4 uppercase"
                 size="sm"
                 onClick={() => {
-                  toastNotify(
+                  toastWarning(
                     "Currently, you can deposit by interacting with our employees."
                   );
                 }}

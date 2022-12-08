@@ -10,7 +10,7 @@ type Props = {
   newTab?: boolean;
   textClassName?: string;
   iconClassName?: string;
-};
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 function AppLink({
   href,
@@ -20,6 +20,7 @@ function AppLink({
   newTab,
   textClassName,
   iconClassName,
+  ...props
 }: Props) {
   const IconLeft = iconLeft;
   return (
@@ -28,6 +29,7 @@ function AppLink({
         className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-opacity-70"
         target={newTab ? "_blank" : undefined}
         onClick={onClick}
+        {...props}
       >
         {IconLeft && (
           <IconLeft className={classNames("inline-block", iconClassName)} />

@@ -28,7 +28,6 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "superjson": "1.9.1",
-    "swagger-ui-react": "^4.15.0",
     "zod": "^3.14.4",
     "zod-formik-adapter": "^1.1.1"
   },
