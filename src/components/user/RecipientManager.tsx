@@ -1,5 +1,6 @@
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
+import { RxPlus } from "react-icons/rx";
 import Button from "../common/Button/Button";
 import Card from "../common/Card/Card";
 import Heading from "../common/Heading/Heading";
@@ -17,12 +18,15 @@ const RecipientManager = () => {
 
   return (
     <>
+      <CreateRecipient hide={value} toggle={toggle} />
+
       <Card className="max-w-lg bg-gray-100" noShadow>
-        <CreateRecipient hide={value} toggle={toggle} />
-        <Heading size="md">Recipient List</Heading>
-        <Button className="w-fit" onClick={toggle}>
-          + Add new recipient
-        </Button>
+        <div className="flex justify-between">
+          <Heading>Recipient List</Heading>
+          <Button className="w-fit" onClick={toggle} size="sm">
+            <RxPlus strokeWidth={1} />
+          </Button>
+        </div>
         <div className="py-4">
           {isLoading ? (
             <Spinner />
@@ -36,17 +40,19 @@ const RecipientManager = () => {
             ))
           )}
         </div>
+        {hasNextPage ? (
+          <Button
+            onClick={() => fetchNextPage()}
+            isLoading={isFetchingNextPage}
+          >
+            Load More
+          </Button>
+        ) : (
+          !isLoading && (
+            <div className="text-center text-gray-500">No more recipients</div>
+          )
+        )}
       </Card>
-
-      {hasNextPage ? (
-        <Button onClick={() => fetchNextPage()} isLoading={isFetchingNextPage}>
-          Load More
-        </Button>
-      ) : (
-        !isLoading && (
-          <div className="text-center text-gray-500">No more recipients</div>
-        )
-      )}
     </>
   );
 };

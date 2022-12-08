@@ -29,7 +29,7 @@ function Button({
   return (
     <button
       className={classNames(
-        "flex items-center justify-center rounded-xl py-2 hover:bg-opacity-80",
+        "flex items-center justify-center rounded-lg py-2 hover:bg-opacity-80",
         "transition-[transform,box-shadow] hover:-translate-y-0.5",
         {
           "cursor-not-allowed opacity-50": disabled,

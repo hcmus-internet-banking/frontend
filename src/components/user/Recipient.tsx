@@ -3,7 +3,6 @@ import { useDeleteRecipient } from "@/lib/home/hooks/recipient/useDeleteRecipien
 import { toast } from "react-hot-toast";
 import { RxCross1, RxPencil2 } from "react-icons/rx";
 import { Recipient } from "../../store/recipients/types";
-import Heading from "../common/Heading/Heading";
 import UpdateRecipient from "./UpdateRecipient";
 
 type Props = {
@@ -33,7 +32,7 @@ function Recipient({ recipient }: Props) {
       <UpdateRecipient hide={value} toggle={toggle} recipient={recipient} />
       <div className="flex content-around items-center duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
         <div className="flex grow justify-between p-2">
-          <Heading size="sm">{recipient.mnemonicName}</Heading>
+          <span className="font-semibold">{recipient.mnemonicName}</span>
           <span className="pr-8 text-sm font-medium text-gray-500">
             {recipient.accountNumber}
           </span>

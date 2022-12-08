@@ -73,13 +73,14 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
             value={formik.values.mnemonicName}
             error={formik.errors.mnemonicName}
           />
-          <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
-            <Button type="button" onClick={toggle}>
-              Cancel
-            </Button>
-            <Button type="submit">Update</Button>
-          </div>
         </form>
+
+        <Modal.Bottom>
+          <Button type="button" onClick={toggle} preset="outlined">
+            Cancel
+          </Button>
+          <Button type="submit">Update</Button>
+        </Modal.Bottom>
       </Modal>
     </>
   );

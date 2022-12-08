@@ -39,24 +39,20 @@ function Layout({ children }: Props) {
           />
           <NavigationButton
             className="bg-green-600"
-            href="/twitter-checker"
+            href="/user/recipients"
             label="Recipients"
           />
           <NavigationButton className="bg-yellow-600" label="Debts" />
           <div className="flex-1"></div>
-          <NavigationButton
-            className="bg-blue-400"
-            icon={IoPerson}
-            label="unknown"
-          />
           {!isAuthenticated ? (
             <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
           ) : (
             <>
-              <AppLink
+              <NavigationButton
+                className="bg-blue-400"
+                icon={IoPerson}
+                label={`${user?.firstName} ${user?.lastName}`}
                 href="/profile"
-                text={`${user?.firstName} ${user?.lastName}`}
-                iconLeft={IoPerson}
               />
               <AppLink
                 onClick={() => {

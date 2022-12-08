@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Link from "next/link";
 import { IconType } from "react-icons";
 
@@ -7,9 +8,19 @@ type Props = {
   text: string;
   iconLeft?: IconType;
   newTab?: boolean;
+  textClassName?: string;
+  iconClassName?: string;
 };
 
-function AppLink({ href, text, iconLeft, onClick, newTab }: Props) {
+function AppLink({
+  href,
+  text,
+  iconLeft,
+  onClick,
+  newTab,
+  textClassName,
+  iconClassName,
+}: Props) {
   const IconLeft = iconLeft;
   return (
     <Link href={href || "#"}>
@@ -18,8 +29,10 @@ function AppLink({ href, text, iconLeft, onClick, newTab }: Props) {
         target={newTab ? "_blank" : undefined}
         onClick={onClick}
       >
-        {IconLeft && <IconLeft className="inline-block" />}
-        {text}
+        {IconLeft && (
+          <IconLeft className={classNames("inline-block", iconClassName)} />
+        )}
+        <span className={textClassName}>{text}</span>
       </a>
     </Link>
   );

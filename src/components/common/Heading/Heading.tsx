@@ -11,9 +11,9 @@ function Heading({ children, className, size = "md" }: Props) {
   return (
     <h1
       className={classNames("font-semibold", className, {
-        "text-1xl": size === "sm",
-        "text-2xl": size === "md",
-        "text-3xl": size === "lg",
+        "text-base": size === "sm",
+        "text-lg": size === "md",
+        "text-xl": size === "lg",
       })}
     >
       {children}

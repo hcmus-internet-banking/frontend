@@ -48,12 +48,18 @@ function Modal({ children, title, hide, toggle }: Props) {
               </div>
             </div>
             <Spacer className="h-1" />
-            <div className="grid grid-cols-1 divide-x">{children}</div>
+            <div className="grid grid-cols-1">{children}</div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+Modal.Bottom = function Bottom({ children }: { children?: React.ReactNode }) {
+  return (
+    <div className="mt-4 flex w-full justify-end space-x-2">{children}</div>
+  );
+};
 
 export default Modal;
