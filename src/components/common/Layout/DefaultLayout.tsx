@@ -5,11 +5,9 @@ import {
   IoHome,
   IoLogIn,
   IoLogoFacebook,
-  IoLogoTwitter,
   IoPerson,
   IoReceipt,
 } from "react-icons/io5";
-import { useRouter } from "next/router";
 import AppLink from "../AppLink/AppLink";
 import { SiSwagger } from "react-icons/si";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
@@ -25,14 +23,9 @@ type Props = { children: React.ReactElement };
 const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL as string;
 
 function Layout({ children }: Props) {
-  const router = useRouter();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-
-  const navigateTo = (path: string) => () => {
-    router.push(path);
-  };
 
   return (
     <div>
