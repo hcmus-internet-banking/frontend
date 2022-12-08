@@ -1,4 +1,4 @@
-import RecipientManager from "@/components/home/RecipientManager";
+import RecipientManager from "@/components/user/RecipientManager";
 
 const Index = () => {
   return <RecipientManager />;

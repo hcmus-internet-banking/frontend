@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../components/common/Button/Button";
@@ -16,6 +16,8 @@ import {
   selectIsAuthenticated,
 } from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import ReCAPTCHA from "react-google-recaptcha";
+import { env } from "@/core/env/client.mjs";
 
 function Index() {
   const loginValidate = useMemo(() => loginSchema, []);
@@ -24,6 +26,36 @@ function Index() {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const isLoading = useAppSelector(selectAuthLoading);
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const captchaRef = useRef<ReCAPTCHA>(null);
+  const login = (values: {
+    email: string;
+    password: string;
+    captchaValue: string;
+  }) => {
+    const result = dispatch(
+      loginAsync({
+        email: values.email,
+        password: values.password,
+        captchaValue: values.captchaValue,
+      })
+    ).unwrap();
+
+    toast.promise(
+      result,
+      {
+        loading: "Loading...",
+        success: (data) => {
+          if (data.id !== null) {
+            toast.success(JSON.stringify(data));
+            router.push("/");
+          }
+          return "Success";
+        },
+        error: null,
+      },
+      noToastErrorOption
+    );
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -33,34 +65,29 @@ function Index() {
     validateOnBlur: false,
     validateOnChange: isSubmitted,
     validationSchema: toFormikValidationSchema(loginValidate),
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       setIsSubmitted(true);
+      // Execute the reCAPTCHA when the form is submitted
 
-      const result = dispatch(
-        loginAsync({ email: values.email, password: values.password })
-      ).unwrap();
+      if (!captchaRef.current?.getValue()) {
+        toast.error("Please verify captcha");
+        return;
+      }
+      login({
+        email: formik.values.email,
+        password: formik.values.password,
+        captchaValue: captchaRef.current?.getValue() || "",
+      });
 
-      toast.promise(
-        result,
-        {
-          loading: "Loading...",
-          success: (data) => {
-            if (data.id !== null) {
-              toast.success(JSON.stringify(data));
-              router.push("/");
-            }
-            return "Success";
-          },
-          error: null,
-        },
-        noToastErrorOption
-      );
+      captchaRef.current?.reset();
+      // captchaRef.current?.execute();
     },
   });
 
   if (isAuthenticated) {
     router.push("/");
   }
+
   return (
     <div>
       <Spacer className="h-12" />
@@ -78,6 +105,8 @@ function Index() {
               onChange={formik.handleChange}
               placeholder="Email"
               error={formik.errors.email}
+              disabled={isLoading}
+              autoComplete="email"
             />
 
             <Input
@@ -90,8 +119,17 @@ function Index() {
               type="password"
               hiddenable
               error={formik.errors.password}
+              disabled={isLoading}
             />
 
+            <div>
+              {/* react error boundrary */}
+
+              <ReCAPTCHA
+                sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                ref={captchaRef}
+              />
+            </div>
             <Button type="submit" isLoading={isLoading}>
               <span>Login</span>
             </Button>

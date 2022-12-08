@@ -17,7 +17,7 @@ const RecipientManager = () => {
 
   return (
     <>
-      <Card className="grid grid-cols-1 bg-gray-100">
+      <Card className="max-w-lg bg-gray-100" noShadow>
         <CreateRecipient hide={value} toggle={toggle} />
         <Heading size="md">Recipient List</Heading>
         <Button className="w-fit" onClick={toggle}>

@@ -35,52 +35,50 @@ function Layout({ children }: Props) {
   };
 
   return (
-    <div className="flex h-[calc(100vh)] w-full bg-gray-50">
-      <nav className="flex h-[calc(100vh)] w-20 flex-col items-center space-y-3 bg-gray-100 py-4">
-        <NavigationButton
-          onClick={navigateTo("/")}
-          className="bg-red-400"
-          icon={IoHome}
-        />
-        <NavigationButton
-          className="bg-green-400"
-          onClick={navigateTo("/twitter-checker")}
-          icon={IoLogoTwitter}
-        />
-        <NavigationButton className="bg-yellow-400" />
-
-        <div className="flex-1"></div>
-
-        <NavigationButton className="bg-blue-400" icon={IoPerson} />
+    <div>
+      <nav className="sticky top-0 w-full bg-gray-100 py-4 px-10">
+        <div className="mx-auto flex max-w-7xl items-center space-x-3">
+          <NavigationButton
+            href="/"
+            className="bg-red-600"
+            icon={IoHome}
+            label="Home"
+          />
+          <NavigationButton
+            className="bg-green-600"
+            href="/twitter-checker"
+            label="Recipients"
+          />
+          <NavigationButton className="bg-yellow-600" label="Debts" />
+          <div className="flex-1"></div>
+          <NavigationButton
+            className="bg-blue-400"
+            icon={IoPerson}
+            label="unknown"
+          />
+          {!isAuthenticated ? (
+            <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
+          ) : (
+            <>
+              <AppLink
+                href="/profile"
+                text={`${user?.firstName} ${user?.lastName}`}
+                iconLeft={IoPerson}
+              />
+              <AppLink
+                onClick={() => {
+                  dispatch(logoutAsync());
+                }}
+                text="Logout"
+                iconLeft={IoLogIn}
+              />
+            </>
+          )}
+        </div>
       </nav>
 
-      <div className="w-48 bg-white py-4">
-        {!isAuthenticated ? (
-          <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
-        ) : (
-          <>
-            <AppLink
-              href="/profile"
-              text={`${user?.firstName} ${user?.lastName}`}
-              iconLeft={IoPerson}
-            />
-            <AppLink
-              href="/user/recipients"
-              text="Recipients"
-              iconLeft={IoReceipt}
-            />
-            <AppLink
-              onClick={() => {
-                dispatch(logoutAsync());
-              }}
-              text="Logout"
-              iconLeft={IoLogIn}
-            />
-          </>
-        )}
-
+      <header className="flex justify-center bg-gray-200">
         <Spacer className="border-b" />
-
         <AppLink
           href={FACEBOOK_URL}
           text="Facebook"
@@ -93,11 +91,14 @@ function Layout({ children }: Props) {
           iconLeft={SiSwagger}
         />
         <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
-      </div>
+        <AppLink
+          href="/user/recipients"
+          text="Recipients"
+          iconLeft={IoReceipt}
+        />
+      </header>
 
-      <main className="h-[calc(100vh)] flex-1 overflow-y-auto p-2">
-        {children}
-      </main>
+      <main className="mx-auto max-w-5xl p-2">{children}</main>
     </div>
   );
 }

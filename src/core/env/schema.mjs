@@ -7,6 +7,7 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  RECAPTCHA_SECRET_KEY: z.string(),
   // DATABASE_URL: z.string().url(),
   // NEXTAUTH_SECRET: z.string(),
   // NEXTAUTH_URL: z.preprocess(
@@ -28,6 +29,7 @@ export const serverSchema = z.object({
 export const clientSchema = z.object({
   NEXT_PUBLIC_FACEBOOK_URL: z.string().url(),
   NEXT_PUBLIC_API_URL: z.string().url(),
+  NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string(),
 });
 
 /**
@@ -39,4 +41,5 @@ export const clientSchema = z.object({
 export const clientEnv = {
   NEXT_PUBLIC_FACEBOOK_URL: process.env.NEXT_PUBLIC_FACEBOOK_URL,
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
 };

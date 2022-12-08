@@ -1,12 +1,14 @@
 import React, { memo, useEffect } from "react";
 import toast from "react-hot-toast";
-import { clearError, selectAuthError } from "./auth";
+import { clearError, selectAuthError, selectAuthLoading } from "./auth";
 import { store } from "./";
 import { useAppSelector } from "./store";
+import Spinner from "@/components/common/Spinner/Spinner";
+import classNames from "classnames";
 
 function StoreHandlingProvider({ children }: { children: React.ReactElement }) {
   const authError = useAppSelector(selectAuthError);
-  // const authLoading = useAppSelector(selectAuthLoading);
+  const authLoading = useAppSelector(selectAuthLoading);
 
   useEffect(() => {
     if (authError) {
@@ -18,7 +20,7 @@ function StoreHandlingProvider({ children }: { children: React.ReactElement }) {
 
   return (
     <>
-      {/* {authLoading && (
+      {authLoading && (
         <div
           className={classNames(
             "fixed inset-0 bg-black bg-opacity-80",
@@ -28,7 +30,7 @@ function StoreHandlingProvider({ children }: { children: React.ReactElement }) {
         >
           <Spinner height={40} width={20} color="white" />
         </div>
-      )} */}
+      )}
       {children}
     </>
   );

@@ -42,8 +42,8 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             toggle();
             return "Recipient Created";
           },
-          error: () => {
-            return "Failed to create Recipient";
+          error: (e) => {
+            return e.message || "Failed to create recipient";
           },
         }
       );

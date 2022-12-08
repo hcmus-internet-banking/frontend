@@ -29,7 +29,11 @@ export const logoutAsync = createAsyncThunk("auth/logout", async () => {
 
 export const loginAsync = createAsyncThunk(
   "auth/login",
-  async (payload: { email: string; password: string }) => {
+  async (payload: {
+    email: string;
+    password: string;
+    captchaValue: string;
+  }) => {
     const response = await client.post<BaseResponse<LoginResponse>>(
       "/api/auth/login",
       payload
