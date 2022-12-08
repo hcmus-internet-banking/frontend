@@ -73,38 +73,40 @@ function Input({
           {placeholder}
         </span>
 
-        <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
-          {clearable && onChange && !!value?.length && (
-            <span
-              onClick={handleClearClick}
-              className={classnames("cursor-pointer")}
-              aria-label="Clear"
-            >
-              <IoCloseCircle className="h-5 w-5 text-gray-500" />
-            </span>
-          )}
-          {hiddenable && (
-            <span
-              className={classnames("cursor-pointer", {
-                hidden: !value?.length,
-              })}
-              onClick={toggleHidden}
-              aria-label="Toggle password visibility"
-            >
-              {/* <IoEye width={24} height={24} className="text-gray-500" /> */}
-              {hiddenValue ? (
-                <RxEyeOpen className="h-5 w-5 text-gray-500" />
-              ) : (
-                <RxEyeClosed className="h-5 w-5 text-gray-500" />
-              )}
-            </span>
-          )}
-          {isLoading && (
-            <span>
-              <BeatLoader size="4px" />
-            </span>
-          )}
-        </span>
+        {!disabled && (
+          <span className="absolute right-4 top-4 flex cursor-pointer items-center gap-1">
+            {clearable && onChange && !!value?.length && (
+              <span
+                onClick={handleClearClick}
+                className={classnames("cursor-pointer")}
+                aria-label="Clear"
+              >
+                <IoCloseCircle className="h-5 w-5 text-gray-500" />
+              </span>
+            )}
+            {hiddenable && (
+              <span
+                className={classnames("cursor-pointer", {
+                  hidden: !value?.length,
+                })}
+                onClick={toggleHidden}
+                aria-label="Toggle password visibility"
+              >
+                {/* <IoEye width={24} height={24} className="text-gray-500" /> */}
+                {hiddenValue ? (
+                  <RxEyeOpen className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <RxEyeClosed className="h-5 w-5 text-gray-500" />
+                )}
+              </span>
+            )}
+            {isLoading && (
+              <span>
+                <BeatLoader size="4px" />
+              </span>
+            )}
+          </span>
+        )}
       </label>
 
       {error && (
