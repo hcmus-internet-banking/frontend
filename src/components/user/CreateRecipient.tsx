@@ -6,9 +6,11 @@ import useToggle from "@/lib/common/hooks/useToggle";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
 import { createRecipientSchema } from "@/lib/home/schema";
+import classNames from "classnames";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useCopyToClipboard } from "react-use";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
@@ -67,7 +69,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     }
   );
   const [name, setName] = useState<string>("");
-  // const [, copyToClipboard] = useCopyToClipboard();
+  const [, copyToClipboard] = useCopyToClipboard();
 
   useEffect(() => {
     if (isFetching) {
@@ -102,7 +104,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             size="lg"
             type="button"
             onClick={() => {
-              // copyToClipboard(name);
+              copyToClipboard(name);
               toast.success(`Copied ${name} to clipboard`);
             }}
           >
@@ -115,6 +117,9 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           onChange={formik.handleChange}
           value={formik.values.mnemonicName}
           error={formik.errors.mnemonicName}
+          outerClassNames={classNames({
+            hidden: !name,
+          })}
         />
         <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
           <Button type="button" onClick={toggle}>

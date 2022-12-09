@@ -57,30 +57,31 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
   return (
     <>
       <Modal title="Update recipient" hide={hide} toggle={toggle}>
-        <form onSubmit={formik.handleSubmit} className="space-y-2">
-          <Input
-            name="accountNumber"
-            placeholder="Account Number"
-            onChange={formik.handleChange}
-            value={formik.values.accountNumber}
-            error={formik.errors.accountNumber}
-            disabled
-          />
-          <Input
-            name="mnemonicName"
-            placeholder="Mnemonic Name"
-            onChange={formik.handleChange}
-            value={formik.values.mnemonicName}
-            error={formik.errors.mnemonicName}
-          />
+        <form onSubmit={formik.handleSubmit}>
+          <div className="space-y-2">
+            <Input
+              name="accountNumber"
+              placeholder="Account Number"
+              onChange={formik.handleChange}
+              value={formik.values.accountNumber}
+              error={formik.errors.accountNumber}
+              disabled
+            />
+            <Input
+              name="mnemonicName"
+              placeholder="Mnemonic Name"
+              onChange={formik.handleChange}
+              value={formik.values.mnemonicName}
+              error={formik.errors.mnemonicName}
+            />
+          </div>
+          <Modal.Bottom>
+            <Button type="button" onClick={toggle} preset="outlined">
+              Cancel
+            </Button>
+            <Button type="submit">Update</Button>
+          </Modal.Bottom>
         </form>
-
-        <Modal.Bottom>
-          <Button type="button" onClick={toggle} preset="outlined">
-            Cancel
-          </Button>
-          <Button type="submit">Update</Button>
-        </Modal.Bottom>
       </Modal>
     </>
   );
