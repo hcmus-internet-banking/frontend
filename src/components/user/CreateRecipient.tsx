@@ -10,7 +10,6 @@ import classNames from "classnames";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useCopyToClipboard } from "react-use";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
@@ -69,7 +68,6 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     }
   );
   const [name, setName] = useState<string>("");
-  const [, copyToClipboard] = useCopyToClipboard();
 
   useEffect(() => {
     if (isFetching) {
@@ -81,53 +79,42 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
 
   return (
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
-      <form onSubmit={formik.handleSubmit} className="space-y-3">
-        <Select options={[{ label: "Internal", value: "internal" }]} />
-
-        <Input
-          name="accountNumber"
-          placeholder="Account Number"
-          onChange={formik.handleChange}
-          value={formik.values.accountNumber}
-          error={formik.errors.accountNumber}
-          isLoading={isFetching}
-        />
-        <div className="flex items-center gap-1">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="space-y-3">
+          <Select options={[{ label: "Internal", value: "internal" }]} />
+          <Input
+            name="accountNumber"
+            placeholder="Account Number"
+            onChange={formik.handleChange}
+            value={formik.values.accountNumber}
+            error={formik.errors.accountNumber}
+            isLoading={isFetching}
+          />
           <Input
             outerClassNames="flex-grow"
             placeholder="Name"
             value={name}
             disabled
+            required={false}
           />
-
-          <Button
-            size="lg"
-            type="button"
-            onClick={() => {
-              copyToClipboard(name);
-              toast.success(`Copied ${name} to clipboard`);
-            }}
-          >
-            Copy
-          </Button>
+          <Input
+            name="mnemonicName"
+            placeholder="Mnemonic Name"
+            onChange={formik.handleChange}
+            value={formik.values.mnemonicName}
+            error={formik.errors.mnemonicName}
+            outerClassNames={classNames({
+              hidden: !name,
+            })}
+            required={false}
+          />
         </div>
-        <Input
-          name="mnemonicName"
-          placeholder="Mnemonic Name"
-          onChange={formik.handleChange}
-          value={formik.values.mnemonicName}
-          error={formik.errors.mnemonicName}
-          outerClassNames={classNames({
-            hidden: !name,
-          })}
-          required={false}
-        />
-        <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
-          <Button type="button" onClick={toggle}>
+        <Modal.Bottom>
+          <Button type="button" onClick={toggle} preset="outlined">
             Cancel
           </Button>
           <Button type="submit">Create</Button>
-        </div>
+        </Modal.Bottom>
       </form>
     </Modal>
   );
