@@ -29,7 +29,7 @@ function Layout({ children }: Props) {
 
   return (
     <div>
-      <nav className="sticky top-0 w-full bg-gray-100 py-4 px-10">
+      <nav className="sticky top-0 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
         <div className="mx-auto flex max-w-7xl items-center space-x-3">
           <NavigationButton
             href="/"
@@ -66,7 +66,7 @@ function Layout({ children }: Props) {
         </div>
       </nav>
 
-      <header className="flex justify-center bg-gray-200">
+      <header className="flex max-w-full justify-center overflow-x-auto bg-gray-200">
         <Spacer className="border-b" />
         <AppLink
           href={FACEBOOK_URL}
