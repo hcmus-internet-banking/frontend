@@ -18,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import ReCAPTCHA from "react-google-recaptcha";
 import { env } from "@/core/env/client.mjs";
+import { EmptyLayout } from "@/components/common/Layout";
 
 function Index() {
   const loginValidate = useMemo(() => loginSchema, []);
@@ -95,59 +96,60 @@ function Index() {
       <Heading>Login</Heading>
       <Spacer className="h-2" />
 
-      <div className="grid grid-cols-2 divide-x">
-        <form onSubmit={formik.handleSubmit}>
-          <section className="space-y-2 pr-4">
-            <Input
-              className="w-full"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              placeholder="Email"
-              error={formik.errors.email}
-              disabled={isLoading}
-              autoComplete="email"
+      <form onSubmit={formik.handleSubmit}>
+        <section className="space-y-2 pr-4">
+          <Input
+            className="w-full"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            placeholder="Email"
+            error={formik.errors.email}
+            disabled={isLoading}
+            autoComplete="email"
+          />
+
+          <Input
+            className="w-full"
+            name="password"
+            autoComplete="current-password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            placeholder="Password"
+            type="password"
+            hiddenable
+            error={formik.errors.password}
+            disabled={isLoading}
+          />
+
+          <div>
+            {/* react error boundrary */}
+
+            <ReCAPTCHA
+              sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              ref={captchaRef}
             />
-
-            <Input
-              className="w-full"
-              name="password"
-              autoComplete="current-password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Password"
-              type="password"
-              hiddenable
-              error={formik.errors.password}
-              disabled={isLoading}
-            />
-
-            <div>
-              {/* react error boundrary */}
-
-              <ReCAPTCHA
-                sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                ref={captchaRef}
-              />
-            </div>
-            <Button type="submit" isLoading={isLoading}>
-              <span>Login</span>
-            </Button>
-          </section>
-        </form>
-
-        <section className="space-y-2 pl-4">
-          <Button
-            onClick={() => {
-              router.push("/register");
-            }}
-          >
-            <span>Register</span>
+          </div>
+          <Button type="submit" isLoading={isLoading}>
+            <span>Login</span>
           </Button>
         </section>
-      </div>
+      </form>
+
+      <h1>
+        Bạn chưa có tài khoản?{" "}
+        <span
+          className="cursor-pointer text-blue-500 underline"
+          onClick={() => {
+            router.push("/register");
+          }}
+        >
+          Đăng ký
+        </span>
+      </h1>
     </div>
   );
 }
+Index.layout = EmptyLayout;
 
 export default Index;

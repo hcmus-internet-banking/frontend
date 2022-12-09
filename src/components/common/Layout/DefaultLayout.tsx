@@ -17,6 +17,7 @@ import {
   selectUser,
 } from "../../../store/auth";
 import Spacer from "../Spacer/Spacer";
+import Auth from "../Auth/Auth";
 
 type Props = { children: React.ReactElement };
 
@@ -28,68 +29,70 @@ function Layout({ children }: Props) {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
-      <nav className="sticky top-0 w-full bg-gray-100 py-4 px-10">
-        <div className="mx-auto flex max-w-7xl items-center space-x-3">
-          <NavigationButton
-            href="/"
-            className="bg-red-600"
-            icon={IoHome}
-            label="Home"
+    <Auth>
+      <div>
+        <nav className="sticky top-0 w-full bg-gray-100 py-4 px-10">
+          <div className="mx-auto flex max-w-7xl items-center space-x-3">
+            <NavigationButton
+              href="/"
+              className="bg-red-600"
+              icon={IoHome}
+              label="Home"
+            />
+            <NavigationButton
+              className="bg-green-600"
+              href="/user/recipients"
+              label="Recipients"
+            />
+            <NavigationButton className="bg-yellow-600" label="Debts" />
+            <div className="flex-1"></div>
+            {!isAuthenticated ? (
+              <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
+            ) : (
+              <>
+                <NavigationButton
+                  className="bg-blue-400"
+                  icon={IoPerson}
+                  label={`${user?.firstName} ${user?.lastName}`}
+                  href="/profile"
+                />
+                <AppLink
+                  onClick={() => {
+                    dispatch(logoutAsync());
+                  }}
+                  text="Logout"
+                  iconLeft={IoLogIn}
+                />
+              </>
+            )}
+          </div>
+        </nav>
+
+        <header className="flex justify-center bg-gray-200">
+          <Spacer className="border-b" />
+          <AppLink
+            href={FACEBOOK_URL}
+            text="Facebook"
+            iconLeft={IoLogoFacebook}
+            newTab
           />
-          <NavigationButton
-            className="bg-green-600"
+          <AppLink
+            href="https://elements.getpostman.com/redirect?entityId=22930192-6a16bef1-20f5-4726-9737-6966231a5464&entityType=collection"
+            text="API Documentation"
+            iconLeft={SiSwagger}
+            target="_blank"
+          />
+          <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
+          <AppLink
             href="/user/recipients"
-            label="Recipients"
+            text="Recipients"
+            iconLeft={IoReceipt}
           />
-          <NavigationButton className="bg-yellow-600" label="Debts" />
-          <div className="flex-1"></div>
-          {!isAuthenticated ? (
-            <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
-          ) : (
-            <>
-              <NavigationButton
-                className="bg-blue-400"
-                icon={IoPerson}
-                label={`${user?.firstName} ${user?.lastName}`}
-                href="/profile"
-              />
-              <AppLink
-                onClick={() => {
-                  dispatch(logoutAsync());
-                }}
-                text="Logout"
-                iconLeft={IoLogIn}
-              />
-            </>
-          )}
-        </div>
-      </nav>
+        </header>
 
-      <header className="flex justify-center bg-gray-200">
-        <Spacer className="border-b" />
-        <AppLink
-          href={FACEBOOK_URL}
-          text="Facebook"
-          iconLeft={IoLogoFacebook}
-          newTab
-        />
-        <AppLink
-          href="https://elements.getpostman.com/redirect?entityId=22930192-6a16bef1-20f5-4726-9737-6966231a5464&entityType=collection"
-          text="API Documentation"
-          iconLeft={SiSwagger}
-          target="_blank"
-        />
-        <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
-        <AppLink
-          href="/user/recipients"
-          text="Recipients"
-          iconLeft={IoReceipt}
-        />
-      </header>
-
-      <main className="mx-auto max-w-5xl p-2">{children}</main>
-    </div>
+        <main className="mx-auto max-w-5xl p-2">{children}</main>
+      </div>
+    </Auth>
   );
 }
 
