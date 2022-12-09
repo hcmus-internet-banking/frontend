@@ -1,9 +1,9 @@
 import React, { memo } from "react";
-import classnames from "classnames";
 import { IoCloseCircle } from "react-icons/io5";
 import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
 import useToggle from "../../../lib/common/hooks/useToggle";
 import { BeatLoader } from "react-spinners";
+import classNames from "classnames";
 
 type Props = {
   value?: string;
@@ -20,6 +20,7 @@ type Props = {
   disabled?: boolean;
   isLoading?: boolean;
   outerClassNames?: string;
+  required?: boolean;
 } & React.ComponentPropsWithoutRef<"input">;
 
 function Input({
@@ -36,6 +37,7 @@ function Input({
   isLoading,
   outerClassNames,
   disabled,
+  required = true,
   ...props
 }: Props) {
   const handleClearClick = () => {
@@ -56,12 +58,13 @@ function Input({
           onChange={onChange}
           type={hiddenValue ? "text" : type}
           autoComplete={autoComplete}
-          className={classnames(
+          className={classNames(
             "peer w-full rounded-xl bg-gray-200 px-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
             className,
+            "h-12",
             {
-              "pt-4 pb-3": placeholder,
-              "pt-3 pb-3": !placeholder,
+              "pt-5 pb-1": placeholder,
+              "pt-3 pb-2": !placeholder,
               "cursor-not-allowed bg-gray-300": disabled,
             }
           )}
@@ -69,8 +72,12 @@ function Input({
           placeholder=" "
           {...props}
         />
-        <span className="absolute left-3 top-1 select-none text-xs text-gray-500 transition-[top,font-size] placeholder-shown:text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs">
-          {placeholder}
+        <span
+          className={classNames(
+            "absolute left-3 top-1 select-none text-xs text-gray-500 transition-[top,font-size] placeholder-shown:text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs"
+          )}
+        >
+          {placeholder} {required && <span className="text-red-500">*</span>}
         </span>
 
         {!disabled && (
@@ -78,7 +85,7 @@ function Input({
             {clearable && onChange && !!value?.length && (
               <span
                 onClick={handleClearClick}
-                className={classnames("cursor-pointer")}
+                className={classNames("cursor-pointer")}
                 aria-label="Clear"
               >
                 <IoCloseCircle className="h-5 w-5 text-gray-500" />
@@ -86,7 +93,7 @@ function Input({
             )}
             {hiddenable && (
               <span
-                className={classnames("cursor-pointer", {
+                className={classNames("cursor-pointer", {
                   hidden: !value?.length,
                 })}
                 onClick={toggleHidden}
@@ -111,7 +118,7 @@ function Input({
 
       {error && (
         <div
-          className={classnames("mt-1 text-xs text-red-500 transition", {
+          className={classNames("mt-1 text-xs text-red-500 transition", {
             "text-[0px]": !error,
             "ml-3": error,
           })}

@@ -20,8 +20,9 @@ function NavigationButton({ className, onClick, icon, href, label }: Props) {
       <a onClick={onClick} className="block">
         <div
           className={classNames(
-            "transform cursor-pointer rounded-xl bg-red-400 py-2 transition duration-300 ease-in-out hover:scale-110",
+            "transform cursor-pointer rounded-xl py-2 transition duration-300 ease-in-out hover:scale-110",
             "flex items-center justify-center gap-2 px-6",
+            { "bg-red-400": !className.includes("bg-") },
             className
           )}
         >

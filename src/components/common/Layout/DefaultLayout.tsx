@@ -1,13 +1,6 @@
 import React from "react";
 import NavigationButton from "./components/NavigationButton";
-import {
-  IoFingerPrint,
-  IoHome,
-  IoLogIn,
-  IoLogoFacebook,
-  IoPerson,
-  IoReceipt,
-} from "react-icons/io5";
+import { IoHome, IoLogIn, IoPerson, IoReceipt } from "react-icons/io5";
 import AppLink from "../AppLink/AppLink";
 import { SiSwagger } from "react-icons/si";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
@@ -21,8 +14,6 @@ import Auth from "../Auth/Auth";
 
 type Props = { children: React.ReactElement };
 
-const FACEBOOK_URL = process.env.NEXT_PUBLIC_FACEBOOK_URL as string;
-
 function Layout({ children }: Props) {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
@@ -31,7 +22,7 @@ function Layout({ children }: Props) {
   return (
     <Auth>
       <div>
-        <nav className="sticky top-0 w-full bg-gray-100 py-4 px-10">
+        <nav className="sticky top-0 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
           <div className="mx-auto flex max-w-7xl items-center space-x-3">
             <NavigationButton
               href="/"
@@ -68,26 +59,17 @@ function Layout({ children }: Props) {
           </div>
         </nav>
 
-        <header className="flex justify-center bg-gray-200">
+        <header className="flex max-w-full justify-center overflow-x-auto bg-gray-200">
           <Spacer className="border-b" />
-          <AppLink
-            href={FACEBOOK_URL}
-            text="Facebook"
-            iconLeft={IoLogoFacebook}
-            newTab
-          />
+          <AppLink href="/" text="Home" iconLeft={IoReceipt} />
           <AppLink
             href="https://elements.getpostman.com/redirect?entityId=22930192-6a16bef1-20f5-4726-9737-6966231a5464&entityType=collection"
             text="API Documentation"
             iconLeft={SiSwagger}
             target="_blank"
           />
-          <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} />
-          <AppLink
-            href="/user/recipients"
-            text="Recipients"
-            iconLeft={IoReceipt}
-          />
+          {/* TODO: Check for Admin */}
+          {/* <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} /> */}
         </header>
 
         <main className="mx-auto max-w-5xl p-2">{children}</main>

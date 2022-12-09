@@ -11,7 +11,7 @@ type SelectProps = {
 function Select({ options }: SelectProps) {
   return (
     <div className="relative w-full">
-      <select className="w-full appearance-none rounded-xl bg-gray-200 px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md">
+      <select className="h-12 w-full appearance-none rounded-xl bg-gray-200 px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md">
         {/* <option value="1">Internal</option>
         <option value="2">External</option> */}
         {options.map((option) => (
