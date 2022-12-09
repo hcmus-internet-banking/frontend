@@ -20,6 +20,7 @@ type Props = {
   disabled?: boolean;
   isLoading?: boolean;
   outerClassNames?: string;
+  required?: boolean;
 } & React.ComponentPropsWithoutRef<"input">;
 
 function Input({
@@ -36,6 +37,7 @@ function Input({
   isLoading,
   outerClassNames,
   disabled,
+  required = true,
   ...props
 }: Props) {
   const handleClearClick = () => {
@@ -70,7 +72,7 @@ function Input({
           {...props}
         />
         <span className="absolute left-3 top-1 select-none text-xs text-gray-500 transition-[top,font-size] placeholder-shown:text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs">
-          {placeholder}
+          {placeholder} {required && <span className="text-red-500">*</span>}
         </span>
 
         {!disabled && (

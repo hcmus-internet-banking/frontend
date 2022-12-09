@@ -73,6 +73,7 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
               onChange={formik.handleChange}
               value={formik.values.mnemonicName}
               error={formik.errors.mnemonicName}
+              required={false}
             />
           </div>
           <Modal.Bottom>

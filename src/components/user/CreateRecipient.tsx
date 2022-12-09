@@ -120,6 +120,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
           outerClassNames={classNames({
             hidden: !name,
           })}
+          required={false}
         />
         <div className="mt-0 grid grid-cols-1 gap-2 p-4 sm:mt-5 sm:grid-cols-2">
           <Button type="button" onClick={toggle}>
