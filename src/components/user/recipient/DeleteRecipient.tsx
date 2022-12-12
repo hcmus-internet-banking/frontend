@@ -1,7 +1,7 @@
+import Button from "@/components/common/Button/Button";
+import Modal from "@/components/common/Modal/Modal";
 import { useDeleteRecipient } from "@/lib/home/hooks/recipient/useDeleteRecipient";
 import { toast } from "react-hot-toast";
-import Button from "../common/Button/Button";
-import Modal from "../common/Modal/Modal";
 
 type Props = {
   id: string;

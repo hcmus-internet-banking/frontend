@@ -1,3 +1,6 @@
+import Button from "@/components/common/Button/Button";
+import Input from "@/components/common/Input/Input";
+import Modal from "@/components/common/Modal/Modal";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useUpdateRecipient } from "@/lib/home/hooks/recipient/useUpdateRecipient";
 import { createRecipientSchema } from "@/lib/home/schema";
@@ -5,9 +8,6 @@ import { Recipient } from "@/store/recipients/types";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import Button from "../common/Button/Button";
-import Input from "../common/Input/Input";
-import Modal from "../common/Modal/Modal";
 
 type Props = {
   recipient: Recipient;

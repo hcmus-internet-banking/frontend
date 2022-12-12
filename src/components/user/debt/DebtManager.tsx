@@ -1,14 +1,15 @@
+import Button from "@/components/common/Button/Button";
+import Card from "@/components/common/Card/Card";
+import Heading from "@/components/common/Heading/Heading";
+import Spinner from "@/components/common/Spinner/Spinner";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
+import React from "react";
 import { RxPlus } from "react-icons/rx";
-import Button from "../common/Button/Button";
-import Card from "../common/Card/Card";
-import Heading from "../common/Heading/Heading";
-import Spinner from "../common/Spinner/Spinner";
-import CreateRecipient from "./CreateRecipient";
-import Recipient from "./Recipient";
+import CreateRecipient from "../recipient/CreateRecipient";
+import Recipient from "../recipient/Recipient";
 
-const RecipientManager = () => {
+const DebtManager = () => {
   const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfinityQueryRecipientList({
@@ -22,7 +23,7 @@ const RecipientManager = () => {
 
       <Card className="max-w-lg bg-gray-100" noShadow>
         <div className="flex justify-between">
-          <Heading>Recipient List</Heading>
+          <Heading>Debt List</Heading>
           <Button className="w-fit" onClick={toggle} size="sm">
             <RxPlus strokeWidth={1} />
           </Button>
@@ -57,4 +58,4 @@ const RecipientManager = () => {
   );
 };
 
-export default RecipientManager;
+export default DebtManager;

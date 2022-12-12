@@ -1,6 +1,6 @@
 import useToggle from "@/lib/common/hooks/useToggle";
+import { Recipient } from "@/store/recipients/types";
 import { RxCross1, RxPencil2 } from "react-icons/rx";
-import { Recipient } from "../../store/recipients/types";
 import DeleteRecipient from "./DeleteRecipient";
 import UpdateRecipient from "./UpdateRecipient";
 
