@@ -30,7 +30,6 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
     validationSchema: toFormikValidationSchema(createRecipientSchema),
     onSubmit: async (values) => {
       setIsSubmitted(true);
-      console.log(values);
 
       toast.promise(
         mutateAsync({

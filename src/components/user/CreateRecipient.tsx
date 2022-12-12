@@ -21,6 +21,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useUpdateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const [isDisable, setIsDisable] = useState(true);
+  const [name, setName] = useState<string>("");
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
@@ -35,11 +36,13 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
       toast.promise(
         mutateAsync({
           accountNumber: values.accountNumber,
-          mnemonicName: values.mnemonicName,
+          mnemonicName: values.mnemonicName || name,
         }),
         {
           loading: "Creating Recipient...",
           success: () => {
+            formik.resetForm();
+            setName("");
             toggle();
             return "Recipient Created";
           },
@@ -50,6 +53,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
       );
     },
   });
+
   const { isFetching } = useQueryCustomerByBankNumber(
     formik.values.accountNumber,
     {
@@ -67,7 +71,6 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
       },
     }
   );
-  const [name, setName] = useState<string>("");
 
   useEffect(() => {
     if (isFetching) {

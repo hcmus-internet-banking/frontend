@@ -1,6 +1,9 @@
+import { EmptyLayout } from "@/components/common/Layout";
+import { env } from "@/core/env/client.mjs";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useMemo, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../components/common/Button/Button";
@@ -16,9 +19,6 @@ import {
   selectIsAuthenticated,
 } from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import ReCAPTCHA from "react-google-recaptcha";
-import { env } from "@/core/env/client.mjs";
-import { EmptyLayout } from "@/components/common/Layout";
 
 function Index() {
   const loginValidate = useMemo(() => loginSchema, []);

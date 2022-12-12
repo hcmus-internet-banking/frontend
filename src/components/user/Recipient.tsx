@@ -1,8 +1,7 @@
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useDeleteRecipient } from "@/lib/home/hooks/recipient/useDeleteRecipient";
-import { toast } from "react-hot-toast";
 import { RxCross1, RxPencil2 } from "react-icons/rx";
 import { Recipient } from "../../store/recipients/types";
+import DeleteRecipient from "./DeleteRecipient";
 import UpdateRecipient from "./UpdateRecipient";
 
 type Props = {
@@ -10,26 +9,29 @@ type Props = {
 };
 
 function Recipient({ recipient }: Props) {
-  const { mutateAsync } = useDeleteRecipient();
-  const { value, toggle } = useToggle(true);
+  const { value: hideEditModal, toggle: toggleEdit } = useToggle(true);
+  const { value: hideDeleteModal, toggle: toggleDelete } = useToggle(true);
 
   const handleDeleteRecipient = async () => {
-    toast.promise(mutateAsync(recipient.id), {
-      loading: "Deleting recipient...",
-      success: (data) => {
-        return `Deleted recipient ${data.data.data.mnemonicName} / ${data.data.data.accountNumber}`;
-      },
-      error: "Failed to delete recipient",
-    });
+    toggleDelete();
   };
 
   const handleEditRecipient = () => {
-    toggle();
+    toggleEdit();
   };
 
   return (
     <>
-      <UpdateRecipient hide={value} toggle={toggle} recipient={recipient} />
+      <UpdateRecipient
+        hide={hideEditModal}
+        toggle={toggleEdit}
+        recipient={recipient}
+      />
+      <DeleteRecipient
+        hide={hideDeleteModal}
+        toggle={toggleDelete}
+        id={recipient.id}
+      />
       <div className="flex content-around items-center duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
         <div className="flex grow justify-between p-2">
           <span className="font-semibold">{recipient.mnemonicName}</span>
