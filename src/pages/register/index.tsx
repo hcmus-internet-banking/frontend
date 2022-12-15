@@ -13,6 +13,8 @@ import { BarLoader } from "react-spinners";
 import { useAppDispatch } from "../../store/store";
 import toast from "react-hot-toast";
 import { noToastErrorOption } from "../../lib/common/utils/react-hot-toast";
+import { EmptyLayout } from "@/components/common/Layout";
+import { BiArrowBack } from "react-icons/bi";
 
 function Index() {
   const registerValidate = useMemo(() => registerSchema, []);
@@ -72,73 +74,80 @@ function Index() {
       {authState.loading && <BarLoader width={200} />}
 
       <Spacer className="h-12" />
-      <Heading>Register</Heading>
+      <Heading>
+        <BiArrowBack
+          className="cursor-pointer"
+          onClick={() => {
+            router.push("/login");
+          }}
+        ></BiArrowBack>
+        Register
+      </Heading>
       <Spacer className="h-2" />
 
-      <div className="grid grid-cols-2 divide-x">
-        <form onSubmit={formik.handleSubmit}>
-          <section className="space-y-2 pr-4">
-            <Input
-              className="w-full"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              placeholder="Email"
-              error={formik.errors.email}
-            />
+      <form onSubmit={formik.handleSubmit}>
+        <section className="space-y-2 pr-4">
+          <Input
+            className="w-full"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            placeholder="Email"
+            error={formik.errors.email}
+          />
 
-            <Input
-              className="w-full"
-              name="password"
-              autoComplete="none"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Password"
-              type="password"
-              hiddenable
-              error={formik.errors.password}
-            />
+          <Input
+            className="w-full"
+            name="password"
+            autoComplete="none"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            placeholder="Password"
+            type="password"
+            hiddenable
+            error={formik.errors.password}
+          />
 
-            <Input
-              className="w-full"
-              name="repassword"
-              autoComplete="none"
-              value={formik.values.repassword}
-              onChange={formik.handleChange}
-              placeholder="Re-password"
-              type="password"
-              hiddenable
-              error={formik.errors.repassword}
-            />
+          <Input
+            className="w-full"
+            name="repassword"
+            autoComplete="none"
+            value={formik.values.repassword}
+            onChange={formik.handleChange}
+            placeholder="Re-password"
+            type="password"
+            hiddenable
+            error={formik.errors.repassword}
+          />
 
-            <Input
-              className="w-full"
-              name="firstName"
-              value={formik.values.firstName}
-              onChange={formik.handleChange}
-              placeholder="First name"
-              error={formik.errors.firstName}
-            />
+          <Input
+            className="w-full"
+            name="firstName"
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            placeholder="First name"
+            error={formik.errors.firstName}
+          />
 
-            <Input
-              className="w-full"
-              name="lastName"
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-              placeholder="Last name"
-              error={formik.errors.lastName}
-            />
+          <Input
+            className="w-full"
+            name="lastName"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            placeholder="Last name"
+            error={formik.errors.lastName}
+          />
 
-            <Button type="submit" disabled={authState.loading}>
-              <span>Register</span>
-            </Button>
-          </section>
-        </form>
-      </div>
+          <Button type="submit" disabled={authState.loading}>
+            <span>Register</span>
+          </Button>
+        </section>
+      </form>
     </div>
   );
 }
 
 Index.title = "Register";
+Index.layout = EmptyLayout;
 
 export default Index;

@@ -36,6 +36,7 @@ const MyApp = ({
             <>
               <Head>
                 <title>{title}</title>
+                <link rel="icon" href="/logo.png" />
               </Head>
               <Layout>
                 <Component {...pageProps} />
