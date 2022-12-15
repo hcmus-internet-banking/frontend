@@ -20,25 +20,18 @@ interface Metadata {
   hasPrevPage: boolean;
 }
 
-export const useQueryRecipientList = ({
-  limit,
-  offset,
-}: {
-  limit: number;
-  offset: number;
-}) => {
+export const useQueryRecipientList = () => {
   const queryArgs = useQuery(
-    ["recipients", { limit, offset }], // This is the key for the query
+    ["recipients"],
     async () => {
       const res = await client.get<RecipientsResponse>(
-        `/api/recipients?limit=${limit}&offset=${offset}`
+        `/api/recipients`
       );
-
       return await handleResponse(res);
     },
     {
       refetchOnWindowFocus: false,
-    }
+    },
   );
 
   return queryArgs;
