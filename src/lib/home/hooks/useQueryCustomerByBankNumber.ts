@@ -10,7 +10,7 @@ interface CustomerData {
   firstName: string;
 }
 
-export const BANK_NUMBER_LENGTH = 9;
+export const BANK_NUMBER_LENGTH = 10;
 
 export const useQueryGetCustomerByBankNumber = (
   bankNumber: string,

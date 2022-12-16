@@ -50,3 +50,6 @@ export default transferSlice.reducer;
 
 export const selectTransfer = (state: { transfer: InitialState }) =>
   state.transfer;
+
+export const selectRecipient = (state: { transfer: InitialState }) =>
+  state.transfer.data;
