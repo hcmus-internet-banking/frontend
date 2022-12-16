@@ -20,7 +20,9 @@ interface Metadata {
   hasPrevPage: boolean;
 }
 
-export const useQueryRecipientList = () => {
+export const useQueryRecipientList = (
+  overrideOptions?: any
+) => {
   const queryArgs = useQuery(
     ["recipients"],
     async () => {
@@ -31,6 +33,7 @@ export const useQueryRecipientList = () => {
     },
     {
       refetchOnWindowFocus: false,
+      ...overrideOptions,
     },
   );
 

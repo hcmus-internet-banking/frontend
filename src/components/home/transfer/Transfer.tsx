@@ -25,7 +25,6 @@ export const Transfer = () => {
               )}
               onClick={() => {
                 setIsInternal(true);
-                console.log(isInternal);
               }}
             >
               Internal
@@ -37,7 +36,6 @@ export const Transfer = () => {
               )}
               onClick={() => {
                 setIsInternal(false);
-                console.log(isInternal);
               }}
             >
               External

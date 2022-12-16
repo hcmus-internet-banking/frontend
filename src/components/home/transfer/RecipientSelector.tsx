@@ -16,17 +16,18 @@ function RecipientSelector({
   toggle,
   setValues,
 }: RecipientSelectorProps) {
-  const { data: recipientList, isLoading } = useQueryRecipientList();
+  const { data: recipientList, isLoading, isSuccess } = useQueryRecipientList();
   const [selectedRecipient, setSelectedRecipient] = useState(
     recipientList?.data
   );
   const [searchText, setSearchText] = useState("");
 
+  if (isSuccess && !selectedRecipient) setSelectedRecipient(recipientList?.data);
+
   const filterRecipient = (e: any) => {
     const { value } = e?.target;
     setSearchText(value);
 
-    // console.log(selectedRecipient);
     const isFilterByName = Number.isNaN(Number(value));
 
     if (value.length === 0)
@@ -34,8 +35,8 @@ function RecipientSelector({
     const filteredRecipient = recipientList?.data?.filter((recipient: any) =>
       isFilterByName
         ? // recipient?.firstName.includes(value) ||
-          // recipient.lastName.includes(value) ||
-          recipient.mnemonicName.includes(value)
+        // recipient.lastName.includes(value) ||
+        recipient.mnemonicName.includes(value)
         : recipient.accountNumber.includes(value)
     );
     setSelectedRecipient(filteredRecipient as any);

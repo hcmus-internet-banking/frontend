@@ -12,6 +12,7 @@ import RecipientSelector from "./RecipientSelector";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
+import Select from "@/components/common/Select/Select";
 
 function InternalTransfer() {
   const { firstName, lastName } = useAppSelector<any>(selectUser);
@@ -109,6 +110,19 @@ function InternalTransfer() {
             onChange={formik.handleChange}
             placeholder="Số tiền"
             error={formik.errors.amount}
+          />
+          <Select
+            options={[
+              {
+                label: "Nguoi nhan tra phi",
+                value: "sender",
+              },
+              {
+                label: "Nguoi gui tra phi",
+                value: "receiver",
+              },
+            ]}
+            title="Phí chuyển tiền"
           />
 
           <Input
