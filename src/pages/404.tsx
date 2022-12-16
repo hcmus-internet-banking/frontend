@@ -1,3 +1,4 @@
+import { EmptyLayout } from "@/components/common/Layout";
 import { useRouter } from "next/router";
 import React from "react";
 import Button from "../components/common/Button/Button";
@@ -180,5 +181,7 @@ function NotFoundPage({}) {
     </div>
   );
 }
+
+NotFoundPage.layout = EmptyLayout;
 
 export default NotFoundPage;

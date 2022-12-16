@@ -1,33 +1,30 @@
-import AppLink from "@/components/common/AppLink/AppLink";
-import { EmptyLayout } from "@/components/common/Layout";
-import { env } from "@/core/env/client.mjs";
+import { noToastErrorOption } from "@/lib/common/utils/react-hot-toast";
+import { loginSchema } from "@/lib/login/schema";
+import {
+  selectIsAuthenticated,
+  selectAuthLoading,
+  loginAsync,
+} from "@/store/auth";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import Button from "../../components/common/Button/Button";
-import Heading from "../../components/common/Heading/Heading";
-import Input from "../../components/common/Input/Input";
-import Spacer from "../../components/common/Spacer/Spacer";
-import useToggle from "../../lib/common/hooks/useToggle";
-import { noToastErrorOption } from "../../lib/common/utils/react-hot-toast";
-import { loginSchema } from "../../lib/login/schema";
-import {
-  loginAsync,
-  selectAuthLoading,
-  selectIsAuthenticated,
-} from "../../store/auth";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import AppLink from "../common/AppLink/AppLink";
+import Button from "../common/Button/Button";
+import Input from "../common/Input/Input";
+import Heading from "../common/Heading/Heading";
+import Spacer from "../common/Spacer/Spacer";
 
-function Index() {
+function LoginPage() {
   const loginValidate = useMemo(() => loginSchema, []);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const isLoading = useAppSelector(selectAuthLoading);
-  const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
   const login = (values: {
     email: string;
@@ -94,7 +91,7 @@ function Index() {
     <div>
       <Spacer className="h-12" />
 
-      <Heading>Login</Heading>
+      <Heading>Admin Login</Heading>
       <Spacer className="h-2" />
 
       <form onSubmit={formik.handleSubmit}>
@@ -123,14 +120,6 @@ function Index() {
             disabled={isLoading}
           />
 
-          <div>
-            {/* react error boundrary */}
-
-            <ReCAPTCHA
-              sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-              ref={captchaRef}
-            />
-          </div>
           <div className="h-1"></div>
           <Button type="submit" isLoading={isLoading}>
             <span>Login</span>
@@ -150,12 +139,11 @@ function Index() {
           />
         </div>
         <div>
-          <AppLink href="/admin/login">Admin Login</AppLink>
+          <AppLink href="/login">User Login</AppLink>
         </div>
       </div>
     </div>
   );
 }
-Index.layout = EmptyLayout;
 
-export default Index;
+export default LoginPage;
