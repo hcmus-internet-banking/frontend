@@ -15,7 +15,7 @@ import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/ho
 import Select from "@/components/common/Select/Select";
 import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
-import { useUpdateRecipient } from "@/lib/home/hooks/recipient/useUpdateRecipient";
+import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 
 const TIME_OUT_GET_OTP = 60;
 
@@ -32,7 +32,7 @@ function InternalTransfer() {
   const [timeCount, setTimeCount] = React.useState(TIME_OUT_GET_OTP);
   const { mutateAsync: mutateInternalTransfer } = UseCreateInternalTransfer();
   const { mutateAsync: mutateGetOTP } = UseGetOTPTransfer();
-  const { mutateAsync: mutateRecipient } = useUpdateRecipient();
+  const { mutateAsync: mutateRecipient } = useCreateRecipient();
 
   const handleSendOTP = () => {
     mutateGetOTP()
@@ -95,7 +95,7 @@ function InternalTransfer() {
             ) {
               confirm("Do you want to add this recipient to your list?") &&
                 mutateRecipient({
-                  id: values.to,
+                  accountNumber: values?.to,
                   mnemonicName: accountName,
                 });
             }

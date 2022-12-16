@@ -1,7 +1,7 @@
 import Card from "@/components/common/Card/Card";
 import Modal from "@/components/common/Modal/Modal";
 import Spinner from "@/components/common/Spinner/Spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../common/Input/Input";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
 
@@ -16,14 +16,15 @@ function RecipientSelector({
   toggle,
   setValues,
 }: RecipientSelectorProps) {
-  const { data: recipientList, isLoading, isSuccess } = useQueryRecipientList();
+  const { data: recipientList, isLoading } = useQueryRecipientList();
   const [selectedRecipient, setSelectedRecipient] = useState(
     recipientList?.data
   );
   const [searchText, setSearchText] = useState("");
 
-  if (isSuccess && !selectedRecipient)
+  useEffect(() => {
     setSelectedRecipient(recipientList?.data);
+  }, [recipientList]);
 
   const filterRecipient = (e: any) => {
     const { value } = e?.target;
@@ -57,60 +58,67 @@ function RecipientSelector({
           {isLoading ? (
             <Spinner />
           ) : (
-            <table className="min-w-full">
-              <thead className="border-b">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-left text-sm font-medium text-gray-900"
-                  >
-                    #
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-left text-sm font-medium text-gray-900"
-                  >
-                    mnemonicName
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 text-left text-sm font-medium text-gray-900"
-                  >
-                    Account Number
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedRecipient ? (
-                  selectedRecipient.map((recipient: any, index) => (
-                    <tr
-                      key={recipient.id}
-                      className="cursor-pointer border-b  hover:bg-red-300"
-                      onClick={() => {
-                        setSelectedRecipient([recipient]);
-                        // setSearchText(recipient.mnemonicName);
-                        toggle();
-                        setValues(recipient.accountNumber);
-                      }}
-                    >
-                      <td className=" whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                        {index + 1}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                        {recipient.mnemonicName}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                        {recipient.accountNumber}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
+            <div
+              className="overflow-y-scroll"
+              style={{
+                maxHeight: "50vh",
+              }}
+            >
+              <table className="w-full table-auto overflow-scroll">
+                <thead className="border-b">
                   <tr>
-                    <td colSpan={2}>Không có dữ liệu</td>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-left text-sm font-medium text-gray-900"
+                    >
+                      #
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-left text-sm font-medium text-gray-900"
+                    >
+                      mnemonicName
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-left text-sm font-medium text-gray-900"
+                    >
+                      Account Number
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {selectedRecipient ? (
+                    selectedRecipient.map((recipient: any, index) => (
+                      <tr
+                        key={recipient.id}
+                        className="cursor-pointer border-b  hover:bg-red-300"
+                        onClick={() => {
+                          setSelectedRecipient([recipient]);
+                          // setSearchText(recipient.mnemonicName);
+                          toggle();
+                          setValues(recipient.accountNumber);
+                        }}
+                      >
+                        <td className=" whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                          {index + 1}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                          {recipient.mnemonicName}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                          {recipient.accountNumber}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={2}>Không có dữ liệu</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </Card>
