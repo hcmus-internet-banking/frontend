@@ -18,6 +18,11 @@ type Props = {
   toggle: any;
 };
 
+const options = [
+  { label: "Internal", value: "true" },
+  { label: "External", value: "false" },
+];
+
 const CreateInvoice = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useCreateInvoice();
   const [isDisable, setIsDisable] = useState(true);
@@ -99,11 +104,11 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-3">
             <Select
-              title="Choose type of bank"
-              options={[
-                { label: "Internal", value: "internal" },
-                { label: "External", value: "external" },
-              ]}
+              name="isInternalBank"
+              onChange={formik.handleChange}
+              error={formik.errors.isInternalBank}
+              value={formik.values.isInternalBank}
+              options={options}
             />
             <div className="flex w-full content-around">
               <Input

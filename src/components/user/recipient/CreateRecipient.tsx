@@ -17,6 +17,11 @@ type Props = {
   toggle: any;
 };
 
+const options = [
+  { label: "Internal", value: "true" },
+  { label: "External", value: "false" },
+];
+
 const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useCreateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
@@ -26,6 +31,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     initialValues: {
       accountNumber: "",
       mnemonicName: "",
+      isInternalBank: "true",
     },
     validateOnBlur: isSubmitted,
     validateOnChange: isSubmitted,
@@ -84,7 +90,13 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-3">
-          <Select options={[{ label: "Internal", value: "internal" }]} />
+          <Select
+            name="isInternalBank"
+            onChange={formik.handleChange}
+            error={formik.errors.isInternalBank}
+            value={formik.values.isInternalBank}
+            options={options}
+          />
           <Input
             name="accountNumber"
             placeholder="Account Number"
