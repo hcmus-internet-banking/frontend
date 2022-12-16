@@ -4,8 +4,8 @@ import classNames from "classnames";
 import Button from "../common/Button/Button";
 import Card from "../common/Card/Card";
 import Spinner from "../common/Spinner/Spinner";
-import { Settings } from "./Settings";
 import { Debts } from "./Debts";
+import { Settings } from "./Settings";
 import { Transfer } from "./Transfer";
 
 const Home = () => {

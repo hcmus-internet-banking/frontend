@@ -3,27 +3,27 @@ import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
+import { useInfinityQueryInvoiceList } from "@/lib/home/hooks/invoice/useInfinityQueryInvoiceList";
 import React from "react";
 import { RxPlus } from "react-icons/rx";
-import CreateRecipient from "../recipient/CreateRecipient";
 import Recipient from "../recipient/Recipient";
+import CreateInvoice from "./CreateInvoice";
 
-const DebtManager = () => {
+const InvoiceManager = () => {
   const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfinityQueryRecipientList({
+    useInfinityQueryInvoiceList({
       limit: 4,
       offset: 0,
     });
 
   return (
     <>
-      <CreateRecipient hide={value} toggle={toggle} />
+      <CreateInvoice hide={value} toggle={toggle} />
 
       <Card className="max-w-lg bg-gray-100" noShadow>
         <div className="flex justify-between">
-          <Heading>Debt List</Heading>
+          <Heading>Invoice List</Heading>
           <Button className="w-fit" onClick={toggle} size="sm">
             <RxPlus strokeWidth={1} />
           </Button>
@@ -58,4 +58,4 @@ const DebtManager = () => {
   );
 };
 
-export default DebtManager;
+export default InvoiceManager;

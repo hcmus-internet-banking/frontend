@@ -1,4 +1,4 @@
-import DebtManager from "@/components/user/debt/DebtManager";
+import DebtManager from "@/components/user/invoice/InvoiceManager";
 import React from "react";
 
 const Index = () => {

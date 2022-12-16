@@ -3,7 +3,7 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Select from "@/components/common/Select/Select";
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
+import { useCreateInvoice } from "@/lib/home/hooks/invoice/useCreateInvoice";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { createRecipientSchema } from "@/lib/home/schema";
 import classNames from "classnames";
@@ -17,15 +17,17 @@ type Props = {
   toggle: any;
 };
 
-const CreateRecipient = ({ hide, toggle }: Props) => {
-  const { mutateAsync } = useCreateRecipient();
+const CreateInvoice = ({ hide, toggle }: Props) => {
+  const { mutateAsync } = useCreateInvoice();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const [isDisable, setIsDisable] = useState(true);
   const [name, setName] = useState<string>("");
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
-      mnemonicName: "",
+      amount: 0,
+      isInternalBank: true,
+      message: "",
     },
     validateOnBlur: isSubmitted,
     validateOnChange: isSubmitted,
@@ -36,7 +38,9 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
       toast.promise(
         mutateAsync({
           accountNumber: values.accountNumber,
-          mnemonicName: values.mnemonicName || name,
+          amount: values.amount,
+          isInternalBank: values.isInternalBank,
+          message: values.message,
         }),
         {
           loading: "Creating Recipient...",
@@ -81,7 +85,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
   }, [isFetching]);
 
   return (
-    <Modal title="Create Recipient" hide={hide} toggle={toggle}>
+    <Modal title="Create Invoice" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-3">
           <Select options={[{ label: "Internal", value: "internal" }]} />
@@ -104,8 +108,8 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             name="mnemonicName"
             placeholder="Mnemonic Name"
             onChange={formik.handleChange}
-            value={formik.values.mnemonicName}
-            error={formik.errors.mnemonicName}
+            // value={formik.values.mnemonicName}
+            // error={formik.errors.mnemonicName}
             outerClassNames={classNames({
               hidden: !name,
             })}
@@ -123,4 +127,4 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
   );
 };
 
-export default CreateRecipient;
+export default CreateInvoice;

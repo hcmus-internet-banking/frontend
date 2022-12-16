@@ -3,26 +3,23 @@ import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useInfinityQueryRecipientList } from "@/lib/home/hooks/recipient/useInfinityQueryRecipientList";
+import { useInfinityQueryTransferList } from "@/lib/home/hooks/transfer/useInfinityQueryTransferList";
+import React from "react";
 import { RxPlus } from "react-icons/rx";
-import CreateRecipient from "./CreateRecipient";
-import Recipient from "./Recipient";
 
-const RecipientManager = () => {
+const TransferManager = () => {
   const { value, toggle } = useToggle(true);
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfinityQueryRecipientList({
+    useInfinityQueryTransferList({
       limit: 4,
       offset: 0,
     });
 
   return (
     <>
-      <CreateRecipient hide={value} toggle={toggle} />
-
       <Card className="max-w-lg bg-gray-100" noShadow>
         <div className="flex justify-between">
-          <Heading>Recipient List</Heading>
+          <Heading>Transfer List</Heading>
           <Button className="w-fit" onClick={toggle} size="sm">
             <RxPlus strokeWidth={1} />
           </Button>
@@ -33,8 +30,11 @@ const RecipientManager = () => {
           ) : (
             data?.pages.map((page, index) => (
               <div key={index}>
-                {page.data.map((recipient) => {
-                  return <Recipient key={recipient.id} recipient={recipient} />;
+                {page.data.map((transfer) => {
+                  console.log(transfer);
+
+                  return <></>;
+                  //   return <Trasfaer key={recipient.id} recipient={recipient} />;
                 })}
               </div>
             ))
@@ -57,4 +57,4 @@ const RecipientManager = () => {
   );
 };
 
-export default RecipientManager;
+export default TransferManager;

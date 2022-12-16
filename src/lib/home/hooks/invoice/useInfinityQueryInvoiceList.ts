@@ -1,9 +1,9 @@
-import { BaseResponse } from "@/core/handleResponse";
 import client from "@/core/client";
 import { handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { BaseResponse } from "../../../../core/handleResponse";
 
-interface RecipientsResponse extends BaseResponse {
+interface InvoicesResponse extends BaseResponse {
   data: Data;
 }
 
@@ -26,7 +26,7 @@ interface Datum {
   mnemonicName: string;
 }
 
-export const useInfinityQueryRecipientList = ({
+export const useInfinityQueryInvoiceList = ({
   limit,
   offset,
 }: {
@@ -36,9 +36,11 @@ export const useInfinityQueryRecipientList = ({
   const queryArgs = useInfiniteQuery(
     ["recipients", { limit, offset }], // This is the key for the query
     async ({ pageParam = 0 }) => {
-      const res = await client.get<RecipientsResponse>(
-        `/api/recipients?limit=${limit}&offset=${pageParam}`
+      const res = await client.get<InvoicesResponse>(
+        `/api/invoices?limit=${limit}&offset=${pageParam}`
       );
+
+      console.log("🚀 ~ file: useInfinityQueryInvoiceList.ts:42 ~ res", res);
 
       return await handleResponse(res);
     },

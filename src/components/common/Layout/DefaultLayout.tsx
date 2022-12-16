@@ -36,6 +36,11 @@ function Layout({ children }: Props) {
               label="Recipients"
             />
             <NavigationButton
+              className="bg-lime-600"
+              href="/user/transfers"
+              label="Transfers"
+            />
+            <NavigationButton
               className="bg-yellow-600"
               href="/user/debts"
               label="Debts"
@@ -46,7 +51,7 @@ function Layout({ children }: Props) {
             ) : (
               <>
                 <NavigationButton
-                  className="bg-blue-400"
+                  className="truncate bg-blue-400"
                   icon={IoPerson}
                   label={`${user?.firstName} ${user?.lastName}`}
                   href="/profile"
