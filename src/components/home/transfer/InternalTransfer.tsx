@@ -11,13 +11,13 @@ import { toast } from "react-hot-toast";
 import RecipientSelector from "./RecipientSelector";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/recipient/useCreateInternalTransfer";
+import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
 
 function InternalTransfer() {
   const { firstName, lastName } = useAppSelector<any>(selectUser);
   const { value, toggle } = useToggle(true);
   const [accountName, setAccountName] = React.useState("");
-  const { mutateAsync, isLoading: isMutating } = UseCreateInternalTransfer();
+  const { mutateAsync } = UseCreateInternalTransfer();
 
   const formik = useFormik({
     initialValues: {
