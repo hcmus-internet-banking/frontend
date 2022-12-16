@@ -36,11 +36,6 @@ function Layout({ children }: Props) {
               label="Recipients"
             />
             <NavigationButton
-              className="bg-lime-600"
-              href="/user/transfers"
-              label="Transfers"
-            />
-            <NavigationButton
               className="bg-yellow-600"
               href="/user/debts"
               label="Debts"

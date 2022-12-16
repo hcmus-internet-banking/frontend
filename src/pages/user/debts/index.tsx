@@ -1,8 +1,8 @@
-import DebtManager from "@/components/user/invoice/InvoiceManager";
+import InvoiceManager from "@/components/user/invoice/InvoiceManager";
 import React from "react";
 
 const Index = () => {
-  return <DebtManager />;
+  return <InvoiceManager />;
 };
 
 Index.title = "Debts";

@@ -47,7 +47,6 @@ function Index() {
         loading: "Loading...",
         success: (data) => {
           if (data.id !== null) {
-            toast.success(JSON.stringify(data));
             router.push("/");
           }
           return "Success";
@@ -151,5 +150,6 @@ function Index() {
   );
 }
 Index.layout = EmptyLayout;
+Index.title = "Login";
 
 export default Index;

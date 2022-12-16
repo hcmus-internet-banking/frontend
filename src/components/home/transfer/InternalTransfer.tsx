@@ -88,7 +88,7 @@ function InternalTransfer() {
                 toggle();
               }}
             >
-              <RiContactsBookFill className=" h-8 w-8" />
+              <RiContactsBookFill className="h-8 w-8" />
             </Button>
           </div>
 

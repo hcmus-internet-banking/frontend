@@ -2,14 +2,15 @@ import Button from "@/components/common/Button/Button";
 import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Select from "@/components/common/Select/Select";
+import RecipientSelector from "@/components/home/transfer/RecipientSelector";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useCreateInvoice } from "@/lib/home/hooks/invoice/useCreateInvoice";
-import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { createRecipientSchema } from "@/lib/home/schema";
-import classNames from "classnames";
+import { useQueryGetCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
+import { createInvoiceSchema } from "@/lib/home/schema";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import { RiContactsBookFill } from "react-icons/ri";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
@@ -19,19 +20,22 @@ type Props = {
 
 const CreateInvoice = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useCreateInvoice();
-  const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const [isDisable, setIsDisable] = useState(true);
+  const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const { value: hideRecipientSelector, toggle: toggleRecipientSelector } =
+    useToggle(true);
   const [name, setName] = useState<string>("");
+
   const formik = useFormik({
     initialValues: {
       accountNumber: "",
-      amount: 0,
-      isInternalBank: true,
+      amount: "",
+      isInternalBank: "true",
       message: "",
     },
     validateOnBlur: isSubmitted,
     validateOnChange: isSubmitted,
-    validationSchema: toFormikValidationSchema(createRecipientSchema),
+    validationSchema: toFormikValidationSchema(createInvoiceSchema),
     onSubmit: async (values) => {
       setIsSubmitted(true);
 
@@ -40,25 +44,24 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
           accountNumber: values.accountNumber,
           amount: values.amount,
           isInternalBank: values.isInternalBank,
-          message: values.message,
+          message: values.message || " ",
         }),
         {
-          loading: "Creating Recipient...",
+          loading: "Creating debt...",
           success: () => {
             formik.resetForm();
-            setName("");
             toggle();
-            return "Recipient Created";
+            return "Debt created";
           },
           error: (e) => {
-            return e.message || "Failed to create recipient";
+            return e.message || "Failed to create debt";
           },
         }
       );
     },
   });
 
-  const { isFetching } = useQueryCustomerByBankNumber(
+  const { isFetching } = useQueryGetCustomerByBankNumber(
     formik.values.accountNumber,
     {
       onSuccess: (res: any) => {
@@ -85,45 +88,75 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
   }, [isFetching]);
 
   return (
-    <Modal title="Create Invoice" hide={hide} toggle={toggle}>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="space-y-3">
-          <Select options={[{ label: "Internal", value: "internal" }]} />
-          <Input
-            name="accountNumber"
-            placeholder="Account Number"
-            onChange={formik.handleChange}
-            value={formik.values.accountNumber}
-            error={formik.errors.accountNumber}
-            isLoading={isFetching}
-          />
-          <Input
-            outerClassNames="flex-grow"
-            placeholder="Name"
-            value={name}
-            disabled
-            required={false}
-          />
-          <Input
-            name="mnemonicName"
-            placeholder="Mnemonic Name"
-            onChange={formik.handleChange}
-            // value={formik.values.mnemonicName}
-            // error={formik.errors.mnemonicName}
-            outerClassNames={classNames({
-              hidden: !name,
-            })}
-            required={false}
-          />
-        </div>
-        <Modal.Bottom>
-          <Button type="button" onClick={toggle} preset="outlined">
-            Cancel
-          </Button>
-          <Button type="submit">Create</Button>
-        </Modal.Bottom>
-      </form>
-    </Modal>
+    <>
+      <RecipientSelector
+        hide={hideRecipientSelector}
+        toggle={toggleRecipientSelector}
+        setValues={setName}
+      />
+
+      <Modal title="Create Invoice" hide={hide} toggle={toggle}>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="space-y-3">
+            <Select
+              title="Choose type of bank"
+              options={[
+                { label: "Internal", value: "internal" },
+                { label: "External", value: "external" },
+              ]}
+            />
+            <div className="flex w-full content-around">
+              <Input
+                name="accountNumber"
+                placeholder="Account Number"
+                onChange={formik.handleChange}
+                value={formik.values.accountNumber}
+                error={formik.errors.accountNumber}
+                outerClassNames="grow"
+              />
+              <Button
+                type="button"
+                className="my-auto ml-2 cursor-pointer items-center rounded-lg transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80"
+                onClick={() => {
+                  toggle();
+                  toggleRecipientSelector();
+                }}
+              >
+                <RiContactsBookFill className=" h-8 w-8" />
+              </Button>
+            </div>
+
+            <Input
+              outerClassNames="flex-grow"
+              placeholder="Name"
+              value={name}
+              disabled
+              required={false}
+            />
+            <Input
+              name="amount"
+              placeholder="Amount"
+              onChange={formik.handleChange}
+              value={formik.values.amount}
+              error={formik.errors.amount}
+            />
+            <Input
+              name="message"
+              placeholder="Message"
+              onChange={formik.handleChange}
+              value={formik.values.message}
+              error={formik.errors.message}
+            />
+          </div>
+          <Modal.Bottom>
+            <Button type="button" onClick={toggle} preset="outlined">
+              Cancel
+            </Button>
+            <Button type="submit">Create</Button>
+          </Modal.Bottom>
+        </form>
+      </Modal>
+    </>
   );
 };
 
