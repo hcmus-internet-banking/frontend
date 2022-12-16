@@ -34,23 +34,22 @@ function RecipientSelector({
 
     if (value.length === 0)
       return setSelectedRecipient(recipientList?.data as any);
+
     const filteredRecipient = recipientList?.data?.filter((recipient: any) =>
       isFilterByName
-        ? // recipient?.firstName.includes(value) ||
-          // recipient.lastName.includes(value) ||
-          recipient.mnemonicName.includes(value)
+        ? recipient.mnemonicName.includes(value)
         : recipient.accountNumber.includes(value)
     );
-    setSelectedRecipient(filteredRecipient as any);
+    setSelectedRecipient(filteredRecipient);
   };
 
   return (
-    <Modal title="Chọn người nhận" hide={hide} toggle={toggle}>
+    <Modal title="Select recipient" hide={hide} toggle={toggle}>
       <Card className="max-w-lg bg-gray-100" noShadow>
         <Input
           className="w-full"
           name="search"
-          placeholder="Tìm kiếm"
+          placeholder="Search"
           onChange={filterRecipient}
           value={searchText}
         />
@@ -77,7 +76,7 @@ function RecipientSelector({
                       scope="col"
                       className="px-6 py-4 text-left text-sm font-medium text-gray-900"
                     >
-                      mnemonicName
+                      Mnemonic Name
                     </th>
                     <th
                       scope="col"
@@ -95,7 +94,6 @@ function RecipientSelector({
                         className="cursor-pointer border-b  hover:bg-red-300"
                         onClick={() => {
                           setSelectedRecipient([recipient]);
-                          // setSearchText(recipient.mnemonicName);
                           toggle();
                           setValues(recipient.accountNumber);
                         }}

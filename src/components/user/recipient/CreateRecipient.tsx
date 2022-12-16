@@ -105,13 +105,15 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             error={formik.errors.accountNumber}
             isLoading={isFetching}
           />
-          <Input
-            outerClassNames="flex-grow"
-            placeholder="Name"
-            value={name}
-            disabled
-            required={false}
-          />
+          {isFetching && (
+            <Input
+              outerClassNames="flex-grow"
+              placeholder="Name"
+              value={name}
+              disabled
+              required={false}
+            />
+          )}
           <Input
             name="mnemonicName"
             placeholder="Mnemonic Name"

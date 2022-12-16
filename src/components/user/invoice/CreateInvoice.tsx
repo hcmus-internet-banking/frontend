@@ -1,6 +1,7 @@
 import Button from "@/components/common/Button/Button";
+import Card from "@/components/common/Card/Card";
+import Heading from "@/components/common/Heading/Heading";
 import Input from "@/components/common/Input/Input";
-import Modal from "@/components/common/Modal/Modal";
 import Select from "@/components/common/Select/Select";
 import RecipientSelector from "@/components/home/transfer/RecipientSelector";
 import useToggle from "@/lib/common/hooks/useToggle";
@@ -8,28 +9,23 @@ import { useCreateInvoice } from "@/lib/home/hooks/invoice/useCreateInvoice";
 import { useQueryGetCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { createInvoiceSchema } from "@/lib/home/schema";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { RiContactsBookFill } from "react-icons/ri";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-
-type Props = {
-  hide: boolean | undefined;
-  toggle: any;
-};
 
 const options = [
   { label: "Internal", value: "true" },
   { label: "External", value: "false" },
 ];
 
-const CreateInvoice = ({ hide, toggle }: Props) => {
+const CreateInvoice = () => {
   const { mutateAsync } = useCreateInvoice();
+  const [accountName, setAccountName] = useState<string>("");
   const [isDisable, setIsDisable] = useState(true);
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const { value: hideRecipientSelector, toggle: toggleRecipientSelector } =
     useToggle(true);
-  const [name, setName] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -49,13 +45,12 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
           accountNumber: values.accountNumber,
           amount: values.amount,
           isInternalBank: values.isInternalBank,
-          message: values.message || " ",
+          message: values.message || "Pay my debt",
         }),
         {
           loading: "Creating debt...",
           success: () => {
             formik.resetForm();
-            toggle();
             return "Debt created";
           },
           error: (e) => {
@@ -66,41 +61,39 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
     },
   });
 
-  const { isFetching } = useQueryGetCustomerByBankNumber(
+  const { isLoading, data } = useQueryGetCustomerByBankNumber(
     formik.values.accountNumber,
     {
       onSuccess: (res: any) => {
-        setName(`${res.firstName} ${res.lastName}`);
+        setAccountName(`${res.firstName} ${res.lastName}`);
 
         formik.setFieldError("accountNumber", "");
       },
       onError: (e: any) => {
         formik.setFieldError(
           "accountNumber",
-          e?.error?.message || "Invalid customer"
+          e?.error?.message || "Not found customer"
         );
         setIsDisable(!isDisable);
       },
     }
   );
 
-  useEffect(() => {
-    if (isFetching) {
-      formik.setFieldError("accountNumber", "Loading...");
-      setName("");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetching]);
+  const setRecipientSelectorValue = (values: any) => {
+    formik.setFieldValue("accountNumber", values);
+  };
 
   return (
     <>
-      <RecipientSelector
-        hide={hideRecipientSelector}
-        toggle={toggleRecipientSelector}
-        setValues={setName}
-      />
-
-      <Modal title="Create Invoice" hide={hide} toggle={toggle}>
+      <Card className="max-w-lg grow bg-gray-100" noShadow>
+        <div className="flex justify-between pb-4">
+          <Heading>Create debt</Heading>
+        </div>
+        <RecipientSelector
+          hide={hideRecipientSelector}
+          toggle={toggleRecipientSelector}
+          setValues={setRecipientSelectorValue}
+        />
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-3">
             <Select
@@ -123,21 +116,22 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
                 type="button"
                 className="my-auto ml-2 cursor-pointer items-center rounded-lg transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80"
                 onClick={() => {
-                  toggle();
                   toggleRecipientSelector();
                 }}
               >
                 <RiContactsBookFill className=" h-8 w-8" />
               </Button>
             </div>
-
-            <Input
-              outerClassNames="flex-grow"
-              placeholder="Name"
-              value={name}
-              disabled
-              required={false}
-            />
+            {!isLoading && data && (
+              <Input
+                outerClassNames="flex-grow"
+                className="w-full"
+                name="accountName"
+                value={accountName}
+                placeholder="Account name"
+                disabled={true}
+              />
+            )}
             <Input
               name="amount"
               placeholder="Amount"
@@ -152,15 +146,23 @@ const CreateInvoice = ({ hide, toggle }: Props) => {
               value={formik.values.message}
               error={formik.errors.message}
             />
-          </div>
-          <Modal.Bottom>
-            <Button type="button" onClick={toggle} preset="outlined">
-              Cancel
+            <Button
+              className="p-4"
+              type="submit"
+              disabled={
+                !!formik.errors.accountNumber ||
+                !!formik.errors.amount ||
+                !!formik.errors.message ||
+                !formik.values.accountNumber ||
+                !formik.values.amount ||
+                !formik.values.message
+              }
+            >
+              Create
             </Button>
-            <Button type="submit">Create</Button>
-          </Modal.Bottom>
+          </div>
         </form>
-      </Modal>
+      </Card>
     </>
   );
 };

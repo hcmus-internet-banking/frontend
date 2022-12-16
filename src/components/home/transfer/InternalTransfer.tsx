@@ -1,21 +1,21 @@
+import Select from "@/components/common/Select/Select";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
+import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
+import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
+import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
+import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { createInternalTransferSchema } from "@/lib/home/schema";
+import { selectUser } from "@/store/auth";
+import { useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
 import React from "react";
+import { toast } from "react-hot-toast";
+import { RiContactsBookFill } from "react-icons/ri";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
-import { toFormikValidationSchema } from "zod-formik-adapter";
-import { useAppSelector } from "@/store/store";
-import { selectUser } from "@/store/auth";
-import { RiContactsBookFill } from "react-icons/ri";
-import { toast } from "react-hot-toast";
 import RecipientSelector from "./RecipientSelector";
-import useToggle from "@/lib/common/hooks/useToggle";
-import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
-import Select from "@/components/common/Select/Select";
-import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
-import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
-import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 
 const TIME_OUT_GET_OTP = 60;
 
@@ -55,11 +55,11 @@ function InternalTransfer() {
 
   const options = [
     {
-      label: "paid for Sender",
+      label: "Paid for Sender",
       value: "sender",
     },
     {
-      label: "paid for Receiver",
+      label: "Paid for Receiver",
       value: "receiver",
     },
   ];
@@ -68,7 +68,7 @@ function InternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} chuyển tiền cho bạn`,
+      message: `${firstName} ${lastName} tranfer for me`,
       token: "",
       payer: options[0]?.value,
     },
@@ -86,7 +86,7 @@ function InternalTransfer() {
           payer: values.payer === "receiver" ? "receiver" : "sender",
         }),
         {
-          loading: "dang thuc hien giao dich...",
+          loading: "Processing tranfering...",
           success: () => {
             if (
               recipientList?.data.find(
@@ -101,11 +101,11 @@ function InternalTransfer() {
             }
             formik.resetForm();
             setAccountName("");
-            return "chuyen tien thanh cong";
+            return "Tranfer sucessfully";
           },
           error: (e) => {
             console.log("error", e);
-            return "chuyen tien that bai";
+            return "Tranfer failury";
           },
         }
       );
@@ -117,10 +117,7 @@ function InternalTransfer() {
       setAccountName(`${res.firstName} ${res.lastName}`);
     },
     onError: (e: any) => {
-      formik.setFieldError(
-        "to",
-        e?.error?.message || "Khong tim thay tai khoan"
-      );
+      formik.setFieldError("to", e?.error?.message || "Not found customer");
     },
   });
 
@@ -167,11 +164,9 @@ function InternalTransfer() {
               disabled={true}
             />
           )}
-
           <Input
             className="w-full"
             name="amount"
-            // autoComplete="cc-type"
             value={formik.values.amount}
             onChange={formik.handleChange}
             placeholder="Số tiền"
@@ -197,7 +192,6 @@ function InternalTransfer() {
           <Input
             className="w-full"
             name="description"
-            // autoComplete="cc-type"
             value={formik.values.message}
             onChange={formik.handleChange}
             placeholder="Nội dung chuyển tiền"

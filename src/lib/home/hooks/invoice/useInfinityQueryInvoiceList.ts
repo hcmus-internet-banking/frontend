@@ -25,6 +25,7 @@ interface Datum {
   accountNumber: string;
   mnemonicName: string;
   amount: number;
+  creator: any;
 }
 
 export const useInfinityQueryInvoiceList = ({
@@ -35,7 +36,7 @@ export const useInfinityQueryInvoiceList = ({
   offset: number;
 }) => {
   const queryArgs = useInfiniteQuery(
-    ["recipients", { limit, offset }], // This is the key for the query
+    ["invoices", { limit, offset }], // This is the key for the query
     async ({ pageParam = 0 }) => {
       const res = await client.get<InvoicesResponse>(
         `/api/invoices?isPaid=true&limit=${limit}&offset=${pageParam}`
