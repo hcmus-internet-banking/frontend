@@ -24,8 +24,10 @@ export const createInternalTransferSchema = z.object({
     (value) => Number(value),
     z.number().min(1000, { message: "Amount should be more than 1000" })
   ),
-  description: z
+  message: z
     .string()
     .max(50, { message: "Description is longer than 50 characters" })
     .optional(),
+  token: z.string(),
+  payer: z.enum(["sender", "receiver"]),
 });
