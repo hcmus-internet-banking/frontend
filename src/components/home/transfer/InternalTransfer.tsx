@@ -68,7 +68,7 @@ function InternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfer for me`,
+      message: `${firstName} ${lastName} tranfers to me`,
       token: "",
       payer: options[0]?.value,
     },
@@ -76,7 +76,6 @@ function InternalTransfer() {
     validationSchema: toFormikValidationSchema(createInternalTransferSchema),
 
     onSubmit: async (values) => {
-      console.log(values);
       toast.promise(
         mutateInternalTransfer({
           to: values.to,

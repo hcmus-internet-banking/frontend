@@ -4,6 +4,7 @@ import Spinner from "@/components/common/Spinner/Spinner";
 import { useEffect, useState } from "react";
 import Input from "../../common/Input/Input";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
+import { Recipient } from "@/store/recipients/types";
 
 type RecipientSelectorProps = {
   hide: boolean;
@@ -17,9 +18,11 @@ function RecipientSelector({
   setValues,
 }: RecipientSelectorProps) {
   const { data: recipientList, isLoading } = useQueryRecipientList();
+
   const [selectedRecipient, setSelectedRecipient] = useState(
     recipientList?.data
   );
+
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
@@ -35,10 +38,11 @@ function RecipientSelector({
     if (value.length === 0)
       return setSelectedRecipient(recipientList?.data as any);
 
-    const filteredRecipient = recipientList?.data?.filter((recipient: any) =>
-      isFilterByName
-        ? recipient.mnemonicName.includes(value)
-        : recipient.accountNumber.includes(value)
+    const filteredRecipient = recipientList?.data?.filter(
+      (recipient: Recipient) =>
+        isFilterByName
+          ? recipient.mnemonicName.includes(value)
+          : recipient.accountNumber.includes(value)
     );
     setSelectedRecipient(filteredRecipient);
   };
@@ -93,9 +97,8 @@ function RecipientSelector({
                         key={recipient.id}
                         className="cursor-pointer border-b  hover:bg-red-300"
                         onClick={() => {
-                          setSelectedRecipient([recipient]);
-                          toggle();
                           setValues(recipient.accountNumber);
+                          toggle();
                         }}
                       >
                         <td className=" whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
