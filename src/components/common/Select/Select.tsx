@@ -22,8 +22,6 @@ function Select({ options, title, value, onChange, name }: SelectProps) {
         onChange={onChange}
         name={name}
       >
-        {/* <option value="1">Internal</option>
-        <option value="2">External</option> */}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

@@ -1,10 +1,9 @@
 import InvoiceManager from "@/components/user/invoice/InvoiceManager";
-import React from "react";
 
 const Index = () => {
   return <InvoiceManager />;
 };
 
-Index.title = "Debts";
+Index.title = "Invoices";
 
 export default Index;

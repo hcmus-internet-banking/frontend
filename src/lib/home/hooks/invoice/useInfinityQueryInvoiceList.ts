@@ -2,13 +2,14 @@ import client from "@/core/client";
 import { handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BaseResponse } from "../../../../core/handleResponse";
+import { Invoice } from "./types";
 
 interface InvoicesResponse extends BaseResponse {
   data: Data;
 }
 
 interface Data {
-  data: Datum[];
+  data: Invoice[];
   metadata: Metadata;
 }
 
@@ -20,26 +21,20 @@ interface Metadata {
   hasPrevPage: boolean;
 }
 
-interface Datum {
-  id: string;
-  accountNumber: string;
-  mnemonicName: string;
-  amount: number;
-  creator: any;
-}
-
 export const useInfinityQueryInvoiceList = ({
+  type,
   limit,
   offset,
 }: {
+  type: string;
   limit: number;
   offset: number;
 }) => {
   const queryArgs = useInfiniteQuery(
-    ["invoices", { limit, offset }], // This is the key for the query
+    ["invoices", { type, limit, offset }],
     async ({ pageParam = 0 }) => {
       const res = await client.get<InvoicesResponse>(
-        `/api/invoices?isPaid=true&limit=${limit}&offset=${pageParam}`
+        `/api/invoices?type=${type}&isPaid=false&limit=${limit}&offset=${pageParam}`
       );
 
       return await handleResponse(res);

@@ -37,8 +37,8 @@ function Layout({ children }: Props) {
             />
             <NavigationButton
               className="bg-yellow-600"
-              href="/user/debts"
-              label="Debts"
+              href="/user/invoices"
+              label="Invoices"
             />
             <div className="flex-1"></div>
             {!isAuthenticated ? (

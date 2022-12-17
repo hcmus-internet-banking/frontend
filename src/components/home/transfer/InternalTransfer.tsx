@@ -48,7 +48,6 @@ function InternalTransfer() {
         }, TIME_OUT_GET_OTP * 1000);
       })
       .catch((e) => {
-        console.log("error", e);
         toast.error(e?.message || "Loi khi gui OTP");
       });
   };
@@ -172,16 +171,7 @@ function InternalTransfer() {
             error={formik.errors.amount}
           />
           <Select
-            options={[
-              {
-                label: "paid for Sender",
-                value: "sender",
-              },
-              {
-                label: "paid for Receiver",
-                value: "receiver",
-              },
-            ]}
+            options={options}
             title="Transfer Fee"
             name="payer"
             value={formik.values.payer || "sender"}

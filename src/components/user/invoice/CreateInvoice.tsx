@@ -85,9 +85,9 @@ const CreateInvoice = () => {
 
   return (
     <>
-      <Card className="max-w-lg grow bg-gray-100" noShadow>
+      <Card className="w-1/2 grow  bg-gray-100 " noShadow>
         <div className="flex justify-between pb-4">
-          <Heading>Create debt</Heading>
+          <Heading>Create invoice</Heading>
         </div>
         <RecipientSelector
           hide={hideRecipientSelector}
