@@ -26,7 +26,7 @@ const InvoiceList = () => {
   };
 
   return (
-    <Card className="flex w-1/2 flex-col content-between bg-gray-100" noShadow>
+    <Card className="flex flex-col content-between bg-gray-100" noShadow>
       <div className="grow">
         <div className="flex justify-between">
           <Heading>Invoice List</Heading>
@@ -40,11 +40,15 @@ const InvoiceList = () => {
             />
           </div>
         </div>
-        <div className="hover:bg-gray-20 flex justify-around pt-6 duration-300 ease-linear hover:cursor-pointer hover:rounded-md">
-          <span className="text-sm font-semibold">Name</span>
-          <span className="text-sm font-medium">Account Number</span>
-          <span className="text-sm font-medium">Amount</span>
-          <span className="text-sm font-medium">Message</span>
+        <div className="hover:bg-gray-20 flex pt-6 duration-300 ease-linear hover:cursor-pointer hover:rounded-md">
+          <span className="w-1/6 text-center text-sm font-semibold">ID</span>
+          <span className="w-1/6 text-center text-sm font-semibold">Name</span>
+          <span className="w-1/6 text-center text-sm font-medium">
+            Account Number
+          </span>
+          <span className="w-1/6 text-center text-sm font-medium">Amount</span>
+          <span className="w-1/6 text-center text-sm font-medium">Message</span>
+          <span className="w-1/6 text-center text-sm font-medium">Action</span>
         </div>
         <div className="py-4">
           {isLoading ? (

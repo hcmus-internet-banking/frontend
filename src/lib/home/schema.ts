@@ -49,6 +49,10 @@ export const createInvoiceSchema = z.object({
     .optional(),
 });
 
+export const paymentInvoiceSchema = z.object({
+  token: z.string(),
+});
+
 // export const createInternalTransferSchema = z.object({
 //   to: z.preprocess(
 //     (value) => Number(value),

@@ -45,16 +45,16 @@ const CreateInvoice = () => {
           accountNumber: values.accountNumber,
           amount: values.amount,
           isInternalBank: values.isInternalBank,
-          message: values.message || "Pay my debt",
+          message: values.message || "Pay my invoice",
         }),
         {
-          loading: "Creating debt...",
+          loading: "Creating invoice...",
           success: () => {
             formik.resetForm();
-            return "Debt created";
+            return "Invoice created";
           },
           error: (e) => {
-            return e.message || "Failed to create debt";
+            return e.message || "Failed to create invoice";
           },
         }
       );
@@ -85,7 +85,7 @@ const CreateInvoice = () => {
 
   return (
     <>
-      <Card className="w-1/2 grow  bg-gray-100 " noShadow>
+      <Card className="grow bg-gray-100 " noShadow>
         <div className="flex justify-between pb-4">
           <Heading>Create invoice</Heading>
         </div>
@@ -158,7 +158,7 @@ const CreateInvoice = () => {
                 !formik.values.message
               }
             >
-              Create
+              Send
             </Button>
           </div>
         </form>

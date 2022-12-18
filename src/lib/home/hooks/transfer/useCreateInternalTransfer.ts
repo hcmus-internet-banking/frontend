@@ -12,13 +12,13 @@ type InternalTransferData = {
 
 export const useCreateInternalTransfer = () => {
   const mutationArgs = useMutation({
-    mutationFn: (data: InternalTransferData) => {
+    mutationFn: (datas: InternalTransferData) => {
       return postInternalTransfer(
-        data.to,
-        data.amount,
-        data.message,
-        data.token,
-        data.payer
+        datas.to,
+        datas.amount,
+        datas.message,
+        datas.token,
+        datas.payer
       );
     },
     onSuccess: () => {
