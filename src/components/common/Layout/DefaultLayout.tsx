@@ -52,6 +52,7 @@ function Layout({ children }: Props) {
                   href="/profile"
                 />
                 <AppLink
+                  className="px-4 py-2"
                   onClick={() => {
                     dispatch(logoutAsync());
                   }}
@@ -65,12 +66,18 @@ function Layout({ children }: Props) {
 
         <header className="flex max-w-full justify-center overflow-x-auto bg-gray-200">
           <Spacer className="border-b" />
-          <AppLink href="/" text="Home" iconLeft={IoReceipt} />
+          <AppLink
+            href="/"
+            text="Home"
+            iconLeft={IoReceipt}
+            className="px-4 py-2"
+          />
           <AppLink
             href="https://elements.getpostman.com/redirect?entityId=22930192-6a16bef1-20f5-4726-9737-6966231a5464&entityType=collection"
             text="API Documentation"
             iconLeft={SiSwagger}
             target="_blank"
+            className="px-4 py-2"
           />
           {/* TODO: Check for Admin */}
           {/* <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} /> */}

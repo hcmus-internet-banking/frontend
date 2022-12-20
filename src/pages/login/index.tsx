@@ -1,8 +1,8 @@
+import AppLink from "@/components/common/AppLink/AppLink";
 import Card from "@/components/common/Card/Card";
 import { EmptyLayout } from "@/components/common/Layout";
 import { env } from "@/core/env/client.mjs";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -135,9 +135,26 @@ function Index() {
           </section>
         </form>
 
-        <div className="flex flex-col">
-          <Link href="/forget-password">Forget password</Link>
-          <Link href="/register">Do not have account?</Link>
+        <div className="flex justify-between">
+          <div>
+            <AppLink
+              onClick={() => {
+                router.push("/forget-password");
+              }}
+              text="Quên mật khẩu ?"
+            />
+          </div>
+          <div>
+            <AppLink
+              onClick={() => {
+                router.push("/register");
+              }}
+              text="Đăng ký"
+            />
+          </div>
+          <div>
+            <AppLink href="/admin/login">Admin Login</AppLink>
+          </div>
         </div>
       </Card>
     </>
