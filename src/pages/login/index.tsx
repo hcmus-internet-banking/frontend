@@ -1,4 +1,5 @@
 import Card from "@/components/common/Card/Card";
+import AppLink from "@/components/common/AppLink/AppLink";
 import { EmptyLayout } from "@/components/common/Layout";
 import { env } from "@/core/env/client.mjs";
 import { useFormik } from "formik";
@@ -122,7 +123,6 @@ function Index() {
               error={formik.errors.password}
               disabled={isLoading}
             />
-
             <div>
               <ReCAPTCHA
                 sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
