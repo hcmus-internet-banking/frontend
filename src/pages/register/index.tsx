@@ -1,20 +1,22 @@
+import Card from "@/components/common/Card/Card";
+import Heading from "@/components/common/Heading/Heading";
+import { EmptyLayout } from "@/components/common/Layout";
 import { useFormik } from "formik";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
+import { BiArrowBack } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { BarLoader } from "react-spinners";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../components/common/Button/Button";
-import Heading from "../../components/common/Heading/Heading";
 import Input from "../../components/common/Input/Input";
 import Spacer from "../../components/common/Spacer/Spacer";
-import { toFormikValidationSchema } from "zod-formik-adapter";
-import { useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { registerAsync, selectAuth } from "../../store/auth";
-import { registerSchema } from "../../lib/register/schema";
-import { BarLoader } from "react-spinners";
-import { useAppDispatch } from "../../store/store";
-import toast from "react-hot-toast";
 import { noToastErrorOption } from "../../lib/common/utils/react-hot-toast";
-import { EmptyLayout } from "@/components/common/Layout";
-import { BiArrowBack } from "react-icons/bi";
+import { registerSchema } from "../../lib/register/schema";
+import { registerAsync, selectAuth } from "../../store/auth";
+import { useAppDispatch } from "../../store/store";
 
 function Index() {
   const registerValidate = useMemo(() => registerSchema, []);
@@ -51,7 +53,7 @@ function Index() {
               query: { email: values.email },
             });
 
-            return "Register success";
+            return "Register successully";
           },
           error: null,
         },
@@ -70,23 +72,18 @@ function Index() {
   }, [authState.user, router]);
 
   return (
-    <div>
+    <Card className="max-w-sm">
       {authState.loading && <BarLoader width={200} />}
-
       <Spacer className="h-12" />
-      <Heading>
-        <BiArrowBack
-          className="cursor-pointer"
-          onClick={() => {
-            router.push("/login");
-          }}
-        ></BiArrowBack>
+      <Link href="login">
+        <BiArrowBack className="cursor-pointer duration-300 hover:opacity-40" />
+      </Link>
+      <Heading size="lg" className="text-center">
         Register
       </Heading>
       <Spacer className="h-2" />
-
       <form onSubmit={formik.handleSubmit}>
-        <section className="space-y-2 pr-4">
+        <section className="flex flex-col space-y-4">
           <Input
             className="w-full"
             name="email"
@@ -94,6 +91,23 @@ function Index() {
             onChange={formik.handleChange}
             placeholder="Email"
             error={formik.errors.email}
+          />
+          <Input
+            className="w-full"
+            name="firstName"
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            placeholder="First name"
+            error={formik.errors.firstName}
+          />
+
+          <Input
+            className="w-full"
+            name="lastName"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            placeholder="Last name"
+            error={formik.errors.lastName}
           />
 
           <Input
@@ -120,30 +134,12 @@ function Index() {
             error={formik.errors.repassword}
           />
 
-          <Input
-            className="w-full"
-            name="firstName"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            placeholder="First name"
-            error={formik.errors.firstName}
-          />
-
-          <Input
-            className="w-full"
-            name="lastName"
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            placeholder="Last name"
-            error={formik.errors.lastName}
-          />
-
-          <Button type="submit" disabled={authState.loading}>
+          <Button type="submit" disabled={authState.loading} className="w-fit">
             <span>Register</span>
           </Button>
         </section>
       </form>
-    </div>
+    </Card>
   );
 }
 

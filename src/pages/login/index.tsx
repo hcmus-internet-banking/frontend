@@ -1,6 +1,8 @@
+import Card from "@/components/common/Card/Card";
 import { EmptyLayout } from "@/components/common/Layout";
 import { env } from "@/core/env/client.mjs";
 import { useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -49,7 +51,7 @@ function Index() {
           if (data.id !== null) {
             router.push("/");
           }
-          return "Success";
+          return "Login successfully";
         },
         error: null,
       },
@@ -67,7 +69,6 @@ function Index() {
     validationSchema: toFormikValidationSchema(loginValidate),
     onSubmit: async () => {
       setIsSubmitted(true);
-      // Execute the reCAPTCHA when the form is submitted
 
       if (!captchaRef.current?.getValue()) {
         toast.error("Please verify captcha");
@@ -80,7 +81,6 @@ function Index() {
       });
 
       captchaRef.current?.reset();
-      // captchaRef.current?.execute();
     },
   });
 
@@ -89,64 +89,58 @@ function Index() {
   }
 
   return (
-    <div>
+    <>
       <Spacer className="h-12" />
 
-      <Heading>Login</Heading>
-      <Spacer className="h-2" />
+      <Card className="max-w-xl">
+        <Spacer className="h-12" />
+        <Heading size="lg">Login</Heading>
+        <Spacer className="h-2" />
 
-      <form onSubmit={formik.handleSubmit}>
-        <section className="space-y-2 pr-4">
-          <Input
-            className="w-full"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            placeholder="Email"
-            error={formik.errors.email}
-            disabled={isLoading}
-            autoComplete="email"
-          />
-
-          <Input
-            className="w-full"
-            name="password"
-            autoComplete="current-password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            placeholder="Password"
-            type="password"
-            hiddenable
-            error={formik.errors.password}
-            disabled={isLoading}
-          />
-
-          <div>
-            {/* react error boundrary */}
-
-            <ReCAPTCHA
-              sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-              ref={captchaRef}
+        <form onSubmit={formik.handleSubmit}>
+          <section className="space-y-2 pr-4">
+            <Input
+              className="w-full"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              placeholder="Email"
+              error={formik.errors.email}
+              disabled={isLoading}
+              autoComplete="email"
             />
-          </div>
-          <Button type="submit" isLoading={isLoading}>
-            <span>Login</span>
-          </Button>
-        </section>
-      </form>
 
-      <h1>
-        Bạn chưa có tài khoản?{" "}
-        <span
-          className="cursor-pointer text-blue-500 underline"
-          onClick={() => {
-            router.push("/register");
-          }}
-        >
-          Đăng ký
-        </span>
-      </h1>
-    </div>
+            <Input
+              className="w-full"
+              name="password"
+              autoComplete="current-password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              placeholder="Password"
+              type="password"
+              hiddenable
+              error={formik.errors.password}
+              disabled={isLoading}
+            />
+
+            <div>
+              <ReCAPTCHA
+                sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                ref={captchaRef}
+              />
+            </div>
+            <Button type="submit" isLoading={isLoading}>
+              <span>Login</span>
+            </Button>
+          </section>
+        </form>
+
+        <div className="flex flex-col">
+          <Link href="/forget-password">Forget password</Link>
+          <Link href="/register">Do not have account?</Link>
+        </div>
+      </Card>
+    </>
   );
 }
 Index.layout = EmptyLayout;

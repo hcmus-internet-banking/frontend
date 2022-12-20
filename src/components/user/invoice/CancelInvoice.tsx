@@ -1,12 +1,11 @@
 import Button from "@/components/common/Button/Button";
 import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
-import { useFormik } from "formik";
-import React from "react";
-import { toFormikValidationSchema } from "zod-formik-adapter";
-import { z } from "zod";
-import { toast } from "react-hot-toast";
 import { useCancelInvoice } from "@/lib/home/hooks/invoice/useCancelInvoice";
+import { useFormik } from "formik";
+import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
   id: string;
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const cancelInvoiceSchema = z.object({
-  message: z
+  reason: z
     .string()
     .max(50, { message: "Description is longer than 50 characters" }),
 });
@@ -25,14 +24,14 @@ const CancelInvoice = ({ id, hide, toggle }: Props) => {
   const formik = useFormik({
     initialValues: {
       id: id,
-      message: "",
+      reason: "",
     },
     validationSchema: toFormikValidationSchema(cancelInvoiceSchema),
     onSubmit: async (values) => {
       toast.promise(
         mutateAsync({
           id: values.id,
-          message: values.message,
+          reason: values.reason,
         }),
         {
           loading: "Loading cancel invoice...",
@@ -49,14 +48,14 @@ const CancelInvoice = ({ id, hide, toggle }: Props) => {
   });
 
   return (
-    <Modal title="Confirm cancel invoice" hide={hide} toggle={toggle}>
+    <Modal title="Cancel invoice" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <Input
-          name="message"
-          placeholder="Message"
+          name="reason"
+          placeholder="Reason"
           onChange={formik.handleChange}
-          value={formik.values.message}
-          error={formik.errors.message}
+          value={formik.values.reason}
+          error={formik.errors.reason}
         />
         <Modal.Bottom>
           <Button type="button" onClick={toggle} preset="outlined">
