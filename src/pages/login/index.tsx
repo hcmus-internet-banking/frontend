@@ -137,20 +137,10 @@ function Index() {
 
         <div className="flex justify-between">
           <div>
-            <AppLink
-              onClick={() => {
-                router.push("/forget-password");
-              }}
-              text="Quên mật khẩu ?"
-            />
+            <AppLink href="/forget-password">Quên mật khẩu ?</AppLink>
           </div>
           <div>
-            <AppLink
-              onClick={() => {
-                router.push("/register");
-              }}
-              text="Đăng ký"
-            />
+            <AppLink href="/register">Đăng ký</AppLink>
           </div>
           <div>
             <AppLink href="/admin/login">Admin Login</AppLink>
