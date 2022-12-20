@@ -5,15 +5,17 @@ import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 
 type Params = {
   id: string;
-  message: string;
+  reason: string;
 };
 
 export const useCancelInvoice = (
   overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
 ) => {
   const mutationArgs = useMutation({
-    mutationFn: async ({ id, message }) => {
-      const res = await client.delete<BaseResponse<any>>(`/api/invoices/${id}`);
+    mutationFn: async ({ id, reason }) => {
+      const res = await client.delete<BaseResponse>(`/api/invoices/${id}`, {
+        data: { reason },
+      });
 
       return await handleResponse(res);
     },

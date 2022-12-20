@@ -13,7 +13,7 @@ type Props = {
   toggle: () => void;
 };
 
-const PaymentInvoice = ({ invoiceId, hide, toggle }: Props) => {
+const PayInvoice = ({ invoiceId, hide, toggle }: Props) => {
   const { mutateAsync } = usePaymentInvoice();
   const formik = useFormik({
     initialValues: {
@@ -42,7 +42,7 @@ const PaymentInvoice = ({ invoiceId, hide, toggle }: Props) => {
   });
 
   return (
-    <Modal title="Confirm pay invoice" hide={hide} toggle={toggle}>
+    <Modal title="Pay Invoice" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <Input
           name="token"
@@ -62,4 +62,4 @@ const PaymentInvoice = ({ invoiceId, hide, toggle }: Props) => {
   );
 };
 
-export default PaymentInvoice;
+export default PayInvoice;

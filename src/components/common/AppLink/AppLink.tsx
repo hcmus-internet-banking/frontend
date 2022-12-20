@@ -5,7 +5,7 @@ import { IconType } from "react-icons";
 type Props = {
   href?: string;
   onClick?: () => void;
-  text: string;
+  text?: string;
   iconLeft?: IconType;
   newTab?: boolean;
   textClassName?: string;
@@ -16,17 +16,22 @@ function AppLink({
   href,
   text,
   iconLeft,
+  children,
   onClick,
   newTab,
   textClassName,
   iconClassName,
+  className,
   ...props
 }: Props) {
   const IconLeft = iconLeft;
   return (
     <Link href={href || "#"}>
       <a
-        className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-opacity-70"
+        className={classNames(
+          "flex items-center gap-1 text-cyan-700 hover:text-opacity-70",
+          className
+        )}
         target={newTab ? "_blank" : undefined}
         onClick={onClick}
         {...props}
@@ -34,7 +39,10 @@ function AppLink({
         {IconLeft && (
           <IconLeft className={classNames("inline-block", iconClassName)} />
         )}
-        <span className={textClassName}>{text}</span>
+        <span className={textClassName}>
+          {text}
+          {children}
+        </span>
       </a>
     </Link>
   );

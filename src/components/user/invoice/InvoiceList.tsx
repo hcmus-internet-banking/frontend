@@ -1,11 +1,12 @@
+import Button from "@/components/common/Button/Button";
 import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
+import Select from "@/components/common/Select/Select";
 import Spinner from "@/components/common/Spinner/Spinner";
 import { useInfinityQueryInvoiceList } from "@/lib/home/hooks/invoice/useInfinityQueryInvoiceList";
-import Invoice from "./Invoice";
-import Button from "@/components/common/Button/Button";
-import Select from "@/components/common/Select/Select";
 import { useState } from "react";
+import MyInvoice from "./MyInvoice";
+import OtherPeopleInvoice from "./OtherPeopleInvoice";
 
 const options = [
   { label: "Bản thân tạo", value: "created" },
@@ -30,7 +31,7 @@ const InvoiceList = () => {
       <div className="grow">
         <div className="flex justify-between">
           <Heading>Invoice List</Heading>
-          <div className="w-2/5">
+          <div className="h-fit w-1/5">
             <Select
               title="Select receiver or sender"
               name="type"
@@ -40,27 +41,17 @@ const InvoiceList = () => {
             />
           </div>
         </div>
-        <div className="hover:bg-gray-20 flex pt-6 duration-300 ease-linear hover:cursor-pointer hover:rounded-md">
-          <span className="w-1/6 text-center text-sm font-semibold">ID</span>
-          <span className="w-1/6 text-center text-sm font-semibold">Name</span>
-          <span className="w-1/6 text-center text-sm font-medium">
-            Account Number
-          </span>
-          <span className="w-1/6 text-center text-sm font-medium">Amount</span>
-          <span className="w-1/6 text-center text-sm font-medium">Message</span>
-          <span className="w-1/6 text-center text-sm font-medium">Action</span>
-        </div>
         <div className="py-4">
-          {isLoading ? (
+          {type === "created" ? (
+            isLoading ? (
+              <Spinner />
+            ) : (
+              <MyInvoice data={data} />
+            )
+          ) : isLoading ? (
             <Spinner />
           ) : (
-            data?.pages.map((page, index) => (
-              <div key={index}>
-                {page.data.map((invoice) => {
-                  return <Invoice key={invoice.id} invoice={invoice} />;
-                })}
-              </div>
-            ))
+            <OtherPeopleInvoice data={data} />
           )}
         </div>
       </div>

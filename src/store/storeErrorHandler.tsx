@@ -1,10 +1,10 @@
-import React, { memo, useEffect } from "react";
-import toast from "react-hot-toast";
-import { clearError, selectAuthError, selectAuthLoading } from "./auth";
-import { store } from "./";
-import { useAppSelector } from "./store";
 import Spinner from "@/components/common/Spinner/Spinner";
 import classNames from "classnames";
+import React, { memo, useEffect } from "react";
+import toast from "react-hot-toast";
+import { store } from "./";
+import { clearError, selectAuthError, selectAuthLoading } from "./auth";
+import { useAppSelector } from "./store";
 
 function StoreHandlingProvider({ children }: { children: React.ReactElement }) {
   const authError = useAppSelector(selectAuthError);
