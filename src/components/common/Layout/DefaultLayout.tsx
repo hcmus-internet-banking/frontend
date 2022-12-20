@@ -40,6 +40,11 @@ function Layout({ children }: Props) {
               href="/user/invoices"
               label="Invoices"
             />
+            <NavigationButton
+              className="bg-yellow-600"
+              href="/user/transactions"
+              label="Transactions"
+            />
             <div className="flex-1"></div>
             {!isAuthenticated ? (
               <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
