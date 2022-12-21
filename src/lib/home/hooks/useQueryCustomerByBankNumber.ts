@@ -3,14 +3,14 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import client from "../../../core/client";
 import { handleResponse } from "../../../core/handleResponse";
 
-interface CustomerData {
+export interface CustomerData {
   id: string;
   accountNumber: string;
   lastName: string;
   firstName: string;
 }
 
-export const BANK_NUMBER_LENGTH = 9;
+export const BANK_NUMBER_LENGTH = 10;
 
 export const useQueryGetCustomerByBankNumber = (
   bankNumber: string,
@@ -32,7 +32,7 @@ export const useQueryGetCustomerByBankNumber = (
     },
     {
       refetchOnWindowFocus: false,
-      enabled: bankNumber.length === BANK_NUMBER_LENGTH,
+      enabled: bankNumber.length >= BANK_NUMBER_LENGTH,
       retry: false,
       ...overrideOptions,
     }

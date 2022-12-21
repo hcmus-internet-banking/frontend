@@ -29,7 +29,9 @@ const DeleteRecipient = ({ id, hide, toggle }: Props) => {
           <Button type="button" onClick={toggle} preset="outlined">
             Cancel
           </Button>
-          <Button type="submit">Delete</Button>
+          <Button preset="error" type="submit">
+            Delete
+          </Button>
         </Modal.Bottom>
       </form>
     </Modal>

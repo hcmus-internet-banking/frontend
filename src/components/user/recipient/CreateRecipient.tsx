@@ -3,8 +3,8 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Select from "@/components/common/Select/Select";
 import useToggle from "@/lib/common/hooks/useToggle";
+import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { useUpdateRecipient } from "@/lib/home/hooks/useUpdateRecipient";
 import { createRecipientSchema } from "@/lib/home/schema";
 import classNames from "classnames";
 import { useFormik } from "formik";
@@ -17,8 +17,13 @@ type Props = {
   toggle: any;
 };
 
+const options = [
+  { label: "Internal", value: "true" },
+  { label: "External", value: "false" },
+];
+
 const CreateRecipient = ({ hide, toggle }: Props) => {
-  const { mutateAsync } = useUpdateRecipient();
+  const { mutateAsync } = useCreateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
   const [isDisable, setIsDisable] = useState(true);
   const [name, setName] = useState<string>("");
@@ -26,6 +31,7 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     initialValues: {
       accountNumber: "",
       mnemonicName: "",
+      isInternalBank: "true",
     },
     validateOnBlur: isSubmitted,
     validateOnChange: isSubmitted,
@@ -84,7 +90,13 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-3">
-          <Select options={[{ label: "Internal", value: "internal" }]} />
+          <Select
+            name="isInternalBank"
+            onChange={formik.handleChange}
+            error={formik.errors.isInternalBank}
+            value={formik.values.isInternalBank}
+            options={options}
+          />
           <Input
             name="accountNumber"
             placeholder="Account Number"
@@ -93,13 +105,15 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             error={formik.errors.accountNumber}
             isLoading={isFetching}
           />
-          <Input
-            outerClassNames="flex-grow"
-            placeholder="Name"
-            value={name}
-            disabled
-            required={false}
-          />
+          {isFetching && (
+            <Input
+              outerClassNames="flex-grow"
+              placeholder="Name"
+              value={name}
+              disabled
+              required={false}
+            />
+          )}
           <Input
             name="mnemonicName"
             placeholder="Mnemonic Name"

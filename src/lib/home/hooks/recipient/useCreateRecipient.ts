@@ -1,15 +1,14 @@
-import { BaseResponse } from "../../../core/handleResponse";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import client from "../../../core/client";
-import { handleResponse } from "../../../core/handleResponse";
 import { queryClient } from "@/core/queryClient";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import client from "../../../../core/client";
+import { BaseResponse, handleResponse } from "../../../../core/handleResponse";
 
 type Params = {
   accountNumber: string;
   mnemonicName: string;
 };
 
-export const useUpdateRecipient = (
+export const useCreateRecipient = (
   overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
 ) => {
   const mutationArgs = useMutation({

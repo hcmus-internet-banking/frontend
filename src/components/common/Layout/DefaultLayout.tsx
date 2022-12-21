@@ -37,8 +37,13 @@ function Layout({ children }: Props) {
             />
             <NavigationButton
               className="bg-yellow-600"
-              href="/user/debts"
-              label="Debts"
+              href="/user/invoices"
+              label="Invoices"
+            />
+            <NavigationButton
+              className="bg-yellow-600"
+              href="/user/transactions"
+              label="Transactions"
             />
             <div className="flex-1"></div>
             {!isAuthenticated ? (
@@ -46,7 +51,7 @@ function Layout({ children }: Props) {
             ) : (
               <>
                 <NavigationButton
-                  className="bg-blue-400"
+                  className="truncate bg-blue-400"
                   icon={IoPerson}
                   label={`${user?.firstName} ${user?.lastName}`}
                   href="/profile"

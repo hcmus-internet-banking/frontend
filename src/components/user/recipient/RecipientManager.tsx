@@ -3,7 +3,7 @@ import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useInfinityQueryRecipientList } from "@/lib/home/hooks/useInfinityQueryRecipientList";
+import { useInfinityQueryRecipientList } from "@/lib/home/hooks/recipient/useInfinityQueryRecipientList";
 import { RxPlus } from "react-icons/rx";
 import CreateRecipient from "./CreateRecipient";
 import Recipient from "./Recipient";
