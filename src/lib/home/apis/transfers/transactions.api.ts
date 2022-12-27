@@ -11,7 +11,7 @@ interface Transactions {
   type: string;
 }
 
-interface TransactionsResponse extends BaseResponse {
+export interface TransactionsResponse extends BaseResponse {
   data: Data;
 }
 
