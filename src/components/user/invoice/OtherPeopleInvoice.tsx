@@ -46,8 +46,8 @@ const OtherPeopleInvoice = ({ data }: Props) => {
                 toggle={togglePayment}
               />
 
-              <div className="flex w-full space-y-2 p-2 duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
-                <span className="w-1/6 pt-2 text-center text-sm font-semibold">
+              <div className="flex w-full space-y-4 p-2 duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
+                <span className="mt-4 w-1/6 text-center text-sm font-semibold">
                   #{invoice.id}
                 </span>
                 <span className="w-1/6 text-center text-sm font-semibold">
@@ -63,14 +63,14 @@ const OtherPeopleInvoice = ({ data }: Props) => {
                   {invoice.message}
                 </span>
 
-                <div className="m-auto flex justify-around gap-x-4 p-2">
+                <div className="m-auto flex justify-around gap-x-4">
                   <RxCross1
-                    className="h-5 w-5 text-red-400 hover:cursor-pointer hover:opacity-25"
+                    className="h-6 w-6 text-red-400 hover:cursor-pointer hover:opacity-25"
                     strokeWidth={0.8}
                     onClick={handleCancelInvoice}
                   />
                   <RxPaperPlane
-                    className="h-5 w-5 hover:cursor-pointer hover:opacity-25"
+                    className="h-6 w-6 hover:cursor-pointer hover:opacity-25"
                     onClick={handlePaymentInvoice}
                   />
                 </div>
