@@ -11,6 +11,9 @@ import {
 } from "../../../store/auth";
 import Spacer from "../Spacer/Spacer";
 import Auth from "../Auth/Auth";
+import NotifyButton from "@/components/notify/NotifyButton";
+import NotifyManager from "@/components/notify/NotifyManager";
+import useToggle from "@/lib/common/hooks/useToggle";
 
 type Props = { children: React.ReactElement };
 
@@ -18,6 +21,7 @@ function Layout({ children }: Props) {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
+  const { value: hide, toggle } = useToggle(true);
 
   return (
     <Auth>
@@ -45,11 +49,12 @@ function Layout({ children }: Props) {
               href="/user/transactions"
               label="Transactions"
             />
-            <div className="flex-1"></div>
+            <div className="flex-1 "></div>
             {!isAuthenticated ? (
               <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
             ) : (
               <>
+                <NotifyButton handleOnClick={toggle} />
                 <NavigationButton
                   className="truncate bg-blue-400"
                   icon={IoPerson}
@@ -87,6 +92,7 @@ function Layout({ children }: Props) {
           {/* TODO: Check for Admin */}
           {/* <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} /> */}
         </header>
+        <NotifyManager hide={hide} toggle={toggle} />
 
         <main className="mx-auto max-w-5xl p-2">{children}</main>
       </div>

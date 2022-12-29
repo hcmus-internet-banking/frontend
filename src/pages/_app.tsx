@@ -12,6 +12,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import StoreHandlingProvider from "../store/storeErrorHandler";
 import { queryClient } from "../core/queryClient";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { socket } from "@/core/socketClient";
 
 const persistor = persistStore(rootStore);
 
@@ -21,6 +22,13 @@ interface AppPropsWithLayout extends AppProps {
     title?: string;
   };
 }
+
+socket.on("connect", () => {
+  console.log("connected with socket id: ", socket.id);
+  if (typeof window !== "undefined") {
+    localStorage.setItem("socketId", socket.id);
+  }
+});
 
 const MyApp = ({
   Component,
@@ -40,7 +48,7 @@ const MyApp = ({
                 <link rel="icon" href="/logo.png" />
               </Head>
               <Layout>
-                <Component {...pageProps} />
+                <Component {...pageProps} socket={socket} />
               </Layout>
               <Toaster />
               {process.env.NODE_ENV !== "production" && (
