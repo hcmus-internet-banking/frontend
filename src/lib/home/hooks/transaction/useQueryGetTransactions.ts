@@ -1,10 +1,5 @@
-import {
-  BaseResponse,
-  handleResponse,
-} from "./../../../../core/handleResponse";
-import { getAllTransactions } from "./../../apis/transfers/transactions.api";
 import { useQuery } from "@tanstack/react-query";
-import client from "@/core/client";
+import { getAllTransactions } from "./../../apis/transfers/transactions.api";
 
 export const useQueryGetTransactions = ({
   limit,
@@ -19,6 +14,7 @@ export const useQueryGetTransactions = ({
     queryFn: () => {
       return getAllTransactions({ limit, offset });
     },
+
     refetchOnWindowFocus: false,
     ...overrideOptions,
   });

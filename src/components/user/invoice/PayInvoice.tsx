@@ -31,6 +31,7 @@ const PayInvoice = ({ invoiceId, hide, toggle }: Props) => {
           loading: "Loading payment invoice...",
           success: () => {
             formik.resetForm();
+            toggle();
             return "Payment successfully";
           },
           error: (e) => {

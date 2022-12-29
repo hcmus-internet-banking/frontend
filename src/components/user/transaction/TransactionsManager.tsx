@@ -1,5 +1,6 @@
 import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
+import Spinner from "@/components/common/Spinner/Spinner";
 import { useQueryGetTransactions } from "@/lib/home/hooks/transaction/useQueryGetTransactions";
 import React from "react";
 
@@ -19,18 +20,19 @@ function TransactionsManager() {
     },
   ];
   const [selected, setSelected] = React.useState([options[0]?.value]);
+
   const handleOnSelected = (value: string) => {
-    if (selected.includes(value)) {
-      setSelected(selected.filter((item) => item !== value));
-    } else {
-      setSelected([...selected, value]);
-    }
+    selected.includes(value)
+      ? setSelected(selected.filter((item) => item !== value))
+      : setSelected([...selected, value]);
   };
 
   const transactionsQuery = useQueryGetTransactions({
     limit: 10,
     offset: 0,
   });
+
+  console.log(transactionsQuery.data);
 
   return (
     <>
@@ -56,7 +58,7 @@ function TransactionsManager() {
           </div>
         </div>
         {transactionsQuery.isLoading ? (
-          <div>Loading...</div>
+          <Spinner />
         ) : (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
