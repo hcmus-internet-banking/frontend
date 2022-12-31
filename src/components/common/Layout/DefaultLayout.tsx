@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavigationButton from "./components/NavigationButton";
 import { IoHome, IoLogIn, IoPerson, IoReceipt } from "react-icons/io5";
 import AppLink from "../AppLink/AppLink";
@@ -14,14 +14,40 @@ import Auth from "../Auth/Auth";
 import NotifyButton from "@/components/notify/NotifyButton";
 import NotifyManager from "@/components/notify/NotifyManager";
 import useToggle from "@/lib/common/hooks/useToggle";
+import { Socket } from "@/lib/common/utils/socket.service";
+import { toast } from "react-hot-toast";
 
 type Props = { children: React.ReactElement };
+
+const socket = Socket();
 
 function Layout({ children }: Props) {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const { value: hide, toggle } = useToggle(true);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected with socket id: ", socket.id);
+    });
+
+    socket.emit("userID", user?.id);
+
+    socket.on("message", (data: any) => {
+      toast.success(data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Auth>

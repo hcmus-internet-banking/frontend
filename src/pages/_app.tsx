@@ -1,18 +1,17 @@
-import "../styles/globals.css";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
-import { DefaultLayout } from "../components/common/Layout";
-import React from "react";
 import Head from "next/head";
-import { Provider } from "react-redux";
-import { rootStore } from "../store/store";
+import React from "react";
 import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import { QueryClientProvider } from "@tanstack/react-query";
-import StoreHandlingProvider from "../store/storeErrorHandler";
+import { DefaultLayout } from "../components/common/Layout";
 import { queryClient } from "../core/queryClient";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { socket } from "@/core/socketClient";
+import { rootStore } from "../store/store";
+import StoreHandlingProvider from "../store/storeErrorHandler";
+import "../styles/globals.css";
 
 const persistor = persistStore(rootStore);
 
@@ -22,13 +21,6 @@ interface AppPropsWithLayout extends AppProps {
     title?: string;
   };
 }
-
-socket.on("connect", () => {
-  console.log("connected with socket id: ", socket.id);
-  if (typeof window !== "undefined") {
-    localStorage.setItem("socketId", socket.id);
-  }
-});
 
 const MyApp = ({
   Component,
@@ -48,7 +40,7 @@ const MyApp = ({
                 <link rel="icon" href="/logo.png" />
               </Head>
               <Layout>
-                <Component {...pageProps} socket={socket} />
+                <Component {...pageProps} />
               </Layout>
               <Toaster />
               {process.env.NODE_ENV !== "production" && (
