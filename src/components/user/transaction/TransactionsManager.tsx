@@ -58,6 +58,8 @@ function TransactionsManager() {
         {transactionsQuery.isLoading ? (
           <div>Loading...</div>
         ) : (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           transactionsQuery.data?.data.map((transaction: any) => {
             return (
               <div key={transaction.id}>
