@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NavigationButton from "./components/NavigationButton";
 import { IoHome, IoLogIn, IoPerson, IoReceipt } from "react-icons/io5";
 import AppLink from "../AppLink/AppLink";
@@ -16,6 +16,7 @@ import NotifyManager from "@/components/notify/NotifyManager";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { Socket } from "@/lib/common/utils/socket.service";
 import { toast } from "react-hot-toast";
+import { TfiClose } from "react-icons/tfi";
 
 type Props = { children: React.ReactElement };
 
@@ -26,6 +27,21 @@ function Layout({ children }: Props) {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const { value: hide, toggle } = useToggle(true);
+  const [alertMessage, setAlertMessage] = useState<any>(null);
+
+  useEffect(() => {
+    if (alertMessage) {
+      toast(
+        <div className="flex">
+          {alertMessage}
+          <button className="hover:opacity-70" onClick={() => toast.dismiss()}>
+            <TfiClose />
+          </button>
+        </div>
+      );
+      setAlertMessage(null);
+    }
+  }, [alertMessage]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -35,7 +51,7 @@ function Layout({ children }: Props) {
     socket.emit("userID", user?.id);
 
     socket.on("message", (data: any) => {
-      toast.success(data);
+      setAlertMessage(data);
     });
 
     socket.on("disconnect", () => {
@@ -71,7 +87,7 @@ function Layout({ children }: Props) {
               label="Invoices"
             />
             <NavigationButton
-              className="bg-yellow-600"
+              className="bg-blue-600"
               href="/user/transactions"
               label="Transactions"
             />

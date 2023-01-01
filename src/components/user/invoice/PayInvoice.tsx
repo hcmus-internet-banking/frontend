@@ -49,22 +49,23 @@ const PayInvoice = ({ invoiceId, hide, toggle }: Props) => {
   });
 
   const handleSendOTP = async () => {
-    const res = await mutateAsyncGetOTPInvoice();
-
-    try {
-      toast.success(res.message);
-      setTimeCount(TIME_OUT_GET_OTP);
-      const interval = setInterval(() => {
-        setTimeCount((prev) => --prev);
-      }, 1000);
-      setTimeout(() => {
+    toast.promise(mutateAsyncGetOTPInvoice(), {
+      loading: "Loading send otp...",
+      success: () => {
         setTimeCount(TIME_OUT_GET_OTP);
-        clearInterval(interval);
-      }, TIME_OUT_GET_OTP * 1000);
-    } catch (e) {
-      toast.error("Error when send otp");
-      console.log(e);
-    }
+        const interval = setInterval(() => {
+          setTimeCount((prev) => --prev);
+        }, 1000);
+        setTimeout(() => {
+          setTimeCount(TIME_OUT_GET_OTP);
+          clearInterval(interval);
+        }, TIME_OUT_GET_OTP * 1000);
+        return "Send otp successfully";
+      },
+      error: (e) => {
+        return e.message || "Failed to send otp";
+      },
+    });
   };
 
   return (
@@ -82,7 +83,7 @@ const PayInvoice = ({ invoiceId, hide, toggle }: Props) => {
           className="p-2 text-blue-500 hover:cursor-pointer hover:opacity-50"
         >
           {timeCount === TIME_OUT_GET_OTP
-            ? "Get OTP"
+            ? "Send OTP to mail"
             : `Wating ${timeCount} second`}
         </span>
         <Modal.Bottom>
