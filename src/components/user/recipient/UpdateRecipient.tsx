@@ -3,9 +3,11 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useUpdateRecipient } from "@/lib/home/hooks/recipient/useUpdateRecipient";
+import { useQueryGetCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
 import { createRecipientSchema } from "@/lib/home/schema";
 import { Recipient } from "@/store/recipients/types";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -18,6 +20,7 @@ type Props = {
 const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
   const { mutateAsync } = useUpdateRecipient();
   const { value: isSubmitted, setValue: setIsSubmitted } = useToggle(false);
+  const [name, setName] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +37,7 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
       toast.promise(
         mutateAsync({
           id: values.id,
-          mnemonicName: values.mnemonicName,
+          mnemonicName: values.mnemonicName || name,
         }),
         {
           loading: "Update recipient...",
@@ -45,13 +48,38 @@ const UpdateRecipient = ({ recipient, hide, toggle }: Props) => {
           },
           error: (e) => {
             toast.error(JSON.stringify(e));
-
             return "Failed to edit recipient";
           },
         }
       );
     },
   });
+
+  // Fetching customer by bank number
+  const { isFetching } = useQueryGetCustomerByBankNumber(
+    formik.values.accountNumber,
+    {
+      onSuccess: (res: any) => {
+        setName(`${res.firstName} ${res.lastName}`);
+
+        formik.setFieldError("accountNumber", "");
+      },
+      onError: (e: any) => {
+        formik.setFieldError(
+          "accountNumber",
+          e?.error?.message || "Invalid customer"
+        );
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (isFetching) {
+      formik.setFieldError("accountNumber", "Loading...");
+      setName("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   return (
     <>
