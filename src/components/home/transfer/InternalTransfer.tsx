@@ -9,7 +9,7 @@ import { createInternalTransferSchema } from "@/lib/home/schema";
 import { selectUser } from "@/store/auth";
 import { useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
-import React from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { RiContactsBookFill } from "react-icons/ri";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -28,8 +28,8 @@ function InternalTransfer() {
     value: isHideRecipientSelectorToggle,
     toggle: RecipientSelectorToggle,
   } = useToggle(true);
-  const [accountName, setAccountName] = React.useState("");
-  const [timeCount, setTimeCount] = React.useState(TIME_OUT_GET_OTP);
+  const [accountName, setAccountName] = useState("");
+  const [timeCount, setTimeCount] = useState(TIME_OUT_GET_OTP);
   const { mutateAsync: mutateInternalTransfer } = UseCreateInternalTransfer();
   const { mutateAsync: mutateGetOTP } = UseGetOTPTransfer();
   const { mutateAsync: mutateRecipient } = useCreateRecipient();

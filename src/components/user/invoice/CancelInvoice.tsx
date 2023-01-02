@@ -37,6 +37,7 @@ const CancelInvoice = ({ id, hide, toggle }: Props) => {
           loading: "Loading cancel invoice...",
           success: () => {
             formik.resetForm();
+            toggle();
             return "Cancel successfully";
           },
           error: (e) => {

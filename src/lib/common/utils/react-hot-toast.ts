@@ -14,5 +14,6 @@ export const toastNotify = (message: string) => {
       // yellow
       color: "#fde68a",
     },
+    duration: 3000,
   });
 };

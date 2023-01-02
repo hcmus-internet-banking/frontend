@@ -12,9 +12,12 @@ export const usePaymentInvoice = (
   overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
 ) => {
   const mutationArgs = useMutation({
-    mutationFn: async ({ invoiceId }) => {
-      const res = await client.put<BaseResponse<any>>(
-        `/api/invoices/pay/${invoiceId}`
+    mutationFn: async ({ invoiceId, token }) => {
+      const res = await client.post<BaseResponse<any>>(
+        `/api/invoices/pay/${invoiceId}`,
+        {
+          otp: token,
+        }
       );
 
       return await handleResponse(res);

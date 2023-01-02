@@ -43,7 +43,12 @@ export const Transfer = () => {
           </div>
         </div>
       </div>
-      {isInternal ? <InternalTransfer /> : <ExternalTransfer />}
+      <div style={!isInternal ? { display: "none" } : {}}>
+        <InternalTransfer />
+      </div>
+      <div style={isInternal ? { display: "none" } : {}}>
+        <ExternalTransfer />
+      </div>
     </Card>
   );
 };

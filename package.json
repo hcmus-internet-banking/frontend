@@ -29,6 +29,7 @@
     "react-use": "^17.4.0",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.5.4",
     "superjson": "1.9.1",
     "zod": "^3.14.4",
     "zod-formik-adapter": "^1.1.1"

@@ -10,22 +10,19 @@ interface Transactions {
   toCustomer: CustomerData | null;
   type: string;
 }
-
-interface TransactionsResponse extends BaseResponse {
-  data: Data;
-}
-
-interface Data {
-  data: Transactions[];
-  metadata: Metadata;
-}
-
 interface Metadata {
   total: number;
   page: number;
   limit: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
+}
+interface Data {
+  data: Transactions[];
+  metadata: Metadata;
+}
+interface TransactionsResponse extends BaseResponse {
+  data: Data;
 }
 
 export const getAllTransactions = async (params?: any) => {

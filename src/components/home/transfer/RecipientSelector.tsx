@@ -41,7 +41,7 @@ function RecipientSelector({
     const filteredRecipient = recipientList?.data?.filter(
       (recipient: Recipient) =>
         isFilterByName
-          ? recipient.mnemonicName.includes(value)
+          ? recipient.mnemonicName.toUpperCase().includes(value.toUpperCase())
           : recipient.accountNumber.includes(value)
     );
     setSelectedRecipient(filteredRecipient);

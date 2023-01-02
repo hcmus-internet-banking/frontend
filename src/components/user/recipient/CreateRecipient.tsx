@@ -105,8 +105,9 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
             error={formik.errors.accountNumber}
             isLoading={isFetching}
           />
-          {isFetching && (
+          {name !== "" && (
             <Input
+              name="name"
               outerClassNames="flex-grow"
               placeholder="Name"
               value={name}

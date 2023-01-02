@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavigationButton from "./components/NavigationButton";
 import { IoHome, IoLogIn, IoPerson, IoReceipt } from "react-icons/io5";
 import AppLink from "../AppLink/AppLink";
@@ -11,13 +11,51 @@ import {
 } from "../../../store/auth";
 import Spacer from "../Spacer/Spacer";
 import Auth from "../Auth/Auth";
+import NotifyButton from "@/components/notify/NotifyButton";
+import NotifyManager from "@/components/notify/NotifyManager";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { Socket } from "@/lib/common/utils/socket.service";
+import { toastNotify } from "@/lib/common/utils/react-hot-toast";
 
 type Props = { children: React.ReactElement };
+
+const socket = Socket();
 
 function Layout({ children }: Props) {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
+  const { value: hide, toggle } = useToggle(true);
+  const [alertMessage, setAlertMessage] = useState<any>(null);
+
+  useEffect(() => {
+    if (alertMessage) {
+      toastNotify(alertMessage);
+      setAlertMessage(null);
+    }
+  }, [alertMessage]);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected with socket id: ", socket.id);
+    });
+
+    socket.emit("userID", user?.id);
+
+    socket.on("message", (data: any) => {
+      setAlertMessage(data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Auth>
@@ -41,15 +79,16 @@ function Layout({ children }: Props) {
               label="Invoices"
             />
             <NavigationButton
-              className="bg-yellow-600"
+              className="bg-blue-600"
               href="/user/transactions"
               label="Transactions"
             />
-            <div className="flex-1"></div>
+            <div className="flex-1 "></div>
             {!isAuthenticated ? (
               <AppLink href="/login" text="Login" iconLeft={IoLogIn} />
             ) : (
               <>
+                <NotifyButton handleOnClick={toggle} />
                 <NavigationButton
                   className="truncate bg-blue-400"
                   icon={IoPerson}
@@ -87,6 +126,7 @@ function Layout({ children }: Props) {
           {/* TODO: Check for Admin */}
           {/* <AppLink href="/admin" text="Admin Panel" iconLeft={IoFingerPrint} /> */}
         </header>
+        <NotifyManager hide={hide} toggle={toggle} />
 
         <main className="mx-auto max-w-5xl p-2">{children}</main>
       </div>

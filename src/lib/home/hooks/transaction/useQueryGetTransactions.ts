@@ -14,6 +14,7 @@ export const useQueryGetTransactions = ({
     queryFn: () => {
       return getAllTransactions({ limit, offset });
     },
+
     refetchOnWindowFocus: false,
     ...overrideOptions,
   });
