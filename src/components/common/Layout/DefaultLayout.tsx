@@ -15,8 +15,7 @@ import NotifyButton from "@/components/notify/NotifyButton";
 import NotifyManager from "@/components/notify/NotifyManager";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { Socket } from "@/lib/common/utils/socket.service";
-import { toast } from "react-hot-toast";
-import { TfiClose } from "react-icons/tfi";
+import { toastNotify } from "@/lib/common/utils/react-hot-toast";
 
 type Props = { children: React.ReactElement };
 
@@ -31,14 +30,7 @@ function Layout({ children }: Props) {
 
   useEffect(() => {
     if (alertMessage) {
-      toast(
-        <div className="flex">
-          {alertMessage}
-          <button className="hover:opacity-70" onClick={() => toast.dismiss()}>
-            <TfiClose />
-          </button>
-        </div>
-      );
+      toastNotify(alertMessage);
       setAlertMessage(null);
     }
   }, [alertMessage]);
