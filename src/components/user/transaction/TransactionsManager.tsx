@@ -2,7 +2,9 @@ import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
 import { useQueryGetTransactions } from "@/lib/home/hooks/transaction/useQueryGetTransactions";
+
 import React from "react";
+import TransactionCard from "./TransactionCard";
 
 function TransactionsManager() {
   const options = [
@@ -11,28 +13,20 @@ function TransactionsManager() {
       value: "receive",
     },
     {
-      label: "Transfer",
-      value: "transfer",
+      label: "Sent",
+      value: "sent",
     },
     {
       label: "Payment",
       value: "payment",
     },
   ];
-  const [selected, setSelected] = React.useState([options[0]?.value]);
-
-  const handleOnSelected = (value: string) => {
-    selected.includes(value)
-      ? setSelected(selected.filter((item) => item !== value))
-      : setSelected([...selected, value]);
-  };
+  const [selected, setSelected] = React.useState(options[0]?.value);
 
   const transactionsQuery = useQueryGetTransactions({
     limit: 10,
     offset: 0,
   });
-
-  console.log(transactionsQuery.data);
 
   return (
     <>
@@ -44,13 +38,11 @@ function TransactionsManager() {
               <button
                 key={option.value}
                 onClick={() => {
-                  handleOnSelected(option.value);
+                  setSelected(option.value);
                 }}
                 className={`${
-                  selected.includes(option.value)
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-blue-500"
-                } mr-2 rounded-lg px-4 py-2`}
+                  selected === option.value ? "bg-blue-500" : "bg-gray-300"
+                } mr-1 rounded-lg py-2 px-4 font-semibold text-white`}
               >
                 {option.label}
               </button>
@@ -65,16 +57,15 @@ function TransactionsManager() {
           transactionsQuery.data?.data.map((transaction: any) => {
             return (
               <div key={transaction.id}>
-                <div>{transaction.id}</div>
-                <div>{transaction.amount}</div>
-                <div>{transaction.message}</div>
-                <div>{transaction.type}</div>
-                <div>{transaction.fromCustomer.accountNumber}</div>
-                <div>{transaction.createdAt}</div>
+                <TransactionCard
+                  transactions={transaction}
+                  type={selected || "receive"}
+                />
               </div>
             );
           })
         )}
+        {/* pagination */}
       </Card>
     </>
   );

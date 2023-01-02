@@ -7,13 +7,20 @@ type Props = {
 };
 
 const Badge = ({ color, text }: Props) => {
-  <span
-    className={classNames(
-      `mr-2 rounded bg-${color}-100 px-2.5 py-0.5 text-xs font-semibold text-${color}-800 dark:bg-${color}-200 dark:${color}-blue-800`
-    )}
-  >
-    {text}
-  </span>;
+  return (
+    <span
+      className={classNames(
+        "text-md mr-2 rounded px-2.5 py-0.5 font-semibold uppercase tracking-wide",
+        {
+          "bg-green-100 text-green-600": color === "green",
+          "bg-red-100 text-red-600": color === "red",
+          "bg-orange-100 text-orange-600": color === "orange",
+        }
+      )}
+    >
+      {text}
+    </span>
+  );
 };
 
 export default Badge;
