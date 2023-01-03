@@ -10,7 +10,12 @@ type Props = {
 
 const InforTrans = ({ transType, fromCustomer, toCustomer }: Props) => {
   const customer = transType === "receive" ? toCustomer : fromCustomer;
-  const label = transType === "sent" ? "Transfer to" : "Received from";
+  const label =
+    transType === "sent"
+      ? "Transfer to"
+      : transType === "receive"
+      ? "Transfer from"
+      : "Payment for";
   const { isLoading: profileLoading, data: profile } = useQueryMyProfile();
 
   return (

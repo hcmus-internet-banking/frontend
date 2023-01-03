@@ -6,6 +6,7 @@ import React from "react";
 import TransactionCard from "./TransactionCard";
 import classNames from "classnames";
 import { useQueryTransactionTransfer } from "@/lib/home/hooks/transaction/useQueryTransactionTransfer";
+import { useQueryInvoice as useQueryTransactionPayment } from "@/lib/home/hooks/invoice/useQueryInvoice";
 const LITMIT = 5;
 
 function TransactionsManager() {
@@ -26,16 +27,28 @@ function TransactionsManager() {
   const [selected, setSelected] = React.useState(options[0]?.value);
   const [page, setPage] = React.useState(1);
 
-  const { data, isLoading } = useQueryTransactionTransfer({
-    type: selected || "received",
-    limit: LITMIT,
-    offset: (page - 1) * LITMIT,
-  });
+  const { data: dataTransfer, isLoading: isLoadingTransfer } =
+    useQueryTransactionTransfer({
+      type: selected || "",
+      limit: LITMIT,
+      offset: (page - 1) * LITMIT,
+    });
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const metadata = data?.metadata;
+  const { data: dataPayment, isLoading: isLoadingPayment } =
+    useQueryTransactionPayment({
+      type: "received",
+      limit: LITMIT,
+      offset: (page - 1) * LITMIT,
+    });
+  console.log(dataPayment);
+  const metadata =
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    selected === "payment" ? dataPayment?.metadata : dataTransfer?.metadata;
   const totalPage = Math.ceil(metadata?.total / LITMIT) || 1;
+  const isLoading =
+    selected === "payment" ? isLoadingPayment : isLoadingTransfer;
+  const data = selected === "payment" ? dataPayment : dataTransfer;
 
   return (
     <>

@@ -18,6 +18,7 @@ export const useQueryTransactionTransfer = ({
     },
 
     refetchOnWindowFocus: false,
+    keepPreviousData: true,
     ...overrideOptions,
   });
 

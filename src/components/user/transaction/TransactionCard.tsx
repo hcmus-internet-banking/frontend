@@ -22,17 +22,30 @@ const TransactionCard = ({ transactions, type }: Props) => {
     return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
   };
 
+  const labelTime = type === "payment" ? "Paid at " : "Created at ";
+
   return (
     <>
       <Card>
         <Heading className="flex flex-row-reverse justify-between rounded-md bg-slate-200 px-2">
-          <span>{dateTimeFormat(transactions.createdAt)}</span>
-          <span className="flex items-center">{transactions.message}</span>
+          <span>
+            {labelTime}
+            {dateTimeFormat(
+              type === "payment" ? transactions.paidAt : transactions.createdAt
+            )}
+          </span>
+          <span className="flex items-center">
+            Message: {transactions.message}
+          </span>
         </Heading>
         <div className="flex items-center justify-between">
           <InforTrans
             transType={type}
-            fromCustomer={transactions.fromCustomer}
+            fromCustomer={
+              type === "payment"
+                ? transactions.creator
+                : transactions.fromCustomer
+            }
             toCustomer={transactions.toCustomer}
           />
           <div className="flex items-center">
