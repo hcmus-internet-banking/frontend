@@ -7,7 +7,7 @@ type Props = {
 
 const LogoTrans = ({ transType }: Props) => {
   switch (transType) {
-    case "receive":
+    case "received":
       return (
         <GiReceiveMoney className="h-10 w-10 rounded-full border-2 border-green-300 p-1 text-green-500" />
       );

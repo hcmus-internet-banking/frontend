@@ -34,7 +34,6 @@ const TransactionCard = ({ transactions, type }: Props) => {
             transType={type}
             fromCustomer={transactions.fromCustomer}
             toCustomer={transactions.toCustomer}
-            message={transactions.message}
           />
           <div className="flex items-center">
             <AmountTrans value={transactions.amount} transType={type} />

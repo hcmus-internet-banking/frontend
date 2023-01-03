@@ -8,7 +8,7 @@ type Props = {
 
 const AmountTrans = ({ value, transType }: Props) => {
   switch (transType) {
-    case "receive":
+    case "received":
       return (
         <div className="flex items-center">
           <Badge color="green" text={"+" + value + "$"} />

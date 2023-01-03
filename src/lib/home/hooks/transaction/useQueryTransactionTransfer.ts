@@ -1,18 +1,20 @@
-import { getAllTransactions } from "./../../apis/transfers/transactions.api";
+import { getAllTransactions } from "../../apis/transfers/transactions.api";
 import { useQuery } from "@tanstack/react-query";
 
-export const useQueryGetTransactions = ({
+export const useQueryTransactionTransfer = ({
+  type,
   limit,
   offset,
   overrideOptions,
 }: {
+  type: string;
   limit: number;
   offset: number;
   overrideOptions?: any;
 }) => {
-  const queryArgs = useQuery(["transactions", { limit, offset }], {
+  const queryArgs = useQuery(["transactions", { limit, offset, type }], {
     queryFn: () => {
-      return getAllTransactions({ limit, offset });
+      return getAllTransactions({ limit, offset, type });
     },
 
     refetchOnWindowFocus: false,

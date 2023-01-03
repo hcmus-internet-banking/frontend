@@ -1,16 +1,18 @@
 import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
-import { useQueryGetTransactions } from "@/lib/home/hooks/transaction/useQueryGetTransactions";
-
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import React from "react";
 import TransactionCard from "./TransactionCard";
+import classNames from "classnames";
+import { useQueryTransactionTransfer } from "@/lib/home/hooks/transaction/useQueryTransactionTransfer";
+const LITMIT = 5;
 
 function TransactionsManager() {
   const options = [
     {
       label: "Received",
-      value: "receive",
+      value: "received",
     },
     {
       label: "Sent",
@@ -22,11 +24,18 @@ function TransactionsManager() {
     },
   ];
   const [selected, setSelected] = React.useState(options[0]?.value);
+  const [page, setPage] = React.useState(1);
 
-  const transactionsQuery = useQueryGetTransactions({
-    limit: 10,
-    offset: 0,
+  const { data, isLoading } = useQueryTransactionTransfer({
+    type: selected || "received",
+    limit: LITMIT,
+    offset: (page - 1) * LITMIT,
   });
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const metadata = data?.metadata;
+  const totalPage = Math.ceil(metadata?.total / LITMIT) || 1;
 
   return (
     <>
@@ -39,6 +48,7 @@ function TransactionsManager() {
                 key={option.value}
                 onClick={() => {
                   setSelected(option.value);
+                  setPage(1);
                 }}
                 className={`${
                   selected === option.value ? "bg-blue-500" : "bg-gray-300"
@@ -49,24 +59,85 @@ function TransactionsManager() {
             ))}
           </div>
         </div>
-        {transactionsQuery.isLoading ? (
+        {isLoading ? (
           <Spinner />
         ) : (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          transactionsQuery.data?.data.map((transaction: any) => {
+          data?.data.map((transaction: any) => {
             return (
               <div key={transaction.id}>
                 <TransactionCard
                   transactions={transaction}
-                  type={selected || "receive"}
+                  type={selected || "received"}
                 />
               </div>
             );
           })
         )}
-        {/* pagination */}
       </Card>
+      <div className="m-6 flex justify-center">
+        <nav aria-label="Page navigation example">
+          <ul className="inline-flex -space-x-px">
+            <li>
+              {page === 1 ? (
+                <div className="cursor-not-allowed rounded-l-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 ">
+                  <MdNavigateBefore className="h-5 w-5" />
+                </div>
+              ) : (
+                <div
+                  className="rounded-l-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 "
+                  onClick={() => {
+                    setPage(page - 1);
+                  }}
+                >
+                  <MdNavigateBefore className="h-5 w-5" />
+                </div>
+              )}
+            </li>
+            {Array(totalPage)
+              .fill(0)
+              .map((_, index) => {
+                const pageNumber = index + 1;
+                const isActive = page === pageNumber;
+                return (
+                  <li key={pageNumber}>
+                    <div
+                      className={classNames(
+                        "border border-gray-300 py-2 px-3  leading-tight hover:bg-gray-100 hover:text-gray-700",
+                        {
+                          "bg-gray-100 text-gray-700": isActive,
+                          "bg-white text-gray-500": !isActive,
+                        }
+                      )}
+                      onClick={() => {
+                        setPage(pageNumber);
+                      }}
+                    >
+                      {pageNumber}
+                    </div>
+                  </li>
+                );
+              })}
+            <li>
+              {page === totalPage ? (
+                <div className="cursor-not-allowed rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 ">
+                  <MdNavigateNext className="h-5 w-5" />
+                </div>
+              ) : (
+                <div
+                  className="rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 "
+                  onClick={() => {
+                    setPage(page + 1);
+                  }}
+                >
+                  <MdNavigateNext className="h-5 w-5" />
+                </div>
+              )}
+            </li>
+          </ul>
+        </nav>
+      </div>
     </>
   );
 }
