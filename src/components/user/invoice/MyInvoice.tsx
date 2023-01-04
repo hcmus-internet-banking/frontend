@@ -2,6 +2,7 @@ import useToggle from "@/lib/common/hooks/useToggle";
 import { RxCross1 } from "react-icons/rx";
 import CancelInvoice from "./CancelInvoice";
 import PayInvoice from "./PayInvoice";
+import { useState } from "react";
 
 type Props = {
   data: any;
@@ -10,6 +11,7 @@ type Props = {
 const MyInvoice = ({ data }: Props) => {
   const { value: hideCancelModal, toggle: toggleCancel } = useToggle(true);
   const { value: hidePaymentModal, toggle: togglePayment } = useToggle(true);
+  const [invoiceId, setInvoiceId] = useState("");
 
   const handleCancelInvoice = () => {
     toggleCancel();
@@ -28,20 +30,19 @@ const MyInvoice = ({ data }: Props) => {
         <span className="w-1/6 text-center text-base font-medium">Action</span>
       </div>
       <div className="flex flex-col content-evenly">
+        <CancelInvoice
+          id={invoiceId}
+          hide={hideCancelModal}
+          toggle={toggleCancel}
+        />
+        <PayInvoice
+          invoiceId={invoiceId}
+          hide={hidePaymentModal}
+          toggle={togglePayment}
+        />
         {data?.pages.map((page: any) =>
           page?.data?.map((invoice: any, index: any) => (
             <div key={index}>
-              <CancelInvoice
-                id={invoice.id}
-                hide={hideCancelModal}
-                toggle={toggleCancel}
-              />
-              <PayInvoice
-                invoiceId={invoice.id}
-                hide={hidePaymentModal}
-                toggle={togglePayment}
-              />
-
               <div className="flex w-full space-y-2 p-2 duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
                 <span className="w-1/6 pt-2 text-center text-sm font-semibold">
                   #{invoice.id}
@@ -63,7 +64,10 @@ const MyInvoice = ({ data }: Props) => {
                   <RxCross1
                     className="h-5 w-5 text-red-400 hover:cursor-pointer hover:opacity-25"
                     strokeWidth={0.8}
-                    onClick={handleCancelInvoice}
+                    onClick={() => {
+                      setInvoiceId(invoice.id);
+                      handleCancelInvoice();
+                    }}
                   />
                 </div>
               </div>

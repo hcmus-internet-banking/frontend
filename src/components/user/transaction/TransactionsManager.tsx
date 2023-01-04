@@ -40,7 +40,6 @@ function TransactionsManager() {
       limit: LITMIT,
       offset: (page - 1) * LITMIT,
     });
-  console.log(dataPayment);
   const metadata =
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
