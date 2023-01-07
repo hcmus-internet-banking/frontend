@@ -131,10 +131,11 @@ function InternalTransfer() {
         setValues={setRecipientSelectorValue}
       />
       <form onSubmit={formik.handleSubmit}>
+        <div className="h-3"></div>
         <section className="space-y-2 pr-4">
-          <div className="relative inline-block w-full">
+          <div className="flex items-center gap-2">
             <Input
-              className="w-4/5"
+              outerClassNames="grow"
               name="to"
               value={formik.values.to}
               onChange={formik.handleChange}
@@ -144,7 +145,7 @@ function InternalTransfer() {
             />
             <Button
               type="button"
-              className="absolute right-1 top-1 flex cursor-pointer items-center  rounded-lg px-4 py-2 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80"
+              className="flex cursor-pointer items-center rounded-lg px-4 py-2 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80"
               onClick={() => {
                 RecipientSelectorToggle();
               }}
@@ -187,17 +188,33 @@ function InternalTransfer() {
             error={formik.errors.message}
           />
 
-          <div className="relative inline-block w-full">
-            <Input
-              name="token"
-              value={formik.values.token}
-              onChange={formik.handleChange}
-              placeholder="Nhập mã OTP"
-              error={formik.errors.token}
-              clearable={false}
-            />
+          <Input
+            name="token"
+            value={formik.values.token}
+            onChange={formik.handleChange}
+            placeholder="Nhập mã OTP"
+            error={formik.errors.token}
+            clearable={false}
+          />
+
+          <div className="h-1"></div>
+          <div className="flex items-center justify-between">
+            <Button
+              className="focus:ring-indigo "
+              type="submit"
+              disabled={
+                !!formik.errors.to ||
+                !!formik.errors.amount ||
+                !formik.values.to ||
+                !formik.values.amount ||
+                !!formik.errors.token ||
+                !formik.values.token
+              }
+            >
+              <span>Chuyển tiền</span>
+            </Button>
             <span
-              className=" hover: absolute right-0 cursor-pointer hover:text-blue-500 hover:underline"
+              className="cursor-pointer hover:text-blue-500 hover:underline"
               onClick={handleSendOTP}
             >
               {timeCount === TIME_OUT_GET_OTP
@@ -205,21 +222,6 @@ function InternalTransfer() {
                 : `Gui OTP sau ${timeCount}s`}
             </span>
           </div>
-
-          <Button
-            className="focus:ring-indigo "
-            type="submit"
-            disabled={
-              !!formik.errors.to ||
-              !!formik.errors.amount ||
-              !formik.values.to ||
-              !formik.values.amount ||
-              !!formik.errors.token ||
-              !formik.values.token
-            }
-          >
-            <span>Chuyển tiền</span>
-          </Button>
         </section>
       </form>
     </>

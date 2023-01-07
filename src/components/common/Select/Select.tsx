@@ -17,7 +17,7 @@ function Select({ options, title, value, onChange, name }: SelectProps) {
   return (
     <div className="relative w-full">
       <select
-        className="h-12 w-full appearance-none rounded-xl bg-gray-200 px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md"
+        className="h-12 w-full appearance-none rounded-xl border bg-white px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md"
         value={value}
         onChange={onChange}
         name={name}

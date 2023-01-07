@@ -72,7 +72,7 @@ function Index() {
   }, [authState.user, router]);
 
   return (
-    <Card className="max-w-sm">
+    <Card className="mx-auto max-w-xl">
       {authState.loading && <BarLoader width={200} />}
       <Spacer className="h-12" />
       <Link href="login">
