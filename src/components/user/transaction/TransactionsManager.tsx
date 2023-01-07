@@ -66,10 +66,10 @@ function TransactionsManager() {
               return (
                 <div
                   key={transaction.id}
-                  className="flex items-center rounded-md bg-white p-4 shadow"
+                  className="flex items-center gap-3 rounded-md bg-white p-4 shadow"
                 >
                   <div>
-                    <div className="w-32 text-2xl tracking-wider text-green-500">
+                    <div className="w-32 font-mono text-2xl tracking-wider text-green-500">
                       +{Intl.NumberFormat("en-US").format(transaction.amount)}$
                     </div>
                   </div>
