@@ -129,18 +129,9 @@ function LoginPage() {
 
       <div className="h-4"></div>
       <div className="flex justify-between">
-        <div>
-          Bạn chưa có tài khoản?{" "}
-          <AppLink
-            onClick={() => {
-              router.push("/register");
-            }}
-            text="Đăng ký"
-          />
-        </div>
-        <div>
-          <AppLink href="/login">User Login</AppLink>
-        </div>
+        <AppLink href="https://boilerplate-svelte.vercel.app/">
+          User Login
+        </AppLink>
       </div>
     </div>
   );
