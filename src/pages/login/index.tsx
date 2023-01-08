@@ -138,10 +138,7 @@ function Index() {
         <div className="h-3"></div>
         <div className="flex justify-between">
           <div>
-            <AppLink href="/forget-password">Quên mật khẩu ?</AppLink>
-          </div>
-          <div>
-            <AppLink href="/register">Đăng ký</AppLink>
+            <AppLink href="/forget-password">Quên mật khẩu?</AppLink>
           </div>
           <div>
             <AppLink href="https://boilerplate-svelte.vercel.app/">

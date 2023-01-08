@@ -51,7 +51,7 @@ function CloseAccount() {
                 success: (data: any) => {
                   setHide((state) => !state);
                   dispatch(logout());
-                  return data.message;
+                  return "Đã đóng tài khoản";
                 },
                 error: (err: any) => err.response?.data?.message || err.message,
               });
