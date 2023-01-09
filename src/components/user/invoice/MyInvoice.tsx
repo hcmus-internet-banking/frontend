@@ -31,7 +31,7 @@ const MyInvoice = ({ data }: Props) => {
       </div>
       <div className="flex flex-col content-evenly">
         <CancelInvoice
-          id={invoiceId}
+          invoiceId={invoiceId}
           hide={hideCancelModal}
           toggle={toggleCancel}
         />

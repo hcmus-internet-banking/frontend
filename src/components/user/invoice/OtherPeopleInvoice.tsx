@@ -13,14 +13,6 @@ const OtherPeopleInvoice = ({ data }: Props) => {
   const { value: hidePaymentModal, toggle: togglePayment } = useToggle(true);
   const [invoiceId, setInvoiceId] = useState("");
 
-  const handleCancelInvoice = () => {
-    toggleCancel();
-  };
-
-  const handlePaymentInvoice = () => {
-    togglePayment();
-  };
-
   return (
     <>
       <div className="flex rounded bg-gray-300 p-4">
@@ -35,7 +27,7 @@ const OtherPeopleInvoice = ({ data }: Props) => {
       </div>
       <div className="flex flex-col content-evenly">
         <CancelInvoice
-          id={invoiceId}
+          invoiceId={invoiceId}
           hide={hideCancelModal}
           toggle={toggleCancel}
         />

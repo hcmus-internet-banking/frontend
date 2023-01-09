@@ -30,7 +30,7 @@ const PayInvoice = ({ invoiceId, hide, toggle }: Props) => {
     onSubmit: async (values) => {
       toast.promise(
         mutateAsyncPaymentInvoice({
-          invoiceId: values.invoiceId,
+          invoiceId: invoiceId,
           token: values.token,
         }),
         {
