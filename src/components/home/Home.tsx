@@ -6,7 +6,7 @@ import Balance from "./Balance";
 const Home = () => {
   return (
     <div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid gap-2 md:grid-cols-2">
         <Balance />
         <Transfer />
         <Debts />
@@ -17,3 +17,5 @@ const Home = () => {
 };
 
 export default Home;
+
+Home.title = "Home";

@@ -30,6 +30,7 @@ module.exports = {
     },
     fontFamily: {
       "apple-system": ["-apple-system", "BlinkMacSystemFont"],
+      "mono": ["SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
     }
   },
   plugins: [

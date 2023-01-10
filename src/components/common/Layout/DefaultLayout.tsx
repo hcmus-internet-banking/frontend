@@ -93,7 +93,6 @@ function Layout({ children }: Props) {
                   className="truncate bg-blue-400"
                   icon={IoPerson}
                   label={`${user?.firstName} ${user?.lastName}`}
-                  href="/profile"
                 />
                 <AppLink
                   className="px-4 py-2"

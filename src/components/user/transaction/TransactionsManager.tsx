@@ -1,13 +1,13 @@
 import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Spinner from "@/components/common/Spinner/Spinner";
-import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
+import { useQueryGetTransactions } from "@/lib/home/hooks/transaction/useQueryGetTransactions";
+import moment from "moment";
 import React from "react";
-import TransactionCard from "./TransactionCard";
 import classNames from "classnames";
 import { useQueryTransactionTransfer } from "@/lib/home/hooks/transaction/useQueryTransactionTransfer";
-import { useQueryInvoice as useQueryTransactionPayment } from "@/lib/home/hooks/invoice/useQueryInvoice";
-const LITMIT = 5;
+import { MdNavigateBefore } from "react-icons/md";
+const LIMIT = 5;
 
 function TransactionsManager() {
   const options = [
@@ -30,24 +30,14 @@ function TransactionsManager() {
   const { data: dataTransfer, isLoading: isLoadingTransfer } =
     useQueryTransactionTransfer({
       type: selected || "",
-      limit: LITMIT,
-      offset: (page - 1) * LITMIT,
+      limit: LIMIT,
+      offset: (page - 1) * LIMIT,
     });
 
-  const { data: dataPayment, isLoading: isLoadingPayment } =
-    useQueryTransactionPayment({
-      type: "received",
-      limit: LITMIT,
-      offset: (page - 1) * LITMIT,
-    });
-  const metadata =
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    selected === "payment" ? dataPayment?.metadata : dataTransfer?.metadata;
-  const totalPage = Math.ceil(metadata?.total / LITMIT) || 1;
-  const isLoading =
-    selected === "payment" ? isLoadingPayment : isLoadingTransfer;
-  const data = selected === "payment" ? dataPayment : dataTransfer;
+  const transactionsQuery = useQueryGetTransactions({
+    limit: 10,
+    offset: 0,
+  });
 
   return (
     <>
@@ -71,21 +61,52 @@ function TransactionsManager() {
             ))}
           </div>
         </div>
-        {isLoading ? (
+        {isLoadingTransfer ? (
           <Spinner />
         ) : (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          data?.data.map((transaction: any) => {
-            return (
-              <div key={transaction.id}>
-                <TransactionCard
-                  transactions={transaction}
-                  type={selected || "received"}
-                />
-              </div>
-            );
-          })
+          <div className="grid gap-2 md:grid-cols-2">
+            {(transactionsQuery.data as any)?.data.map((transaction: any) => {
+              return (
+                <div
+                  key={transaction.id}
+                  className="flex items-center gap-3 rounded-md bg-white p-4 shadow"
+                >
+                  <div>
+                    <div className="w-32 font-mono text-2xl tracking-wider text-green-500">
+                      +{Intl.NumberFormat("en-US").format(transaction.amount)}$
+                    </div>
+                  </div>
+                  <div className="grow">
+                    <div className="text-xs text-gray-700">
+                      <div className="text-lg font-light">
+                        {transaction.fromCustomer.firstName}{" "}
+                        {transaction.fromCustomer.lastName}
+                        {" - "}
+                        {transaction.fromCustomer.accountNumber}
+                      </div>
+                      <div>
+                        <b>Message:</b>
+                        <p>{transaction.message}</p>
+                      </div>
+                      <div className="my-2"></div>
+                      <div className="text-gray-500">
+                        {transaction.type === "INTERNAL"
+                          ? "Cùng ngân hàng"
+                          : "Liên ngân hàng"}{" "}
+                        -{" "}
+                        {moment(transaction.createdAt).format(
+                          "HH:mm:ss DD/MM/YYYY"
+                        )}
+                        <div>#{transaction.id}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </Card>
       <div className="m-6 flex justify-center">
@@ -155,3 +176,5 @@ function TransactionsManager() {
 }
 
 export default TransactionsManager;
+
+TransactionsManager.title = "Transactions";

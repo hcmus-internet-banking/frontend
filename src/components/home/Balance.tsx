@@ -14,7 +14,7 @@ function Balance() {
       {data && (
         <Card
           className={classNames(
-            "h-40 bg-gradient-to-tr from-gray-500 to-gray-800 text-gray-300",
+            "bg-gradient-to-tr from-gray-500 to-gray-800 text-gray-300",
             "flex flex-col"
           )}
         >
@@ -24,8 +24,8 @@ function Balance() {
 
           <div className="flex-1" />
 
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-light uppercase tracking-wide ">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="truncate text-2xl font-light tracking-wide ">
               <div className="text-3xl text-gray-200 transition hover:text-white">
                 {Intl.NumberFormat("en-US", {
                   style: "currency",

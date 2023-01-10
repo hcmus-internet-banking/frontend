@@ -59,7 +59,7 @@ function Input({
           type={hiddenValue ? "text" : type}
           autoComplete={autoComplete}
           className={classNames(
-            "peer w-full rounded-xl bg-gray-200 px-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
+            "peer w-full rounded-xl border bg-white px-3 text-gray-700 outline-none transition-[padding,box-shadow] focus:shadow-md",
             className,
             "h-12",
             {

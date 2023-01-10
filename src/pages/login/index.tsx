@@ -92,7 +92,7 @@ function Index() {
     <>
       <Spacer className="h-12" />
 
-      <Card className="max-w-xl">
+      <Card className="mx-auto max-w-xl">
         <Spacer className="h-12" />
         <Heading size="lg">Login</Heading>
         <Spacer className="h-2" />
@@ -128,21 +128,22 @@ function Index() {
                 ref={captchaRef}
               />
             </div>
+            <div className="h-2"></div>
             <Button type="submit" isLoading={isLoading}>
               <span>Login</span>
             </Button>
           </section>
         </form>
 
+        <div className="h-3"></div>
         <div className="flex justify-between">
           <div>
-            <AppLink href="/forget-password">Quên mật khẩu ?</AppLink>
+            <AppLink href="/forget-password">Quên mật khẩu?</AppLink>
           </div>
           <div>
-            <AppLink href="/register">Đăng ký</AppLink>
-          </div>
-          <div>
-            <AppLink href="/admin/login">Admin Login</AppLink>
+            <AppLink href="https://boilerplate-svelte.vercel.app/">
+              Admin Login
+            </AppLink>
           </div>
         </div>
       </Card>
