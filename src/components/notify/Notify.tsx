@@ -1,8 +1,10 @@
+import { useMarkReadNotification } from "@/lib/common/hooks/notification/useMarkReadNotification";
 import classNames from "classnames";
 import { GoPrimitiveDot } from "react-icons/go";
 
 type Props = {
   notification: any;
+  toggle: () => void;
 };
 
 const parseDate = (date: string) => {
@@ -15,11 +17,26 @@ const parseDate = (date: string) => {
 };
 
 const Notify = ({
-  notification: { type, title, isRead, text, createdAt },
+  notification: { id, type, title, isRead, text, createdAt },
+  toggle,
 }: Props) => {
+  const { mutateAsync } = useMarkReadNotification();
+
+  const handleClick = () => {
+    if (!isRead) {
+      mutateAsync(id);
+    }
+    toggle();
+  };
+
   return (
     <>
-      <div className={classNames("flex rounded p-2")}>
+      <div
+        className={classNames("flex rounded p-2", {
+          "hover:cursor-pointer": !isRead,
+        })}
+        onClick={handleClick}
+      >
         <div className="my-auto p-1">
           {title}
           <div

@@ -13,8 +13,6 @@ export const useCancelInvoice = (
 ) => {
   const mutationArgs = useMutation({
     mutationFn: async ({ id, reason }) => {
-      console.log("id", id);
-      console.log("reason", reason);
       const res = await client.delete<BaseResponse>(`/api/invoices/${id}`, {
         data: { reason },
       });
@@ -24,6 +22,7 @@ export const useCancelInvoice = (
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries(["invoice", id]);
       queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,
   });

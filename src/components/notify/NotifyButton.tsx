@@ -1,3 +1,4 @@
+import { useQueryNotifications } from "@/lib/common/hooks/notification/useGetNotication";
 import React from "react";
 import { IoNotificationsCircle } from "react-icons/io5";
 
@@ -6,6 +7,13 @@ type Props = {
 };
 
 const NotifyButton = ({ handleOnClick }: Props) => {
+  const { data } = useQueryNotifications({
+    limit: 4,
+    offset: 0,
+  });
+
+  const totalUnread = data?.pages[0]?.metadata?.totalUnread;
+
   return (
     <>
       <button
@@ -15,7 +23,7 @@ const NotifyButton = ({ handleOnClick }: Props) => {
       >
         <IoNotificationsCircle className="h-10 w-10" />
         <span className="absolute -right-1 -top-1 mb-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-200 text-xs font-semibold text-blue-800">
-          2
+          {totalUnread}
         </span>
       </button>
     </>

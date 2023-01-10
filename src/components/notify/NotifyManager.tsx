@@ -1,4 +1,4 @@
-import { useQueryNotifications } from "@/lib/common/hooks/useGetNotication";
+import { useQueryNotifications } from "@/lib/common/hooks/notification/useGetNotication";
 import Modal from "../common/Modal/Modal";
 import Spinner from "../common/Spinner/Spinner";
 import Notify from "./Notify";
@@ -13,7 +13,7 @@ type Props = {
 const NotifyManager = ({ hide, toggle }: Props) => {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useQueryNotifications({
-      limit: 2,
+      limit: 4,
       offset: 0,
     });
 
@@ -28,7 +28,11 @@ const NotifyManager = ({ hide, toggle }: Props) => {
               <div key={index} className="flex flex-col space-y-4 rounded">
                 {page.data.map((notification) => {
                   return (
-                    <Notify key={notification.id} notification={notification} />
+                    <Notify
+                      toggle={toggle}
+                      key={notification.id}
+                      notification={notification}
+                    />
                   );
                 })}
               </div>

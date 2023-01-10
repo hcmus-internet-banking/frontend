@@ -21,6 +21,7 @@ export const useCreateInvoice = (
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,
   });

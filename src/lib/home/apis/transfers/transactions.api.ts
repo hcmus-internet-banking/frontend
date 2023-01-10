@@ -21,13 +21,13 @@ interface Data {
   data: Transactions[];
   metadata: Metadata;
 }
-export interface TransactionsResponse extends BaseResponse {
+interface TransactionsResponse extends BaseResponse {
   data: Data;
 }
 
 export const getAllTransactions = async (params?: any) => {
   const res = await client.get<TransactionsResponse>(
-    `/api/transactions?type=${params.type}&offset=${params.offset}&limit=${params.limit}`
+    `/api/transactions?offset${params.offset}&limit=${params.limit}`
   );
   return await handleResponse(res);
 };

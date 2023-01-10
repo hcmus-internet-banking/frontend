@@ -4,24 +4,20 @@ import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { BaseResponse, handleResponse } from "../../../../core/handleResponse";
 
 type Params = {
-  id: string;
-  mnemonicName: string;
+  id: number;
 };
 
-export const useUpdateRecipient = (
+export const useMarkReadNotification = (
   overrideOptions?: UseMutationOptions<BaseResponse, any, Params, unknown>
 ) => {
   const mutationArgs = useMutation({
-    mutationFn: async ({ id, mnemonicName }) => {
-      const res = await client.put<BaseResponse>(`/api/recipients/${id}`, {
-        mnemonicName,
-      });
+    mutationFn: async (id) => {
+      const res = await client.put<BaseResponse>(`/api/notifications/${id}`);
 
       return await handleResponse(res);
     },
     onSuccess: (id) => {
-      queryClient.invalidateQueries(["recipient", id]);
-      queryClient.invalidateQueries(["recipients"]);
+      queryClient.invalidateQueries(["notifications", id]);
       queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,

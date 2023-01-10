@@ -13,6 +13,7 @@ interface Data {
 
 interface Metadata {
   total: number;
+  totalUnread: number;
   page: number;
   limit: number;
   hasNextPage: boolean;
