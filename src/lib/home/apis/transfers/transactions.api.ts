@@ -27,7 +27,7 @@ interface TransactionsResponse extends BaseResponse {
 
 export const getAllTransactions = async (params?: any) => {
   const res = await client.get<TransactionsResponse>(
-    `/api/transactions?offset${params.offset}&limit=${params.limit}`
+    `/api/transactions?type=${params.type}&offset=${params.offset}&limit=${params.limit}`
   );
   return await handleResponse(res);
 };
