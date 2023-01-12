@@ -46,7 +46,7 @@ const Notify = ({
 
   return (
     <>
-      {idInvoicePayment ? (
+      {idInvoicePayment && !isRead ? (
         <Link
           href="/user/invoices/[...idInvoicePayment]"
           as={`/user/invoices/${idInvoicePayment}`}
