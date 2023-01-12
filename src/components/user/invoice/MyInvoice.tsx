@@ -1,7 +1,6 @@
 import useToggle from "@/lib/common/hooks/useToggle";
 import { RxCross1 } from "react-icons/rx";
 import CancelInvoice from "./CancelInvoice";
-import PayInvoice from "./PayInvoice";
 import { useState } from "react";
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
 
 const MyInvoice = ({ data }: Props) => {
   const { value: hideCancelModal, toggle: toggleCancel } = useToggle(true);
-  const { value: hidePaymentModal, toggle: togglePayment } = useToggle(true);
   const [invoiceId, setInvoiceId] = useState("");
 
   const handleCancelInvoice = () => {
@@ -34,11 +32,6 @@ const MyInvoice = ({ data }: Props) => {
           invoiceId={invoiceId}
           hide={hideCancelModal}
           toggle={toggleCancel}
-        />
-        <PayInvoice
-          invoiceId={invoiceId}
-          hide={hidePaymentModal}
-          toggle={togglePayment}
         />
         {data?.pages.map((page: any) =>
           page?.data?.map((invoice: any, index: any) => (

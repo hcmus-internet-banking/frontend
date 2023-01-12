@@ -19,7 +19,7 @@ const NotifyButton = ({ handleOnClick }: Props) => {
       <button
         type="button"
         onClick={handleOnClick}
-        className="relative inline-flex items-center rounded-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        className="relative inline-flex items-center rounded-xl transition duration-150 ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-300 active:scale-95"
       >
         <IoNotificationsCircle className="h-10 w-10" />
         <span className="absolute -right-1 -top-1 mb-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-200 text-xs font-semibold text-blue-800">

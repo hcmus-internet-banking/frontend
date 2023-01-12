@@ -1,5 +1,9 @@
 import { useMarkReadNotification } from "@/lib/common/hooks/notification/useMarkReadNotification";
+import { selectUser } from "@/store/auth";
+import { useAppSelector } from "@/store/store";
 import classNames from "classnames";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
 import { GoPrimitiveDot } from "react-icons/go";
 
 type Props = {
@@ -22,64 +26,100 @@ const Notify = ({
 }: Props) => {
   const { mutateAsync } = useMarkReadNotification();
 
-  const handleClick = () => {
+  const data = JSON.parse(text);
+  const user = useAppSelector(selectUser);
+
+  const idInvoicePayment =
+    data?.payload?.to?.id === user?.id && type === "DEBT_CREATED"
+      ? data?.payload?.invoiceId
+      : null;
+
+  const handleMarkRead = () => {
     if (!isRead) {
-      mutateAsync(id);
+      toast.promise(mutateAsync(id), {
+        loading: "Marking as read...",
+        success: "Marked as read",
+        error: "Error marking as read",
+      });
     }
-    toggle();
   };
 
   return (
     <>
-      <div
-        className={classNames("flex rounded p-2", {
-          "hover:cursor-pointer": !isRead,
-        })}
-        onClick={handleClick}
-      >
-        <div className="my-auto p-1">
-          {title}
-          <div
-            className={classNames(
-              "mr-2 flex h-8 w-8 items-center justify-center rounded-full",
-              {
-                "bg-green-100": type === "DEBT_PAID",
-                "bg-yellow-100": type === "DEBT_CREATED",
-                "bg-red-100": type === "DEBT_DELETED",
-              }
-            )}
-          >
-            <GoPrimitiveDot
+      {idInvoicePayment && !isRead ? (
+        <Link
+          href="/user/invoices/[...idInvoicePayment]"
+          as={`/user/invoices/${idInvoicePayment}`}
+        >
+          <a onClick={() => toggle()}>
+            <div
               className={classNames(
-                "flex h-8 w-8 items-center justify-center rounded-full",
+                "m-2 flex content-around items-center rounded p-2",
                 {
-                  "text-green-600": type === "DEBT_PAID",
-                  "text-yellow-600": type === "DEBT_CREATED",
-                  "text-red-600": type === "DEBT_DELETED",
+                  "hover:cursor-pointer": !isRead,
+                  "bg-gray-100": isRead,
+                  "bg-blue-100": !isRead,
                 }
               )}
-            />
+              onClick={handleMarkRead}
+            >
+              {!isRead ? (
+                <GoPrimitiveDot className="m-1 w-5 text-blue-600" />
+              ) : (
+                <div className="m-1 w-5"></div>
+              )}
+              <div className="w-16 p-2 font-semibold">{title}</div>
+              <div className="flex grow flex-col pl-2">
+                <div
+                  className={classNames("text-base", {
+                    "text-gray-600": isRead,
+                    "text-gray-900": !isRead,
+                    "font-semibold": !isRead,
+                  })}
+                >
+                  {data?.message}
+                </div>
+                <div className="font-medium text-blue-900">
+                  {parseDate(createdAt)}
+                </div>
+              </div>
+            </div>
+          </a>
+        </Link>
+      ) : (
+        <div
+          className={classNames(
+            "m-2 flex content-around items-center rounded p-2",
+            {
+              "hover:cursor-pointer": !isRead,
+              "bg-gray-100": isRead,
+              "bg-blue-100": !isRead,
+            }
+          )}
+          onClick={handleMarkRead}
+        >
+          {!isRead ? (
+            <GoPrimitiveDot className="m-1 w-5 text-blue-600" />
+          ) : (
+            <div className="m-1 w-5"></div>
+          )}
+          <div className="w-16 p-2 font-semibold">{title}</div>
+          <div className="flex grow flex-col pl-2">
+            <div
+              className={classNames("text-base", {
+                "text-gray-600": isRead,
+                "text-gray-900": !isRead,
+                "font-semibold": !isRead,
+              })}
+            >
+              {data?.message}
+            </div>
+            <div className="font-medium text-blue-900">
+              {parseDate(createdAt)}
+            </div>
           </div>
         </div>
-
-        <div className="flex flex-col">
-          <div
-            className={classNames("text-base", {
-              "text-gray-600": isRead,
-              "text-gray-900": !isRead,
-              "font-semibold": !isRead,
-            })}
-          >
-            {text}
-          </div>
-          <div className="font-medium text-blue-900">
-            {parseDate(createdAt)}
-          </div>
-        </div>
-        <div className="my-auto p-1">
-          {!isRead ? <GoPrimitiveDot className="text-blue-600" /> : null}
-        </div>
-      </div>
+      )}
     </>
   );
 };

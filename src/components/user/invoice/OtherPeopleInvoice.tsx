@@ -1,16 +1,16 @@
 import useToggle from "@/lib/common/hooks/useToggle";
 import { RxCross1, RxPaperPlane } from "react-icons/rx";
 import CancelInvoice from "./CancelInvoice";
-import PayInvoice from "./PayInvoice";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 type Props = {
   data: any;
 };
 
 const OtherPeopleInvoice = ({ data }: Props) => {
+  const router = useRouter();
   const { value: hideCancelModal, toggle: toggleCancel } = useToggle(true);
-  const { value: hidePaymentModal, toggle: togglePayment } = useToggle(true);
   const [invoiceId, setInvoiceId] = useState("");
 
   return (
@@ -30,11 +30,6 @@ const OtherPeopleInvoice = ({ data }: Props) => {
           invoiceId={invoiceId}
           hide={hideCancelModal}
           toggle={toggleCancel}
-        />
-        <PayInvoice
-          invoiceId={invoiceId}
-          hide={hidePaymentModal}
-          toggle={togglePayment}
         />
         {data?.pages.map((page: any) =>
           page?.data?.map((invoice: any, index: any) => (
@@ -68,8 +63,7 @@ const OtherPeopleInvoice = ({ data }: Props) => {
                   <RxPaperPlane
                     className="h-6 w-6 hover:cursor-pointer hover:opacity-25"
                     onClick={() => {
-                      setInvoiceId(invoice.id);
-                      togglePayment();
+                      router.push(`/user/invoices/${invoice.id}`);
                     }}
                   />
                 </div>
