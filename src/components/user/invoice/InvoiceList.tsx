@@ -38,6 +38,7 @@ const InvoiceList = () => {
               onChange={handleSelectType}
               value={type}
               options={options}
+              height="h-16"
             />
           </div>
         </div>

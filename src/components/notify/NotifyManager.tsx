@@ -1,9 +1,8 @@
 import { useQueryNotifications } from "@/lib/common/hooks/notification/useGetNotication";
-import Modal from "../common/Modal/Modal";
 import Spinner from "../common/Spinner/Spinner";
 import Notify from "./Notify";
 import Button from "../common/Button/Button";
-import Card from "../common/Card/Card";
+import { BiX } from "react-icons/bi";
 
 type Props = {
   hide: boolean;
@@ -17,15 +16,29 @@ const NotifyManager = ({ hide, toggle }: Props) => {
       offset: 0,
     });
 
+  const handleCloseNotify = () => {
+    toggle();
+  };
+
   return (
     <>
-      <Modal title="Notifications" hide={hide} toggle={toggle}>
-        <Card>
+      <div
+        hidden={hide}
+        className="fixed top-0 z-10 h-full w-full overflow-y-auto overflow-x-hidden bg-gray-800 bg-opacity-90 transition delay-300 duration-300 ease-in-out"
+      >
+        <div className="absolute right-0 flex h-screen flex-col overflow-y-auto bg-gray-50 p-8">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Notifications</h1>
+            <BiX
+              onClick={handleCloseNotify}
+              className="h-10 w-10 p-2 hover:cursor-pointer hover:opacity-70"
+            />
+          </div>
           {isLoading ? (
             <Spinner />
           ) : (
             data?.pages.map((page, index) => (
-              <div key={index} className="flex flex-col space-y-4 rounded">
+              <div key={index} className="flex flex-col rounded pt-2">
                 {page.data.map((notification) => {
                   return (
                     <Notify
@@ -43,7 +56,7 @@ const NotifyManager = ({ hide, toggle }: Props) => {
               onClick={() => fetchNextPage()}
               isLoading={isFetchingNextPage}
             >
-              Load More
+              More
             </Button>
           ) : (
             !isLoading && (
@@ -52,8 +65,8 @@ const NotifyManager = ({ hide, toggle }: Props) => {
               </div>
             )
           )}
-        </Card>
-      </Modal>
+        </div>
+      </div>
     </>
   );
 };
