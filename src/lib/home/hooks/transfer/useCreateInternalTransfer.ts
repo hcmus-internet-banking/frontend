@@ -1,6 +1,6 @@
-import { postInternalTransfer } from "./../../apis/transfers/transfer.api";
 import { queryClient } from "@/core/queryClient";
 import { useMutation } from "@tanstack/react-query";
+import { postInternalTransfer } from "./../../apis/transfers/transfer.api";
 
 type InternalTransferData = {
   to: string;

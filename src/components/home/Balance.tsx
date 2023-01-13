@@ -1,5 +1,5 @@
-import { useQueryMyProfile } from "@/lib/home/hooks/useQueryMyCustomer";
 import { toastNotify as toastWarning } from "@/lib/common/utils/react-hot-toast";
+import { useQueryMyProfile } from "@/lib/home/hooks/useQueryMyCustomer";
 import classNames from "classnames";
 import React from "react";
 import Button from "../common/Button/Button";

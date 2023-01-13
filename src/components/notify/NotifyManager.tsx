@@ -1,8 +1,8 @@
 import { useQueryNotifications } from "@/lib/common/hooks/notification/useGetNotication";
+import { BiX } from "react-icons/bi";
+import Button from "../common/Button/Button";
 import Spinner from "../common/Spinner/Spinner";
 import Notify from "./Notify";
-import Button from "../common/Button/Button";
-import { BiX } from "react-icons/bi";
 
 type Props = {
   hide: boolean;

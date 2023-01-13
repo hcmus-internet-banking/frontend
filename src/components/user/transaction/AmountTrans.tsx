@@ -1,5 +1,5 @@
-import React from "react";
 import Badge from "@/components/common/Badge/Badge";
+import React from "react";
 
 type Props = {
   value: string;

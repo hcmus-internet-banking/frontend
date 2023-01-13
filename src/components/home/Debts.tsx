@@ -1,5 +1,5 @@
-import Card from "../common/Card/Card";
 import { MdPayment } from "react-icons/md";
+import Card from "../common/Card/Card";
 
 export const Debts = () => {
   return (

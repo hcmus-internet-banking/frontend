@@ -1,6 +1,6 @@
-import { RxCaretDown } from "react-icons/rx";
-import { memo } from "react";
 import classNames from "classnames";
+import { memo } from "react";
+import { RxCaretDown } from "react-icons/rx";
 
 type SelectProps = {
   options: {

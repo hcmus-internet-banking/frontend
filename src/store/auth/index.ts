@@ -1,17 +1,17 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import client from "../../core/client";
+import { queryClient } from "../../core/queryClient";
 import {
   BaseResponse,
   handleRefreshTokenResponse,
   handleResponse,
 } from "./../../core/handleResponse";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import client from "../../core/client";
 import {
   AuthState,
   LoginResponse,
   RefreshTokenResponse,
   RegisterResponse,
 } from "./types";
-import { queryClient } from "../../core/queryClient";
 
 const initialState: AuthState = {
   user: null,
