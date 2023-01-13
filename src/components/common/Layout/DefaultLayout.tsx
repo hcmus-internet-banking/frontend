@@ -60,7 +60,7 @@ function Layout({ children }: Props) {
   return (
     <Auth>
       <div>
-        <nav className="sticky top-0 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
+        <nav className="sticky top-0 z-10 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
           <div className="mx-auto flex max-w-7xl items-center space-x-3">
             <NavigationButton
               href="/"

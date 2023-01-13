@@ -88,12 +88,25 @@ const PaymentInvoice = () => {
         <>
           <Card className="center flex w-1/2 flex-col justify-center space-y-4">
             <h1 className="text-lg font-bold">Payment Invoice</h1>
-            <p>Invoice ID: #{invoice.id}</p>
-            <p>
-              Invoice Creator: {invoice?.creator?.firstName}
-              {invoice?.creator?.lastName}
-            </p>
-            <p>Amount: ${invoice?.amount}</p>
+            <span className="font-semibold">
+              ID:
+              <span className="font-normal"> #{invoice.id}</span>
+            </span>
+            <span className="font-semibold">
+              Creator:
+              <span className="font-normal">
+                <span> </span>
+                {invoice?.creator?.firstName} {invoice?.creator?.lastName}
+              </span>
+            </span>
+            <span className="font-semibold">
+              Message:
+              <span className="font-normal"> {invoice?.message}</span>
+            </span>
+            <span className="font-semibold">
+              Amount:
+              <span className="font-normal"> ${invoice?.amount}</span>
+            </span>
             <form onSubmit={formik.handleSubmit}>
               <Input
                 name="token"

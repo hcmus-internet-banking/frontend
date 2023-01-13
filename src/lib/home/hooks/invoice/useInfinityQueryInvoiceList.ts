@@ -34,7 +34,7 @@ export const useInfinityQueryInvoiceList = ({
     ["invoices", { type, limit, offset }],
     async ({ pageParam = 0 }) => {
       const res = await client.get<InvoicesResponse>(
-        `/api/invoices?type=${type}&isPaid=false&limit=${limit}&offset=${pageParam}`
+        `/api/invoices?type=${type}&limit=${limit}&offset=${pageParam}`
       );
 
       return await handleResponse(res);
