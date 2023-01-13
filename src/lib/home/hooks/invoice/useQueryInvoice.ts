@@ -1,6 +1,6 @@
 import client from "@/core/client";
-import { useQuery } from "@tanstack/react-query";
 import { BaseResponse, handleResponse } from "@/core/handleResponse";
+import { useQuery } from "@tanstack/react-query";
 import { Invoice } from "./types";
 
 interface InvoicesResponse extends BaseResponse {

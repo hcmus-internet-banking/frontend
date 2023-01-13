@@ -1,6 +1,6 @@
-import Card from "../common/Card/Card";
-import { MdSettings } from "react-icons/md";
 import Link from "next/link";
+import { MdSettings } from "react-icons/md";
+import Card from "../common/Card/Card";
 
 export const Settings = () => {
   const actions = [

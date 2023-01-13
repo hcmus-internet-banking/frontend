@@ -2,7 +2,6 @@ import Button from "@/components/common/Button/Button";
 import Card from "@/components/common/Card/Card";
 import Heading from "@/components/common/Heading/Heading";
 import Input from "@/components/common/Input/Input";
-import Select from "@/components/common/Select/Select";
 import RecipientSelector from "@/components/home/transfer/RecipientSelector";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useCreateInvoice } from "@/lib/home/hooks/invoice/useCreateInvoice";
@@ -13,11 +12,6 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { RiContactsBookFill } from "react-icons/ri";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-
-const options = [
-  { label: "Internal", value: "true" },
-  { label: "External", value: "false" },
-];
 
 const CreateInvoice = () => {
   const { mutateAsync } = useCreateInvoice();
@@ -96,13 +90,6 @@ const CreateInvoice = () => {
         />
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-3">
-            <Select
-              name="isInternalBank"
-              onChange={formik.handleChange}
-              error={formik.errors.isInternalBank}
-              value={formik.values.isInternalBank}
-              options={options}
-            />
             <div className="flex w-full content-around">
               <Input
                 name="accountNumber"

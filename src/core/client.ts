@@ -1,6 +1,6 @@
+import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import axios, { AxiosInstance } from "axios";
 import { env } from "./env/client.mjs";
-import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 
 const client: AxiosInstance = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,

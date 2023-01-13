@@ -1,9 +1,9 @@
 import { noToastErrorOption } from "@/lib/common/utils/react-hot-toast";
 import { loginSchema } from "@/lib/login/schema";
 import {
-  selectIsAuthenticated,
-  selectAuthLoading,
   loginAsync,
+  selectAuthLoading,
+  selectIsAuthenticated,
 } from "@/store/auth";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
@@ -14,8 +14,8 @@ import toast from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AppLink from "../common/AppLink/AppLink";
 import Button from "../common/Button/Button";
-import Input from "../common/Input/Input";
 import Heading from "../common/Heading/Heading";
+import Input from "../common/Input/Input";
 import Spacer from "../common/Spacer/Spacer";
 
 function LoginPage() {

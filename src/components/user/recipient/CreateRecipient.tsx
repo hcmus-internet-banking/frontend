@@ -1,7 +1,6 @@
 import Button from "@/components/common/Button/Button";
 import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
-import Select from "@/components/common/Select/Select";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
@@ -16,11 +15,6 @@ type Props = {
   hide: boolean | undefined;
   toggle: any;
 };
-
-const options = [
-  { label: "Internal", value: "true" },
-  { label: "External", value: "false" },
-];
 
 const CreateRecipient = ({ hide, toggle }: Props) => {
   const { mutateAsync } = useCreateRecipient();
@@ -90,13 +84,6 @@ const CreateRecipient = ({ hide, toggle }: Props) => {
     <Modal title="Create Recipient" hide={hide} toggle={toggle}>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-3">
-          <Select
-            name="isInternalBank"
-            onChange={formik.handleChange}
-            error={formik.errors.isInternalBank}
-            value={formik.values.isInternalBank}
-            options={options}
-          />
           <Input
             name="accountNumber"
             placeholder="Account Number"

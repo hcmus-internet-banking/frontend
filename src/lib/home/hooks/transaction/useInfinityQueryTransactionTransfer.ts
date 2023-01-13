@@ -1,7 +1,7 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { BaseResponse, handleResponse } from "@/core/handleResponse";
-import { CustomerData } from "../../hooks/useQueryCustomerByBankNumber";
 import client from "@/core/client";
+import { BaseResponse, handleResponse } from "@/core/handleResponse";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { CustomerData } from "../../hooks/useQueryCustomerByBankNumber";
 
 interface Transactions {
   amount: string;

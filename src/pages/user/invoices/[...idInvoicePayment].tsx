@@ -1,20 +1,19 @@
-import Spinner from "@/components/common/Spinner/Spinner";
-import { useGetPaymentInvoice } from "@/lib/home/hooks/invoice/useGetPaymentInvoice";
-import { useRouter } from "next/router";
-import React from "react";
 import Button from "@/components/common/Button/Button";
+import Card from "@/components/common/Card/Card";
 import Input from "@/components/common/Input/Input";
+import Spinner from "@/components/common/Spinner/Spinner";
+import { Invoice } from "@/lib/home/hooks/invoice/types";
 import { useGetOTPInvoice } from "@/lib/home/hooks/invoice/useGetOTPInvoice";
+import { useGetPaymentInvoice } from "@/lib/home/hooks/invoice/useGetPaymentInvoice";
 import { usePaymentInvoice } from "@/lib/home/hooks/invoice/usePaymentInvoice";
 import { paymentInvoiceSchema } from "@/lib/home/schema";
+import classNames from "classnames";
 import { useFormik } from "formik";
-import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import Card from "@/components/common/Card/Card";
-import { Invoice } from "@/lib/home/hooks/invoice/types";
-import Link from "next/link";
-import classNames from "classnames";
 
 const TIME_OUT_GET_OTP = 60;
 
@@ -88,12 +87,25 @@ const PaymentInvoice = () => {
         <>
           <Card className="center flex w-1/2 flex-col justify-center space-y-4">
             <h1 className="text-lg font-bold">Payment Invoice</h1>
-            <p>Invoice ID: #{invoice.id}</p>
-            <p>
-              Invoice Creator: {invoice?.creator?.firstName}
-              {invoice?.creator?.lastName}
-            </p>
-            <p>Amount: ${invoice?.amount}</p>
+            <span className="font-semibold">
+              ID:
+              <span className="font-normal"> #{invoice.id}</span>
+            </span>
+            <span className="font-semibold">
+              Creator:
+              <span className="font-normal">
+                <span> </span>
+                {invoice?.creator?.firstName} {invoice?.creator?.lastName}
+              </span>
+            </span>
+            <span className="font-semibold">
+              Message:
+              <span className="font-normal"> {invoice?.message}</span>
+            </span>
+            <span className="font-semibold">
+              Amount:
+              <span className="font-normal"> ${invoice?.amount}</span>
+            </span>
             <form onSubmit={formik.handleSubmit}>
               <Input
                 name="token"

@@ -1,17 +1,17 @@
-import { initInterceptors } from "./../core/client";
-import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { rootReducer } from "./reducer";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import {
-  persistReducer,
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
+  REHYDRATE,
+  persistReducer,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { initInterceptors } from "./../core/client";
+import { rootReducer } from "./reducer";
 
 const persistConfig = {
   key: "root",
