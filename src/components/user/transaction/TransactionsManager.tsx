@@ -4,6 +4,7 @@ import Spinner from "@/components/common/Spinner/Spinner";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import React from "react";
 import TransactionCard from "./TransactionCard";
+import moment from "moment";
 import classNames from "classnames";
 import { useQueryTransactionTransfer } from "@/lib/home/hooks/transaction/useQueryTransactionTransfer";
 import { useQueryInvoice as useQueryTransactionPayment } from "@/lib/home/hooks/invoice/useQueryInvoice";
@@ -50,11 +51,13 @@ function TransactionsManager() {
     selected === "payment" ? isLoadingPayment : isLoadingTransfer;
   const data = selected === "payment" ? dataPayment : dataTransfer;
 
+  const lastMonth = moment().subtract(1, "months").format("MMMM Do YYYY");
+
   return (
     <>
       <Card>
         <div className="flex items-center justify-between">
-          <Heading>Transactions</Heading>
+          <Heading>Transactions from {lastMonth}</Heading>
           <div className="flex items-center">
             {options.map((option) => (
               <button

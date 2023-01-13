@@ -26,8 +26,14 @@ interface TransactionsResponse extends BaseResponse {
 }
 
 export const getAllTransactions = async (params?: any) => {
+  const today = new Date();
+  const lastMonth = new Date(
+    today.setMonth(today.getMonth() - 1)
+  ).toISOString();
+  console.log(lastMonth);
+
   const res = await client.get<TransactionsResponse>(
-    `/api/transactions?type=${params.type}&offset=${params.offset}&limit=${params.limit}`
+    `/api/transactions?type=${params.type}&offset=${params.offset}&limit=${params.limit}&startDate=${lastMonth}`
   );
   return await handleResponse(res);
 };
