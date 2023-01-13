@@ -219,7 +219,7 @@ function InternalTransfer() {
             >
               {timeCount === TIME_OUT_GET_OTP
                 ? "Gửi OTP Qua Email"
-                : `Gui OTP sau ${timeCount}s`}
+                : `Gửi OTP sau ${timeCount}s`}
             </span>
           </div>
         </section>

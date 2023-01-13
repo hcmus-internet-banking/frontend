@@ -26,7 +26,7 @@ const NotifyManager = ({ hide, toggle }: Props) => {
         hidden={hide}
         className="fixed top-0 z-10 h-full w-full overflow-y-auto overflow-x-hidden bg-gray-800 bg-opacity-90 transition delay-300 duration-300 ease-in-out"
       >
-        <div className="absolute right-0 flex h-screen w-1/4 flex-col overflow-y-auto bg-gray-50 p-8">
+        <div className="absolute right-0 flex h-screen w-96 flex-col overflow-y-auto bg-gray-50 p-8 lg:w-1/3">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">Notifications</h1>
             <BiX
