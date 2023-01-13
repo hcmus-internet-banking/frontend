@@ -67,7 +67,7 @@ function InternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfers to me`,
+      message: `${firstName} ${lastName} tranfers to you`,
       token: "",
       payer: options[0]?.value,
     },
