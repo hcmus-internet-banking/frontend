@@ -47,7 +47,7 @@ function Layout({ children }: Props) {
     });
 
     socket.on("disconnect", () => {
-      console.log("disconnected");
+      // console.log("disconnected");
     });
 
     return () => {
