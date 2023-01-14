@@ -29,7 +29,7 @@ const TransactionCard = ({ transactions, type }: Props) => {
     <>
       <Card>
         <Heading className="flex flex-row-reverse justify-between rounded-md bg-slate-200 px-2">
-          <span>
+          <span className="text-base font-semibold opacity-70">
             {labelTime}
             {dateTimeFormat(
               type === "payment" ? transactions.paidAt : transactions.createdAt
