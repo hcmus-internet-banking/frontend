@@ -49,7 +49,7 @@ const InforTrans = ({ transType, fromCustomer, toCustomer, type }: Props) => {
                 ? customerLoading
                   ? "..."
                   : label + " " + customerProfile?.hoTen
-                : label + " " + customer?.fristName + " " + customer?.lastName}
+                : label + " " + customer?.firstName + " " + customer?.lastName}
             </div>
             <div className="text-gray-600">STK: {customer.accountNumber}</div>
             <div className="text-gray-600">
