@@ -7,6 +7,7 @@ export const postInternalTransfer = async (
   message: string,
   token: string,
   payer: string,
+  saveInfo: boolean,
   options?: any
 ) => {
   const res = await client.post<BaseResponse>(
@@ -17,6 +18,7 @@ export const postInternalTransfer = async (
       message,
       token,
       payer,
+      saveInfo,
     },
     options
   );

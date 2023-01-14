@@ -68,7 +68,7 @@ const Notify = ({
               ) : (
                 <div className="m-1 w-5"></div>
               )}
-              <div className="w-16 p-2 font-semibold">{title}</div>
+              <div className="p-2 font-semibold">{title}</div>
               <div className="flex grow flex-col pl-2">
                 <div
                   className={classNames("text-base", {
@@ -103,7 +103,7 @@ const Notify = ({
           ) : (
             <div className="m-1 w-5"></div>
           )}
-          <div className="w-16 p-2 font-semibold">{title}</div>
+          <div className="p-2 font-semibold">{title}</div>
           <div className="flex grow flex-col pl-2">
             <div
               className={classNames("text-base", {

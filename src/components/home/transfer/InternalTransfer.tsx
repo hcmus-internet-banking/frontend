@@ -1,6 +1,5 @@
 import Select from "@/components/common/Select/Select";
 import useToggle from "@/lib/common/hooks/useToggle";
-import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
 import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
 import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
@@ -19,20 +18,30 @@ import RecipientSelector from "./RecipientSelector";
 
 const TIME_OUT_GET_OTP = 60;
 
+const options = [
+  {
+    label: "Paid for Sender",
+    value: "sender",
+  },
+  {
+    label: "Paid for Receiver",
+    value: "receiver",
+  },
+];
+
 function InternalTransfer() {
   const { firstName, lastName } = useAppSelector<any>(selectUser);
-
   const { data: recipientList } = useQueryRecipientList();
 
   const {
     value: isHideRecipientSelectorToggle,
     toggle: RecipientSelectorToggle,
   } = useToggle(true);
+
   const [accountName, setAccountName] = useState("");
   const [timeCount, setTimeCount] = useState(TIME_OUT_GET_OTP);
   const { mutateAsync: mutateInternalTransfer } = UseCreateInternalTransfer();
   const { mutateAsync: mutateGetOTP } = UseGetOTPTransfer();
-  const { mutateAsync: mutateRecipient } = useCreateRecipient();
 
   const handleSendOTP = () => {
     mutateGetOTP()
@@ -52,24 +61,14 @@ function InternalTransfer() {
       });
   };
 
-  const options = [
-    {
-      label: "Paid for Sender",
-      value: "sender",
-    },
-    {
-      label: "Paid for Receiver",
-      value: "receiver",
-    },
-  ];
-
   const formik = useFormik({
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfers to you`,
+      message: `${firstName} ${lastName} tranfers`,
       token: "",
       payer: options[0]?.value,
+      saveInfo: false,
     },
     validateOnBlur: true,
     validationSchema: toFormikValidationSchema(createInternalTransferSchema),
@@ -82,21 +81,11 @@ function InternalTransfer() {
           message: values.message,
           token: values.token,
           payer: values.payer === "receiver" ? "receiver" : "sender",
+          saveInfo: values.saveInfo,
         }),
         {
           loading: "Processing tranfering...",
           success: () => {
-            if (
-              recipientList?.data.find(
-                (item) => item?.accountNumber !== values.to
-              )
-            ) {
-              confirm("Do you want to add this recipient to your list?") &&
-                mutateRecipient({
-                  accountNumber: values?.to,
-                  mnemonicName: accountName,
-                });
-            }
             formik.resetForm();
             setAccountName("");
             return "Tranfer sucessfully";
@@ -163,6 +152,20 @@ function InternalTransfer() {
               disabled={true}
             />
           )}
+          {!recipientList?.data.find(
+            (item) => item?.accountNumber === formik.values.to
+          ) ? (
+            <div className="px-2">
+              <input
+                className="mr-2"
+                type="checkbox"
+                name="saveInfo"
+                onChange={formik.handleChange}
+              />
+              Save info
+            </div>
+          ) : null}
+
           <Input
             className="w-full"
             name="amount"
@@ -177,6 +180,7 @@ function InternalTransfer() {
             name="payer"
             value={formik.values.payer || "sender"}
             onChange={formik.handleChange}
+            height="h-16"
           />
 
           <Input

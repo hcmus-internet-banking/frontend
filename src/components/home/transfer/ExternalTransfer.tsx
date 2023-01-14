@@ -1,21 +1,16 @@
 import Select from "@/components/common/Select/Select";
-import useToggle from "@/lib/common/hooks/useToggle";
-import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
-import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
+import { useQueryKarmaAccount } from "@/lib/home/hooks/karma/useQueryKarmaAccount";
 import { useCreateExternalTransfer } from "@/lib/home/hooks/transfer/useCreateExternalTransfer";
 import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
 import { createExternalTransferSchema } from "@/lib/home/schema";
 import { selectUser } from "@/store/auth";
 import { useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { RiContactsBookFill } from "react-icons/ri";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
-import RecipientSelector from "./RecipientSelector";
-import { useQueryKarmaAccount } from "@/lib/home/hooks/karma/useQueryKarmaAccount";
 
 const TIME_OUT_GET_OTP = 60;
 const optionsFee = [
@@ -42,18 +37,11 @@ const optionsExternalBank = [
 
 function ExternalTransfer() {
   const { firstName, lastName } = useAppSelector<any>(selectUser);
-
-  const { data: recipientList } = useQueryRecipientList();
-
-  const {
-    value: isHideRecipientSelectorToggle,
-    toggle: RecipientSelectorToggle,
-  } = useToggle(true);
+  const [isSelectedExternalBank, setIsSelectedExternalBank] = useState("");
   const [accountName, setAccountName] = React.useState("");
   const [timeCount, setTimeCount] = React.useState(TIME_OUT_GET_OTP);
   const { mutateAsync: mutateInternalTransfer } = useCreateExternalTransfer();
   const { mutateAsync: mutateGetOTP } = UseGetOTPTransfer();
-  const { mutateAsync: mutateRecipient } = useCreateRecipient();
 
   const handleSendOTP = () => {
     mutateGetOTP()
@@ -77,7 +65,7 @@ function ExternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfers to you`,
+      message: `${firstName} ${lastName} tranfers`,
       token: "",
       payer: optionsFee[0]?.value,
     },
@@ -96,17 +84,6 @@ function ExternalTransfer() {
         {
           loading: "Processing tranfering...",
           success: () => {
-            if (
-              recipientList?.data.find(
-                (item) => item?.accountNumber !== values.to
-              )
-            ) {
-              confirm("Do you want to add this recipient to your list?") &&
-                mutateRecipient({
-                  accountNumber: values?.to,
-                  mnemonicName: accountName,
-                });
-            }
             formik.resetForm();
             setAccountName("");
             return "Tranfer sucessfully";
@@ -129,20 +106,8 @@ function ExternalTransfer() {
     },
   });
 
-  const setRecipientSelectorValue = (values: any) => {
-    formik.setFieldValue("to", values);
-  };
-
-  const [isSelectedExternalBank, setIsSelectedExternalBank] =
-    React.useState("");
-
   return (
     <>
-      <RecipientSelector
-        hide={isHideRecipientSelectorToggle}
-        toggle={RecipientSelectorToggle}
-        setValues={setRecipientSelectorValue}
-      />
       <div className="mb-2">
         <Select
           options={optionsExternalBank}
@@ -152,6 +117,7 @@ function ExternalTransfer() {
           onChange={(e) => {
             setIsSelectedExternalBank(e.target.value);
           }}
+          height="h-16"
         />
       </div>
       <form onSubmit={formik.handleSubmit}>
@@ -169,15 +135,6 @@ function ExternalTransfer() {
               error={formik.errors.to}
               clearable={false}
             />
-            <Button
-              type="button"
-              className="absolute right-1 top-1 flex cursor-pointer items-center  rounded-lg px-4 py-2 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:bg-opacity-80"
-              onClick={() => {
-                RecipientSelectorToggle();
-              }}
-            >
-              <RiContactsBookFill className="h-8 w-8" />
-            </Button>
           </div>
 
           {!isLoading && data && (
@@ -203,6 +160,7 @@ function ExternalTransfer() {
             name="payer"
             value={formik.values.payer || "sender"}
             onChange={formik.handleChange}
+            height="h-16"
           />
 
           <Input

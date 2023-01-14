@@ -24,11 +24,12 @@ const TransactionCard = ({ transactions, type }: Props) => {
 
   const labelTime = type === "payment" ? "Paid at " : "Created at ";
 
+  console.log(transactions);
   return (
     <>
       <Card>
         <Heading className="flex flex-row-reverse justify-between rounded-md bg-slate-200 px-2">
-          <span>
+          <span className="text-base font-semibold opacity-70">
             {labelTime}
             {dateTimeFormat(
               type === "payment" ? transactions.paidAt : transactions.createdAt
@@ -46,7 +47,12 @@ const TransactionCard = ({ transactions, type }: Props) => {
                 ? transactions.creator
                 : transactions.fromCustomer
             }
-            toCustomer={transactions.toCustomer}
+            toCustomer={
+              transactions.type === "EXTERNAL"
+                ? transactions.toRecipient
+                : transactions.toCustomer
+            }
+            type={transactions.type}
           />
           <div className="flex items-center">
             <AmountTrans value={transactions.amount} transType={type} />

@@ -2,6 +2,7 @@ import client from "@/core/client";
 import { handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BaseResponse } from "../../../../core/handleResponse";
+import { InternalBankCustomer } from "@/store/recipients/types";
 
 interface RecipientsResponse extends BaseResponse {
   data: Data;
@@ -24,6 +25,7 @@ interface Datum {
   id: string;
   accountNumber: string;
   mnemonicName: string;
+  internalBankCustomer: InternalBankCustomer;
 }
 
 export const useInfinityQueryRecipientList = ({
