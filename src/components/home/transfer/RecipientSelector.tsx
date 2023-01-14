@@ -41,7 +41,15 @@ function RecipientSelector({
     const filteredRecipient = recipientList?.data?.filter(
       (recipient: Recipient) =>
         isFilterByName
-          ? recipient.mnemonicName.toUpperCase().includes(value.toUpperCase())
+          ? recipient.mnemonicName
+              ?.toUpperCase()
+              .includes(value.toUpperCase()) ||
+            recipient.internalBankCustomer.firstName
+              .toUpperCase()
+              .includes(value.toUpperCase()) ||
+            recipient.internalBankCustomer.lastName
+              .toUpperCase()
+              .includes(value.toUpperCase())
           : recipient.accountNumber.includes(value)
     );
     setSelectedRecipient(filteredRecipient);
@@ -105,7 +113,10 @@ function RecipientSelector({
                           {index + 1}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                          {recipient.mnemonicName}
+                          {recipient.mnemonicName ||
+                            recipient.internalBankCustomer.firstName +
+                              " " +
+                              recipient.internalBankCustomer.lastName}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                           {recipient.accountNumber}

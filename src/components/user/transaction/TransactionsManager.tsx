@@ -166,4 +166,6 @@ function TransactionsManager() {
   );
 }
 
+TransactionsManager.title = "Transactions";
+
 export default TransactionsManager;

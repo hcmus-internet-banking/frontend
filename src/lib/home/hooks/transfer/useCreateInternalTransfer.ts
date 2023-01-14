@@ -8,6 +8,7 @@ type InternalTransferData = {
   message: string;
   token: string;
   payer: "sender" | "receiver";
+  saveInfo: boolean;
 };
 
 export const useCreateInternalTransfer = () => {
@@ -18,7 +19,8 @@ export const useCreateInternalTransfer = () => {
         datas.amount,
         datas.message,
         datas.token,
-        datas.payer
+        datas.payer,
+        datas.saveInfo
       );
     },
     onSuccess: () => {

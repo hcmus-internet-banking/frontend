@@ -7,5 +7,13 @@ export interface RecipientsState extends BaseState {
 export interface Recipient {
   id: string;
   accountNumber: string;
-  mnemonicName: string;
+  mnemonicName?: string;
+  internalBankCustomer: InternalBankCustomer;
+}
+
+export interface InternalBankCustomer {
+  id: string;
+  accountNumber: string;
+  lastName: string;
+  firstName: string;
 }
