@@ -27,7 +27,7 @@ export const useQueryKarmaAccount = (
     },
     {
       refetchOnWindowFocus: false,
-      enabled: bankNumber !== "",
+      enabled: bankNumber.length === 10,
       ...overrideOptions,
     }
   );

@@ -31,7 +31,7 @@ export const useQueryGetCustomerByBankNumber = (
     },
     {
       refetchOnWindowFocus: false,
-      enabled: bankNumber.length >= BANK_NUMBER_LENGTH,
+      enabled: bankNumber.length === BANK_NUMBER_LENGTH,
       retry: false,
       ...overrideOptions,
     }
