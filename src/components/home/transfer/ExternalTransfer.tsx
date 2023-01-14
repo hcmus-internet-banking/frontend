@@ -77,7 +77,7 @@ function ExternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfers to you`,
+      message: `${firstName} ${lastName} tranfers`,
       token: "",
       payer: optionsFee[0]?.value,
     },
