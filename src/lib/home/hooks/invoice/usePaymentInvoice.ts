@@ -25,6 +25,7 @@ export const usePaymentInvoice = (
     onSuccess: (invoiceId) => {
       queryClient.invalidateQueries(["invoice", invoiceId]);
       queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,
   });

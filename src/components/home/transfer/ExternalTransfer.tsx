@@ -2,10 +2,9 @@ import Select from "@/components/common/Select/Select";
 import useToggle from "@/lib/common/hooks/useToggle";
 import { useCreateRecipient } from "@/lib/home/hooks/recipient/useCreateRecipient";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
-import { useCreateInternalTransfer as UseCreateInternalTransfer } from "@/lib/home/hooks/transfer/useCreateInternalTransfer";
+import { useCreateExternalTransfer } from "@/lib/home/hooks/transfer/useCreateExternalTransfer";
 import { useGetOTPTransfer as UseGetOTPTransfer } from "@/lib/home/hooks/transfer/useGetOTPTransfer";
-import { useQueryGetCustomerByBankNumber as useQueryCustomerByBankNumber } from "@/lib/home/hooks/useQueryCustomerByBankNumber";
-import { createInternalTransferSchema } from "@/lib/home/schema";
+import { createExternalTransferSchema } from "@/lib/home/schema";
 import { selectUser } from "@/store/auth";
 import { useAppSelector } from "@/store/store";
 import { useFormik } from "formik";
@@ -16,6 +15,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
 import RecipientSelector from "./RecipientSelector";
+import { useQueryKarmaAccount } from "@/lib/home/hooks/karma/useQueryKarmaAccount";
 
 const TIME_OUT_GET_OTP = 60;
 const optionsFee = [
@@ -35,15 +35,7 @@ const optionsExternalBank = [
     value: "",
   },
   {
-    label: "Vietcombank",
-    value: "VCB",
-  },
-  {
-    label: "Vietinbank",
-    value: "CTG",
-  },
-  {
-    label: "Techcombank",
+    label: "KarmaBank",
     value: "TCB",
   },
 ];
@@ -59,7 +51,7 @@ function ExternalTransfer() {
   } = useToggle(true);
   const [accountName, setAccountName] = React.useState("");
   const [timeCount, setTimeCount] = React.useState(TIME_OUT_GET_OTP);
-  const { mutateAsync: mutateInternalTransfer } = UseCreateInternalTransfer();
+  const { mutateAsync: mutateInternalTransfer } = useCreateExternalTransfer();
   const { mutateAsync: mutateGetOTP } = UseGetOTPTransfer();
   const { mutateAsync: mutateRecipient } = useCreateRecipient();
 
@@ -85,12 +77,12 @@ function ExternalTransfer() {
     initialValues: {
       to: "",
       amount: "",
-      message: `${firstName} ${lastName} tranfers to me`,
+      message: `${firstName} ${lastName} tranfers to you`,
       token: "",
       payer: optionsFee[0]?.value,
     },
     validateOnBlur: true,
-    validationSchema: toFormikValidationSchema(createInternalTransferSchema),
+    validationSchema: toFormikValidationSchema(createExternalTransferSchema),
 
     onSubmit: async (values) => {
       toast.promise(
@@ -128,9 +120,9 @@ function ExternalTransfer() {
     },
   });
 
-  const { isLoading, data } = useQueryCustomerByBankNumber(formik.values.to, {
+  const { isLoading, data } = useQueryKarmaAccount(formik.values.to, {
     onSuccess: (res: any) => {
-      setAccountName(`${res.firstName} ${res.lastName}`);
+      setAccountName(res.hoTen);
     },
     onError: (e: any) => {
       formik.setFieldError("to", e?.error?.message || "Not found customer");
@@ -151,24 +143,18 @@ function ExternalTransfer() {
         toggle={RecipientSelectorToggle}
         setValues={setRecipientSelectorValue}
       />
+      <div className="mb-2">
+        <Select
+          options={optionsExternalBank}
+          title="External Bank"
+          name="externalBank"
+          value={isSelectedExternalBank}
+          onChange={(e) => {
+            setIsSelectedExternalBank(e.target.value);
+          }}
+        />
+      </div>
       <form onSubmit={formik.handleSubmit}>
-        <div
-          className="mb-2"
-          // onClick={() => {
-          //   setIsSelectedExternalBank(!isSelectedExternalBank);
-          //   console.log(isSelectedExternalBank);
-          // }}
-        >
-          <Select
-            options={optionsExternalBank}
-            title="External Bank"
-            name="externalBank"
-            value={isSelectedExternalBank}
-            onChange={(e) => {
-              setIsSelectedExternalBank(e.target.value);
-            }}
-          />
-        </div>
         <section
           className="space-y-2 pr-4"
           style={!isSelectedExternalBank ? { display: "none" } : {}}
@@ -243,7 +229,7 @@ function ExternalTransfer() {
             >
               {timeCount === TIME_OUT_GET_OTP
                 ? "Gửi OTP Qua Email"
-                : `Gui OTP sau ${timeCount}s`}
+                : `Gửi OTP sau ${timeCount}s`}
             </span>
           </div>
 

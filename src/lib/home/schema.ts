@@ -49,6 +49,20 @@ export const createInvoiceSchema = z.object({
     .optional(),
 });
 
+export const createExternalTransferSchema = z.object({
+  to: z.preprocess((value) => Number(value), z.number()),
+  amount: z.preprocess(
+    (value) => Number(value),
+    z.number().min(1000, { message: "Amount should be more than 1000" })
+  ),
+  message: z
+    .string()
+    .max(50, { message: "Description is longer than 50 characters" })
+    .optional(),
+  token: z.string(),
+  payer: z.enum(["sender", "receiver"]),
+});
+
 export const paymentInvoiceSchema = z.object({
   token: z.string(),
 });

@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import React, { memo } from "react";
 import { IoCloseCircle } from "react-icons/io5";
-import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
-import useToggle from "../../../lib/common/hooks/useToggle";
+import { RxEyeClosed, RxEyeOpen } from "react-icons/rx";
 import { BeatLoader } from "react-spinners";
-import classNames from "classnames";
+import useToggle from "../../../lib/common/hooks/useToggle";
 
 type Props = {
   value?: string;

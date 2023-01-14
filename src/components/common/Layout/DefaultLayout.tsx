@@ -1,21 +1,21 @@
+import NotifyButton from "@/components/notify/NotifyButton";
+import NotifyManager from "@/components/notify/NotifyManager";
+import useToggle from "@/lib/common/hooks/useToggle";
+import { toastNotify } from "@/lib/common/utils/react-hot-toast";
+import { Socket } from "@/lib/common/utils/socket.service";
 import React, { useEffect, useState } from "react";
-import NavigationButton from "./components/NavigationButton";
 import { IoHome, IoLogIn, IoPerson, IoReceipt } from "react-icons/io5";
-import AppLink from "../AppLink/AppLink";
 import { SiSwagger } from "react-icons/si";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
 import {
   logoutAsync,
   selectIsAuthenticated,
   selectUser,
 } from "../../../store/auth";
-import Spacer from "../Spacer/Spacer";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import AppLink from "../AppLink/AppLink";
 import Auth from "../Auth/Auth";
-import NotifyButton from "@/components/notify/NotifyButton";
-import NotifyManager from "@/components/notify/NotifyManager";
-import useToggle from "@/lib/common/hooks/useToggle";
-import { Socket } from "@/lib/common/utils/socket.service";
-import { toastNotify } from "@/lib/common/utils/react-hot-toast";
+import Spacer from "../Spacer/Spacer";
+import NavigationButton from "./components/NavigationButton";
 
 type Props = { children: React.ReactElement };
 
@@ -47,7 +47,7 @@ function Layout({ children }: Props) {
     });
 
     socket.on("disconnect", () => {
-      console.log("disconnected");
+      // console.log("disconnected");
     });
 
     return () => {
@@ -60,7 +60,7 @@ function Layout({ children }: Props) {
   return (
     <Auth>
       <div>
-        <nav className="sticky top-0 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
+        <nav className="sticky top-0 z-10 w-full max-w-full overflow-x-auto bg-gray-100 py-4 px-10">
           <div className="mx-auto flex max-w-7xl items-center space-x-3">
             <NavigationButton
               href="/"

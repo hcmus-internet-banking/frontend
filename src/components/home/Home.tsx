@@ -1,7 +1,7 @@
-import { Settings } from "./Settings";
-import { Debts } from "./Debts";
-import { Transfer } from "./transfer/Transfer";
 import Balance from "./Balance";
+import { Debts } from "./Debts";
+import { Settings } from "./Settings";
+import { Transfer } from "./transfer/Transfer";
 
 const Home = () => {
   return (

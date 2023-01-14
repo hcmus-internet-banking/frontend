@@ -1,7 +1,6 @@
-import { BaseResponse } from "../../../core/handleResponse";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import client from "../../../core/client";
-import { handleResponse } from "../../../core/handleResponse";
+import { BaseResponse, handleResponse } from "../../../core/handleResponse";
 
 export interface CustomerData {
   id: string;

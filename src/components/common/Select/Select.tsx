@@ -1,5 +1,6 @@
-import { RxCaretDown } from "react-icons/rx";
+import classNames from "classnames";
 import { memo } from "react";
+import { RxCaretDown } from "react-icons/rx";
 
 type SelectProps = {
   options: {
@@ -11,13 +12,27 @@ type SelectProps = {
   value: string;
   name?: string;
   error?: string;
+  height?: string;
 } & React.ComponentPropsWithoutRef<"select">;
 
-function Select({ options, title, value, onChange, name }: SelectProps) {
+function Select({
+  options,
+  title,
+  value,
+  onChange,
+  name,
+  height,
+}: SelectProps) {
   return (
     <div className="relative w-full">
       <select
-        className="h-12 w-full appearance-none rounded-xl border bg-white px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md"
+        className={classNames(
+          "w-full appearance-none rounded-xl border bg-white px-3 pt-4 pb-3 outline-none transition-[padding,box-shadow] focus:shadow-md",
+          {
+            "h-12": !height,
+            "h-16": height === "h-16",
+          }
+        )}
         value={value}
         onChange={onChange}
         name={name}

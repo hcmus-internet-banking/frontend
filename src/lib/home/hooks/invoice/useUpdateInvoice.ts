@@ -1,6 +1,6 @@
 import client from "@/core/client";
 import { queryClient } from "@/core/queryClient";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { BaseResponse, handleResponse } from "../../../../core/handleResponse";
 
 type Params = {
@@ -22,6 +22,7 @@ export const useUpdateRecipient = (
     onSuccess: (id) => {
       queryClient.invalidateQueries(["recipient", id]);
       queryClient.invalidateQueries(["recipients"]);
+      queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,
   });

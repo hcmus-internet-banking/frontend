@@ -1,18 +1,16 @@
 import client from "@/core/client";
-import { handleResponse } from "@/core/handleResponse";
+import { BaseResponse, handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { BaseResponse } from "../../../../core/handleResponse";
-import { Invoice } from "./types";
+import { CustomerData } from "../../hooks/useQueryCustomerByBankNumber";
 
-interface InvoicesResponse extends BaseResponse {
-  data: Data;
+interface Transactions {
+  amount: string;
+  createdAt: string;
+  fromCustomer: CustomerData | null;
+  id: string;
+  toCustomer: CustomerData | null;
+  type: string;
 }
-
-interface Data {
-  data: Invoice[];
-  metadata: Metadata;
-}
-
 interface Metadata {
   total: number;
   page: number;
@@ -20,8 +18,15 @@ interface Metadata {
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
+interface Data {
+  data: Transactions[];
+  metadata: Metadata;
+}
+interface TransactionsResponse extends BaseResponse {
+  data: Data;
+}
 
-export const useInfinityQueryInvoiceList = ({
+export const useInfinityQueryTransactionTransfer = ({
   type,
   limit,
   offset,
@@ -31,12 +36,11 @@ export const useInfinityQueryInvoiceList = ({
   offset: number;
 }) => {
   const queryArgs = useInfiniteQuery(
-    ["invoices", { type, limit, offset }],
+    ["transactionTransfer", { type, limit, offset }],
     async ({ pageParam = 0 }) => {
-      const res = await client.get<InvoicesResponse>(
-        `/api/invoices?type=${type}&limit=${limit}&offset=${pageParam}`
+      const res = await client.get<TransactionsResponse>(
+        `/api/transactions?type=${type}&offset=${pageParam}&limit=${limit}`
       );
-
       return await handleResponse(res);
     },
     {

@@ -1,83 +1,137 @@
 import useToggle from "@/lib/common/hooks/useToggle";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { RxCross1, RxPaperPlane } from "react-icons/rx";
 import CancelInvoice from "./CancelInvoice";
-import PayInvoice from "./PayInvoice";
 
 type Props = {
   data: any;
 };
 
 const OtherPeopleInvoice = ({ data }: Props) => {
+  const router = useRouter();
   const { value: hideCancelModal, toggle: toggleCancel } = useToggle(true);
-  const { value: hidePaymentModal, toggle: togglePayment } = useToggle(true);
-
-  const handleCancelInvoice = () => {
-    toggleCancel();
-  };
-
-  const handlePaymentInvoice = () => {
-    togglePayment();
-  };
+  const [invoiceId, setInvoiceId] = useState("");
 
   return (
     <>
-      <div className="flex rounded bg-gray-300 p-4">
-        <span className="w-1/6 text-center text-base font-semibold">ID</span>
-        <span className="w-1/6 text-center text-base font-medium">Name</span>
-        <span className="w-1/6 text-center text-base font-medium">
-          Account Number
-        </span>
-        <span className="w-1/6 text-center text-base font-medium">Amount</span>
-        <span className="w-1/6 text-center text-base font-medium">Message</span>
-        <span className="w-1/6 text-center text-base font-medium">Action</span>
-      </div>
-      <div className="flex flex-col content-evenly">
-        {data?.pages.map((page: any) =>
-          page?.data?.map((invoice: any, index: any) => (
-            <div key={index}>
-              <CancelInvoice
-                id={invoice.id}
-                hide={hideCancelModal}
-                toggle={toggleCancel}
-              />
-              <PayInvoice
-                invoiceId={invoice.id}
-                hide={hidePaymentModal}
-                toggle={togglePayment}
-              />
-
-              <div className="flex w-full space-y-4 p-2 duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200">
-                <span className="mt-4 w-1/6 text-center text-sm font-semibold">
-                  #{invoice.id}
-                </span>
-                <span className="w-1/6 text-center text-sm font-semibold">
-                  {`${invoice.creator.firstName} ${invoice.creator.lastName}`}
-                </span>
-                <span className="w-1/6 text-center text-sm font-medium text-gray-500">
-                  {invoice.creator.accountNumber}
-                </span>
-                <span className="w-1/6 text-center text-sm font-medium text-gray-500">
-                  {invoice.amount} $
-                </span>
-                <span className="w-1/6 text-center text-sm font-medium text-gray-500">
-                  {invoice.message}
-                </span>
-
-                <div className="m-auto flex justify-around gap-x-4">
-                  <RxCross1
-                    className="h-6 w-6 text-red-400 hover:cursor-pointer hover:opacity-25"
-                    strokeWidth={0.8}
-                    onClick={handleCancelInvoice}
-                  />
-                  <RxPaperPlane
-                    className="h-6 w-6 hover:cursor-pointer hover:opacity-25"
-                    onClick={handlePaymentInvoice}
-                  />
-                </div>
-              </div>
+      <CancelInvoice
+        invoiceId={invoiceId}
+        hide={hideCancelModal}
+        toggle={toggleCancel}
+      />
+      <div className="flex flex-col">
+        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div className="overflow-hidden">
+              <table className="min-w-full">
+                <thead className="border-b bg-white">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      #
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Account Number
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Amount
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Message
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-900"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.pages.map((page: any) =>
+                    page?.data?.map((invoice: any, index: any) => (
+                      <tr
+                        key={index}
+                        className="border-b bg-gray-100 duration-300 ease-linear hover:cursor-pointer hover:rounded-md hover:bg-gray-200"
+                      >
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium text-gray-900">
+                          #{invoice.id}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {`${invoice.creator.firstName} ${invoice.creator.lastName}`}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {invoice.creator.accountNumber}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {invoice.amount} $
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {invoice.message}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {invoice.isPaid ? (
+                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                              Paid
+                            </span>
+                          ) : (
+                            <span className="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">
+                              Unpaid
+                            </span>
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-light text-gray-900">
+                          {invoice.isPaid ? null : (
+                            <div className="flex justify-around gap-x-4">
+                              <RxCross1
+                                className="h-6 w-6 text-red-400 hover:cursor-pointer hover:opacity-25"
+                                strokeWidth={0.8}
+                                onClick={() => {
+                                  setInvoiceId(invoice.id);
+                                  toggleCancel();
+                                }}
+                              />
+                              <RxPaperPlane
+                                className="h-6 w-6 hover:cursor-pointer hover:opacity-25"
+                                onClick={() => {
+                                  router.push(`/user/invoices/${invoice.id}`);
+                                }}
+                              />
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
-          ))
-        )}
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,10 +1,10 @@
 import Card from "@/components/common/Card/Card";
 import Modal from "@/components/common/Modal/Modal";
 import Spinner from "@/components/common/Spinner/Spinner";
-import { useEffect, useState } from "react";
-import Input from "../../common/Input/Input";
 import { useQueryRecipientList } from "@/lib/home/hooks/recipient/useQueryGetRecipients";
 import { Recipient } from "@/store/recipients/types";
+import { useEffect, useState } from "react";
+import Input from "../../common/Input/Input";
 
 type RecipientSelectorProps = {
   hide: boolean;

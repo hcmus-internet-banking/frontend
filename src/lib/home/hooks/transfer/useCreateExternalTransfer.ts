@@ -1,8 +1,8 @@
+import { postExternalTransfer } from "./../../apis/transfers/transfer.api";
 import { queryClient } from "@/core/queryClient";
 import { useMutation } from "@tanstack/react-query";
-import { postInternalTransfer } from "./../../apis/transfers/transfer.api";
 
-type InternalTransferData = {
+type ExternalTransferData = {
   to: string;
   amount: string;
   message: string;
@@ -10,10 +10,10 @@ type InternalTransferData = {
   payer: "sender" | "receiver";
 };
 
-export const useCreateInternalTransfer = () => {
+export const useCreateExternalTransfer = () => {
   const mutationArgs = useMutation({
-    mutationFn: (datas: InternalTransferData) => {
-      return postInternalTransfer(
+    mutationFn: (datas: ExternalTransferData) => {
+      return postExternalTransfer(
         datas.to,
         datas.amount,
         datas.message,

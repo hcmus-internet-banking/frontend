@@ -8,7 +8,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 type Props = {
-  id: string;
+  invoiceId: string;
   hide: boolean;
   toggle: () => void;
 };
@@ -19,18 +19,18 @@ const cancelInvoiceSchema = z.object({
     .max(50, { message: "Description is longer than 50 characters" }),
 });
 
-const CancelInvoice = ({ id, hide, toggle }: Props) => {
+const CancelInvoice = ({ invoiceId, hide, toggle }: Props) => {
   const { mutateAsync } = useCancelInvoice();
   const formik = useFormik({
     initialValues: {
-      id: id,
+      id: invoiceId,
       reason: "",
     },
     validationSchema: toFormikValidationSchema(cancelInvoiceSchema),
     onSubmit: async (values) => {
       toast.promise(
         mutateAsync({
-          id: values.id,
+          id: invoiceId,
           reason: values.reason,
         }),
         {

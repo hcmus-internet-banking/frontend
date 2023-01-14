@@ -1,40 +1,46 @@
 import client from "@/core/client";
-import { handleResponse } from "@/core/handleResponse";
+import { BaseResponse, handleResponse } from "@/core/handleResponse";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { BaseResponse } from "../../../../core/handleResponse";
-import { Invoice } from "./types";
 
-interface InvoicesResponse extends BaseResponse {
+interface NotificationsResponse extends BaseResponse {
   data: Data;
 }
 
 interface Data {
-  data: Invoice[];
+  data: Notification[];
   metadata: Metadata;
 }
 
 interface Metadata {
   total: number;
+  totalUnread: number;
   page: number;
   limit: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
 
-export const useInfinityQueryInvoiceList = ({
-  type,
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: string;
+  createdAt: string;
+  isRead: boolean;
+}
+
+export const useQueryNotifications = ({
   limit,
   offset,
 }: {
-  type: string;
   limit: number;
   offset: number;
 }) => {
   const queryArgs = useInfiniteQuery(
-    ["invoices", { type, limit, offset }],
+    ["notifications", { limit, offset }],
     async ({ pageParam = 0 }) => {
-      const res = await client.get<InvoicesResponse>(
-        `/api/invoices?type=${type}&limit=${limit}&offset=${pageParam}`
+      const res = await client.get<NotificationsResponse>(
+        `/api/notifications?limit=${limit}&offset=${pageParam}`
       );
 
       return await handleResponse(res);

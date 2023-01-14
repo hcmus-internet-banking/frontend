@@ -1,7 +1,7 @@
-import { RootState } from "./../store/store";
 import { AxiosResponse } from "axios";
 import { store } from "../store";
 import { logout, refreshTokenAsync, updateAccessToken } from "../store/auth";
+import { RootState } from "./../store/store";
 import { queryClient } from "./queryClient";
 
 const isOk = (status: number) => status >= 200 && status < 300;

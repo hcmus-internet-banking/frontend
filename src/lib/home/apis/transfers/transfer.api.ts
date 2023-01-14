@@ -24,6 +24,29 @@ export const postInternalTransfer = async (
   return await handleResponse(res);
 };
 
+export const postExternalTransfer = async (
+  to: string,
+  amount: string,
+  message: string,
+  token: string,
+  payer: string,
+  options?: any
+) => {
+  const res = await client.post<BaseResponse>(
+    `/api/interbanks/karma/transfer`,
+    {
+      to,
+      amount,
+      message,
+      token,
+      payer,
+    },
+    options
+  );
+
+  return await handleResponse(res);
+};
+
 export const getOTPTransfer = async () => {
   const res = await client.post<BaseResponse>(`/api/transfer/request-token`);
   return await handleResponse(res);

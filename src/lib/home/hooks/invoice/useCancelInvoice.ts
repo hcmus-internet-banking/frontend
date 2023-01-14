@@ -22,6 +22,7 @@ export const useCancelInvoice = (
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries(["invoice", id]);
       queryClient.invalidateQueries(["invoices"]);
+      queryClient.invalidateQueries(["notifications"]);
     },
     ...overrideOptions,
   });

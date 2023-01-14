@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import { useState } from "react";
 import Card from "../../common/Card/Card";
 import Heading from "../../common/Heading/Heading";
-import classNames from "classnames";
-import InternalTransfer from "./InternalTransfer";
 import ExternalTransfer from "./ExternalTransfer";
+import InternalTransfer from "./InternalTransfer";
 
 export const Transfer = () => {
   const [isInternal, setIsInternal] = useState(true);
